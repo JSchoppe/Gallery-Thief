@@ -38,6 +38,13 @@ public sealed class PathingLink : MonoBehaviour
     /// </summary>
     public PathingNode EndNode { get { return end; } }
     #endregion
+    #region Monobehaviour Initialization
+    private void Start()
+    {
+        start.AddLink(this);
+        end.AddLink(this);
+    }
+    #endregion
     #region Gizmo Drawing Implementation
     private void OnDrawGizmos()
     {
