@@ -11,22 +11,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float crawlingSpeed = 1.5f;
 
+    Transform cameraArm;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        cameraArm = gameObject.transform.Find("CameraArm");
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateInputs();
+        UpdateCameraLoc();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateMovement();
     }
 
     /// <summary>
     /// Updates the inputs from the player
     /// </summary>
-    void UpdateInputs()
+    void UpdateMovement()
     {
         // Gets direction of axises
         float horizontal = Input.GetAxis("Horizontal");
@@ -59,6 +66,22 @@ public class PlayerController : MonoBehaviour
                 // Animation Change
                 this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * walkingSpeed * Time.deltaTime;
             }
+        }
+    }
+
+    void UpdateCameraLoc()
+    {
+        if (Input.GetButtonDown("CameraRight"))
+        {
+            // Rotate Camera Right
+            Debug.Log("Camera Right");
+            this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+        }
+        else if (Input.GetButtonDown("CameraLeft"))
+        {
+            // Rotate Camera Left
+            Debug.Log("Camera Left");
+            this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
         }
     }
 }
