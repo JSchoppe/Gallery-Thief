@@ -11,12 +11,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float crawlingSpeed = 1.5f;
 
+    /* TODO camera ease in/out
+    Vector3 cameraOrigin;
+    Vector3 cameraTarget;
+    AnimationCurve cameraCurve;
+    */
+
     Transform cameraArm;
+    Camera camera;
 
     // Start is called before the first frame update
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
+        camera = GetComponent<Camera>();
+
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(cameraArm.position);
     }
 
     // Update is called once per frame
@@ -75,13 +86,23 @@ public class PlayerController : MonoBehaviour
         {
             // Rotate Camera Right
             Debug.Log("Camera Right");
-            this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+            StartCoroutine("RotateCameraRight");
         }
         else if (Input.GetButtonDown("CameraLeft"))
         {
             // Rotate Camera Left
             Debug.Log("Camera Left");
-            this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
+            StartCoroutine("RotateCameraLeft");
         }
+    }
+
+    void RotateCameraRight()
+    {
+        this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+    }
+
+    void RotateCameraLeft()
+    {
+        this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
     }
 }
