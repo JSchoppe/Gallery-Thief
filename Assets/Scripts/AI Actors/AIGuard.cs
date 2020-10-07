@@ -27,36 +27,41 @@ public class AIGuard : MonoBehaviour
 
     private Rigidbody body;
 
+    [SerializeField] private Transform target;
+
     private void Start()
     {
         body = GetComponent<Rigidbody>();
-        // StartCoroutine(PathFindAfterInit());
+        StartCoroutine(PathFindAfterInit());
     }
 
-    /*
     private IEnumerator PathFindAfterInit()
     {
         while (true)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
 
             PathingNode fromNode = network.FindNodeNear(transform.position);
             PathingNode toNode = network.FindNodeNear(target.position);
 
-            PathingNode[] path = network.FindPath(fromNode, toNode);
-
-            int pathIndex = 0;
-            while (pathIndex < path.Length)
+            if (network.TryFindPath(fromNode, toNode, out PathingNode[] path))
             {
-                if (body.velocity.magnitude < speedLimit)
-                    body.AddForce((path[pathIndex].transform.position - transform.position).normalized * acceleration * Time.deltaTime, ForceMode.Impulse);
-                if (Vector3.Distance(transform.position, path[pathIndex].transform.position) < pathTolerance)
-                    pathIndex++;
-                yield return null;
+                int pathIndex = 0;
+                while (pathIndex < path.Length)
+                {
+                    if (body.velocity.magnitude < speedLimit)
+                        body.AddForce((path[pathIndex].transform.position - transform.position).normalized * acceleration * Time.deltaTime, ForceMode.Impulse);
+                    if (Vector3.Distance(transform.position, path[pathIndex].transform.position) < pathTolerance)
+                        pathIndex++;
+                    yield return null;
+                }
+            }
+            else
+            {
+                Debug.Log("No Path Found");
             }
         }
     }
-    */
 
     private void Update()
     {

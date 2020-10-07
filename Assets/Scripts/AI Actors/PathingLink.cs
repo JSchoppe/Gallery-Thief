@@ -37,6 +37,16 @@ public sealed class PathingLink : MonoBehaviour
     /// The end node of this link.
     /// </summary>
     public PathingNode EndNode { get { return end; } }
+    /// <summary>
+    /// The distance between the start and end nodes of this link.
+    /// </summary>
+    public float Length
+    {
+        get
+        {
+            return Vector3.Distance(StartNode.transform.position, EndNode.transform.position);
+        }
+    }
     #endregion
     #region Monobehaviour Initialization
     private void Start()

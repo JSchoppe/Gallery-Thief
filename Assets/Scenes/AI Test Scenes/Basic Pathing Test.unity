@@ -348,6 +348,7 @@ MonoBehaviour:
   acceleration: 0
   speedLimit: 2.5
   pathTolerance: 0.8
+  target: {fileID: 39177752}
 --- !u!54 &140993435
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1253,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showGizmos: 1
-  nodesRadius: 0.2
+  nodesRadius: 0.5
   activePathsColor: {r: 0, g: 1, b: 0, a: 1}
   disabledPathsColor: {r: 1, g: 0, b: 0, a: 1}
   nodesColor: {r: 1, g: 1, b: 1, a: 1}

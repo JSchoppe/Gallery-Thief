@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -73,83 +74,99 @@ public sealed class PathingNetwork : MonoBehaviour
         return nearestNode;
     }
     /// <summary>
-    /// Finds the shortest path to get from one node to another.
+    /// Attempts to find the shortest path to get from one node to another.
     /// </summary>
     /// <param name="start">The starting node.</param>
     /// <param name="end">The ending node.</param>
-    /// <returns>An array of nodes that from start to end, or null if no paths are found.</returns>
-    public PathingNode[] FindPath(PathingNode start, PathingNode end)
+    /// <param name="path">Where to return the path to if found.</param>
+    /// <returns>True if a path was found.</returns>
+    public bool TryFindPath(PathingNode start, PathingNode end, out PathingNode[] path)
     {
-        // When a path from start to end is found it will
-        // be stored here (while the algorithm continues
-        // to search for better options).
-        PathingNode[] bestPath = null;
-
-        // Define variables to hold the current state of the
-        // recursion algorithm's traversal of the network.
-        float currentDistance = 0;
-        Stack<PathingNode> currentPath = new Stack<PathingNode>();
-
-        // Keep track of the shortest distance taken to get to
-        // each node. This ensures that infinite loops will be
-        // short-ciruited, and that the fastest path is found.
-        Dictionary<PathingNode, float> minDistanceToReach =
-            new Dictionary<PathingNode, float>();
-        foreach (PathingNode node in Nodes)
-            minDistanceToReach.Add(node, float.MaxValue);
-
-        // Start the recursive searching of the network.
-        // Search is done from end to start, so that the
-        // stack does not need to be reversed in the
-        // returned array.
-        currentPath.Push(end);
-        Traverse(end);
-        // Return the results.
-        return bestPath;
-
-        // Recursion Implementation:
-        void Traverse(PathingNode fromNode)
+        // If the AI is already at the nearest node,
+        // go directly to it.
+        if (start == end)
         {
-            // Since we decided to step here, we know that
-            // this is the quickest we've ever gotten to
-            // this node. Keep track of that.
-            minDistanceToReach[fromNode] = currentDistance;
+            path = new PathingNode[] { start };
+            return true;
+        }
 
-            // If we found a path, save it as the best path.
-            // Do not continue searching past the target node.
-            if (fromNode == start)
-                bestPath = currentPath.ToArray();
-            // Otherwise look at the other links in this node.
-            else
+        // Clear previous pathfinding state.
+        foreach (PathingNode node in Nodes)
+            node.ResetPathfindingProps();
+        // Initialize the collection for A*.
+        List<PathingNode> openNodes = new List<PathingNode>();
+        // Initialize the starting node.
+        openNodes.Add(start);
+        start.PathParent = null;
+        start.TravelG = 0f;
+        start.HeuristicH = CalculateHeuristic(start, end);
+
+        // Start the A* algorithm.
+        while (openNodes.Count > 0)
+        {
+            // Find the best f score in the open nodes.
+            PathingNode current = openNodes[0];
+            for (int i = 1; i < openNodes.Count; i++)
+                if (openNodes[i].EstimateF < current.EstimateF)
+                    current = openNodes[i];
+
+            // Return the path if the end has been found.
+            if (current == end)
             {
-                foreach (PathingLink link in fromNode.Links)
+                path = UnwindPath(current);
+                return true;
+            }
+
+            openNodes.Remove(current);
+            // For each candidate successor path:
+            foreach (PathingLink link in current.Links)
+            {
+                // Is this pathway currently open?
+                if ((current == link.StartNode && link.IsForwardsOpen) 
+                    || (current == link.EndNode && link.IsBackwardsOpen))
                 {
-                    // Is the link open to the next node?
-                    bool directionIsForwards = (fromNode == link.EndNode);
-                    PathingNode toNode = directionIsForwards ? link.StartNode : link.EndNode;
-                    if ((directionIsForwards && link.IsForwardsOpen)
-                        || (!directionIsForwards && link.IsBackwardsOpen))
+                    // Get the opposing node.
+                    PathingNode other = (current == link.StartNode) ? link.EndNode : link.StartNode;
+                    // Calculate the new travel distance to this node.
+                    float newTravelG = current.TravelG + link.Length;
+                    if (newTravelG < other.TravelG)
                     {
-                        // Calculate the distance to travel to the next node.
-                        float addedDistance = Vector3.Distance(
-                            link.StartNode.transform.position, link.EndNode.transform.position);
-                        // Add that distance.
-                        currentDistance += addedDistance;
-                        // Will that get us to this node faster than ever before?
-                        if (currentDistance < minDistanceToReach[toNode])
+                        // If this is a new best path to this node,
+                        // add it to the open nodes and calculate the heuristic.
+                        other.TravelG = newTravelG;
+                        other.PathParent = current;
+                        if (!openNodes.Contains(other))
                         {
-                            // If so travel to that node.
-                            currentPath.Push(toNode);
-                            // Repeat recursion.
-                            Traverse(toNode);
-                            // Traverse back after exploring that tree of options.
-                            currentPath.Pop();
+                            other.HeuristicH = CalculateHeuristic(other, end);
+                            openNodes.Add(other);
                         }
-                        currentDistance -= addedDistance;
                     }
                 }
             }
         }
+        // A* pathfinding failed to find a path.
+        path = new PathingNode[0];
+        return false;
+    }
+    #endregion
+    #region A* Functions
+    private float CalculateHeuristic(PathingNode node, PathingNode end)
+    {
+        // The heuristic is the distance in 3D space.
+        return Vector3.Distance(node.transform.position, end.transform.position);
+    }
+    private PathingNode[] UnwindPath(PathingNode node)
+    {
+        // Unwind the path using the PathParent property.
+        Stack<PathingNode> path = new Stack<PathingNode>();
+        path.Push(node);
+        while (node.PathParent != null)
+        {
+            node = node.PathParent;
+            path.Push(node);
+        }
+        // Return the path found.
+        return path.ToArray();
     }
     #endregion
 }

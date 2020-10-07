@@ -34,6 +34,35 @@ public sealed class PathingNode : MonoBehaviour
         }
     }
     #endregion
+    #region A* Properties
+    /// <summary>
+    /// Stores the estimated distance to the destination.
+    /// </summary>
+    public float HeuristicH { get; set; }
+    /// <summary>
+    /// Stores the distance traveled to reach this node.
+    /// </summary>
+    public float TravelG { get; set; }
+    /// <summary>
+    /// Total estimated distance to reach the end node.
+    /// </summary>
+    public float EstimateF { get { return HeuristicH + TravelG; } }
+    /// <summary>
+    /// In the current A* path, the node that precedes this one.
+    /// </summary>
+    public PathingNode PathParent { get; set; }
+    #endregion
+    #region A* Methods
+    /// <summary>
+    /// Sets the heuristic and trvale values to default (easy to beat) values.
+    /// </summary>
+    public void ResetPathfindingProps()
+    {
+        // Ensure that the return sum F does not overflow.
+        HeuristicH = float.MaxValue / 2f - float.Epsilon;
+        TravelG = HeuristicH;
+    }
+    #endregion
     #region Monobehaviour Initialization
     private void Start()
     {
