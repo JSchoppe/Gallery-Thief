@@ -18,16 +18,14 @@ public class PlayerController : MonoBehaviour
     */
 
     Transform cameraArm;
-    Camera camera;
+    CameraCollision cameraCollision = new CameraCollision();
 
     // Start is called before the first frame update
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
-        camera = GetComponent<Camera>();
 
-        RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(cameraArm.position);
+        cameraCollision.Initialize(Camera.main);
     }
 
     // Update is called once per frame

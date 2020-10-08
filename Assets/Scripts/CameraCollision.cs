@@ -4,6 +4,13 @@ using UnityEngine;
 
 // Script derived from https://www.youtube.com/watch?v=Uqi2jEgvVsI
 
+    // cast ray from each 4 corners and center of camera
+    // if any of these rays hit a wall, move the camera closer to the player
+
+
+
+
+
 public class CameraCollision : MonoBehaviour
 {
     // layer that the camera should collide with
@@ -19,7 +26,7 @@ public class CameraCollision : MonoBehaviour
 
     Camera camera;
 
-    public void OnServerInitialized(Camera _camera)
+    public void Initialize(Camera _camera)
     {
         camera = _camera;
         // 5 Points for the 4 camera corners and camera center
