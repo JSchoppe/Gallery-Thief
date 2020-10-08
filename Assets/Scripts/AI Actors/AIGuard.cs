@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Represents the behavior of a guard.
@@ -7,32 +11,140 @@ using UnityEngine;
 public class AIGuard : MonoBehaviour
 {
     #region Inspector Fields
-    [Tooltip("The pathing network that this AI is bound to.")]
-    [SerializeField] private PathingNetwork network = null;
+    [Tooltip("The transforms of the actors being searched for in the scene.")]
+    [SerializeField] private Transform[] suspiciousActors;
+    [Tooltip("The agent that will be used to traverse the scene.")]
+    [SerializeField] private NavMeshAgent navAgent;
     [Header("Behavior Parameters")]
     [Tooltip("What the guard is doing when the scene loads.")]
-    [SerializeField] private AIBehaviorState initialState = AIBehaviorState.Stationary;
+    [SerializeField] private AIBehaviorState initialBehavior = AIBehaviorState.Stationary;
     [Tooltip("AI states that this guard cannot enter.")]
-    [SerializeField] private AIBehaviorState[] illegalStates = null;
-    [Tooltip("Defines the patrol route of the guard.")]
-    [SerializeField] private PathingNode[] patrolRoute = null;
+    [SerializeField] private AIBehaviorState[] illegalBehaviors = null;
     [Header("Movement Parameters")]
-    [Tooltip("Controls how quickly the guard can start running.")]
-    [SerializeField] private float acceleration = 10f;
-    [Tooltip("Controls the max running speed of the guard.")]
-    [SerializeField] private float speedLimit = 2.5f;
-    [Tooltip("Controls how close a guard has to get to a node before going to the next node.")]
-    [SerializeField] private float pathTolerance = 1.0f;
+    [Tooltip("Defines the patrol route of the guard.")]
+    [SerializeField] private Transform[] patrolRoute = null;
+    [Range(float.Epsilon, 10f)][Tooltip("Controls how close a guard has to get to a node before going to the next node.")]
+    [SerializeField] private float patrolTolerance = 1f;
+    [Tooltip("Seconds between each pathfind update.")]
+    [SerializeField] private float repathInterval = 1f;
+    [Header("Vision Parameters")]
+    [Range(float.Epsilon, 5f)][Tooltip("The elevation of the view above the ground.")]
+    [SerializeField] private float viewHeight = 1f;
+    [Range(10f, 80f)][Tooltip("Controls the field of view of this guards vision.")]
+    [SerializeField] private float fieldOfView = 35f;
+    [Range(float.Epsilon, 100f)][Tooltip("Controls how far this guard can see ahead of itself.")]
+    [SerializeField] private float viewDistance = 10f;
     #endregion
 
+
+    private Dictionary<KeyID, bool> isKeyStolen;
+
+    private enum StationarySubState : byte
+    {
+        ReturningHome, AtHome
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.matrix *= Matrix4x4.Translate(Vector3.up * viewHeight);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawFrustum(Vector3.zero, fieldOfView, viewDistance, 0, 1);
+    }
+
+
+    private Vector3 stationaryHome;
+
+    private AIBehaviorState currentBehavior;
+    /// <summary>
+    /// The current behavior of this AI.
+    /// </summary>
+    public AIBehaviorState Behavior
+    {
+        get { return currentBehavior; }
+        set
+        {
+            if (!illegalBehaviors.Contains(value)
+                && value != currentBehavior)
+            {
+                currentBehavior = value;
+                switch (value)
+                {
+                    case AIBehaviorState.Stationary:
+                        stationaryState = StationarySubState.ReturningHome;
+                        break;
+                    case AIBehaviorState.Patrolling:
+                        break;
+                    case AIBehaviorState.Investigating:
+                        break;
+                    case AIBehaviorState.Chasing:
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+    }
+
+
+
+    private StationarySubState stationaryState;
+
     private Rigidbody body;
+
+    private float pathFindingTimer = 0f;
 
     [SerializeField] private Transform target;
 
     private void Start()
     {
+        Behavior = initialBehavior;
+        stationaryHome = transform.position;
         body = GetComponent<Rigidbody>();
-        StartCoroutine(PathFindAfterInit());
+
+        isKeyStolen = new Dictionary<KeyID, bool>();
+        foreach (DoorKey key in gameObject.GetComponents<DoorKey>())
+        {
+            isKeyStolen.Add(key.KeyIdentity, false);
+            navAgent.areaMask += NavUtilities.NavAreaFromKeyID(key.KeyIdentity);
+        }
+
+        navAgent.SetDestination(target.position);
+    }
+
+    private void Update()
+    {
+        switch (Behavior)
+        {
+            case AIBehaviorState.Stationary:
+                StationaryBehavior();
+                break;
+            case AIBehaviorState.Patrolling:
+                break;
+            case AIBehaviorState.Investigating:
+                break;
+            case AIBehaviorState.Chasing:
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    private void StationaryBehavior()
+    {
+        switch (stationaryState)
+        {
+            case StationarySubState.ReturningHome:
+
+                break;
+            case StationarySubState.AtHome:
+
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+
     }
 
     private IEnumerator PathFindAfterInit()
@@ -41,30 +153,6 @@ public class AIGuard : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
 
-            PathingNode fromNode = network.FindNodeNear(transform.position);
-            PathingNode toNode = network.FindNodeNear(target.position);
-
-            if (network.TryFindPath(fromNode, toNode, out PathingNode[] path))
-            {
-                int pathIndex = 0;
-                while (pathIndex < path.Length)
-                {
-                    if (body.velocity.magnitude < speedLimit)
-                        body.AddForce((path[pathIndex].transform.position - transform.position).normalized * acceleration * Time.deltaTime, ForceMode.Impulse);
-                    if (Vector3.Distance(transform.position, path[pathIndex].transform.position) < pathTolerance)
-                        pathIndex++;
-                    yield return null;
-                }
-            }
-            else
-            {
-                Debug.Log("No Path Found");
-            }
         }
-    }
-
-    private void Update()
-    {
-        
     }
 }
