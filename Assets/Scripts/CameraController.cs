@@ -16,11 +16,11 @@ public class CameraController : MonoBehaviour
     RaycastHit hit;
     Ray ray;
     
+    [SerializeField] [Tooltip("Distance the camera is away from the player")]
     float cameraTargetDistance = 20;
-    float cameraCurrentDistance;
-
-    [SerializeField]
+    [SerializeField] [Tooltip("Rate at which the camera move away from the player (Higher=Faster")]
     float cameraSmoothing = 50f;
+    float cameraCurrentDistance;
 
     private Vector3 rayDirection;
 
@@ -29,46 +29,48 @@ public class CameraController : MonoBehaviour
         wall = LayerMask.GetMask("Wall");
         camera = GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
-
-        
     }
 
     private void Update()
     {
+        CameraCollision();
 
+        camera.transform.LookAt(player.transform);
+    }
+
+    void CameraCollision()
+    {
+        // Vector with the direction of the ray
         rayDirection = camera.transform.position - player.transform.position;
+
         ray = new Ray(player.transform.position, rayDirection);
 
-
+        // Float with the current distance between the camera and the player
         cameraCurrentDistance = Vector3.Distance(this.transform.position, player.transform.position);
 
+        // Moves the camera away from the player if the camera can pan back
         if (cameraCurrentDistance < cameraTargetDistance)
         {
-            // pulls the camera back to the start position
             cameraCurrentDistance += cameraSmoothing * Time.deltaTime;
-            // finds the minimum between the two values
+            // finds the value of where the camera should be between the current pos and where the raycast hit
             cameraCurrentDistance = Mathf.Min(cameraCurrentDistance, cameraTargetDistance);
         }
-
-
+        
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, wall))
         {
-            // get distance between player and hit point
-            // clamp the camera to theh hit point
+            // gets the distance between the player and where the raycast hit
             float hitDistance = Vector3.Distance(hit.point, player.transform.position);
 
+            // if the camera is further from the player than the hit point. move the player to the hit point
             if (cameraCurrentDistance > hitDistance)
             {
                 cameraCurrentDistance = hitDistance;
             }
-
-
             Debug.DrawRay(ray.origin, ray.direction, Color.red);
             Debug.Log("hit wall");
         }
 
+        // Line where the camera is actually moved
         this.transform.position = player.transform.position + ray.direction * cameraCurrentDistance;
-
-        camera.transform.LookAt(player.transform);
     }
 }
