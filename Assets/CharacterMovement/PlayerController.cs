@@ -11,22 +11,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float crawlingSpeed = 1.5f;
 
+    /* TODO camera ease in/out
+    Vector3 cameraOrigin;
+    Vector3 cameraTarget;
+    AnimationCurve cameraCurve;
+    */
+
+    Transform cameraArm;
+
     // Start is called before the first frame update
     void Start()
     {
+        cameraArm = gameObject.transform.Find("CameraArm");
+
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateInputs();
+        UpdateCameraLoc();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateMovement();
     }
 
     /// <summary>
     /// Updates the inputs from the player
     /// </summary>
-    void UpdateInputs()
+    void UpdateMovement()
     {
         // Gets direction of axises
         float horizontal = Input.GetAxis("Horizontal");
@@ -44,21 +59,45 @@ public class PlayerController : MonoBehaviour
             if (crouching)
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * crouchingSpeed * Time.deltaTime;
-                Debug.Log("Crouching");
-                
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);                
             }
             else if (crawling)
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * crawlingSpeed * Time.deltaTime;
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crawlingSpeed * Time.deltaTime);
                 Debug.Log("Crawling");
             }
             else
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * walkingSpeed * Time.deltaTime;
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
             }
         }
+    }
+
+    void UpdateCameraLoc()
+    {
+        if (Input.GetButtonDown("CameraRight"))
+        {
+            // Rotate Camera Right
+            Debug.Log("Camera Right");
+            StartCoroutine("RotateCameraRight");
+        }
+        else if (Input.GetButtonDown("CameraLeft"))
+        {
+            // Rotate Camera Left
+            Debug.Log("Camera Left");
+            StartCoroutine("RotateCameraLeft");
+        }
+    }
+
+    void RotateCameraRight()
+    {
+        this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
+    }
+
+    void RotateCameraLeft()
+    {
+        this.cameraArm.transform.eulerAngles += Vector3.up * 90;
     }
 }
