@@ -12,7 +12,7 @@
 
 		Pass
 		{
-			// none visible faces render now
+			// Cull Front is the default, this is where the faces the camera cant see are rendered or not
 			Cull Off
 			ZWrite Off
 			ZTest Always

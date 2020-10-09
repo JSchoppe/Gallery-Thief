@@ -2,36 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// cast ray from each 4 corners and center of camera
+// if any of these rays hit a wall, move the camera closer to the player
+// move the camera closer down camera arm if any points are casting to a wall
+
+
 public class CameraController : MonoBehaviour
 {
-    CameraCollision collision = new CameraCollision();
+    Camera camera;
+    GameObject player;
 
-    // Start is called before the first frame update
-    void Start()
+    LayerMask wall;
+    RaycastHit hit;
+    Ray ray;
+    
+    float cameraTargetDistance = 20;
+    float cameraCurrentDistance;
+
+    [SerializeField]
+    float cameraSmoothing = 50f;
+
+    private Vector3 rayDirection;
+
+    private void Start()
     {
-        collision.Initialize(Camera.main);
-        collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
-        //collision.UpdateCameraClipPoints(destination/*where camera is suppose to be*/, transform.rotation, ref collision.desiredCameraClipPoints);
+        wall = LayerMask.GetMask("Wall");
+        camera = GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (collision.colliding)
+
+        rayDirection = camera.transform.position - player.transform.position;
+        ray = new Ray(player.transform.position, rayDirection);
+
+
+        cameraCurrentDistance = Vector3.Distance(this.transform.position, player.transform.position);
+
+        if (cameraCurrentDistance < cameraTargetDistance)
         {
-
+            // pulls the camera back to the start position
+            cameraCurrentDistance += cameraSmoothing * Time.deltaTime;
+            // finds the minimum between the two values
+            cameraCurrentDistance = Mathf.Min(cameraCurrentDistance, cameraTargetDistance);
         }
-        else
+
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, wall))
         {
+            // get distance between player and hit point
+            // clamp the camera to theh hit point
+            float hitDistance = Vector3.Distance(hit.point, player.transform.position);
 
+            if (cameraCurrentDistance > hitDistance)
+            {
+                cameraCurrentDistance = hitDistance;
+            }
+
+
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
+            Debug.Log("hit wall");
         }
-    }
 
-    private void FixedUpdate()
-    {
-        collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
-        //collision.UpdateCameraClipPoints(destination/*where camera is suppose to be*/, transform.rotation, ref collision.desiredCameraClipPoints);
+        this.transform.position = player.transform.position + ray.direction * cameraCurrentDistance;
 
-        //collision.CheckColliding(targetPosition);
+        camera.transform.LookAt(player.transform);
     }
 }

@@ -18,14 +18,13 @@ public class PlayerController : MonoBehaviour
     */
 
     Transform cameraArm;
-    CameraCollision cameraCollision = new CameraCollision();
 
     // Start is called before the first frame update
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
 
-        cameraCollision.Initialize(Camera.main);
+        
     }
 
     // Update is called once per frame
@@ -60,20 +59,18 @@ public class PlayerController : MonoBehaviour
             if (crouching)
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * crouchingSpeed * Time.deltaTime;
-                Debug.Log("Crouching");
-                
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);                
             }
             else if (crawling)
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * crawlingSpeed * Time.deltaTime;
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crawlingSpeed * Time.deltaTime);
                 Debug.Log("Crawling");
             }
             else
             {
                 // Animation Change
-                this.transform.position = this.transform.position + new Vector3(horizontal, 0, vertical) * walkingSpeed * Time.deltaTime;
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
             }
         }
     }
@@ -96,11 +93,11 @@ public class PlayerController : MonoBehaviour
 
     void RotateCameraRight()
     {
-        this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+        this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
     }
 
     void RotateCameraLeft()
     {
-        this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
+        this.cameraArm.transform.eulerAngles += Vector3.up * 90;
     }
 }
