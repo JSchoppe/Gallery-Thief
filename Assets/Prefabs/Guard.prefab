@@ -77,12 +77,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  patrolTolerance: 1
-  repathInterval: 1
+  pathTolerance: 1
   viewHeight: 1
   fieldOfView: 35
   viewDistance: 10
+  renderDebug: 1
+  debugRenderer: {fileID: 5190818224567345438}
 --- !u!114 &5190818223669026850
 MonoBehaviour:
   m_ObjectHideFlags: 0
