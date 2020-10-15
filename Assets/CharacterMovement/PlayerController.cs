@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IKeyUser
 {
     [SerializeField] 
     float walkingSpeed = 5f;
@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     float crouchingSpeed = 2.5f;
     [SerializeField]
     float crawlingSpeed = 1.5f;
+
+    // this is for debug.
+    [SerializeField]
+    private KeyID[] startingKeys;
 
     /* TODO camera ease in/out
     Vector3 cameraOrigin;
@@ -24,7 +28,9 @@ public class PlayerController : MonoBehaviour
     {
         cameraArm = gameObject.transform.Find("CameraArm");
 
-        
+        keys = new List<KeyID>();
+        foreach (KeyID key in startingKeys)
+            keys.Add(key);
     }
 
     // Update is called once per frame
@@ -99,5 +105,16 @@ public class PlayerController : MonoBehaviour
     void RotateCameraLeft()
     {
         this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+    }
+
+
+    private List<KeyID> keys;
+    public bool CheckKey(KeyDoor door)
+    {
+        if (keys.Contains(door.LockID))
+        {
+            return true;
+        }
+        return false;
     }
 }

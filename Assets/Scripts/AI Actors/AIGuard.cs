@@ -8,16 +8,16 @@ using UnityEngine.AI;
 /// <summary>
 /// Represents the behavior of a guard.
 /// </summary>
-public class AIGuard : MonoBehaviour
+public class AIGuard : MonoBehaviour, IKeyUser
 {
     // Might need to change this if the AI causes lag.
     private const float repathTime = 1f;
 
     #region Inspector Fields
     [Tooltip("The transforms of the actors being searched for in the scene.")]
-    [SerializeField] private Transform[] suspiciousActors;
+    [SerializeField] private Transform[] suspiciousActors = null;
     [Tooltip("The agent that will be used to traverse the scene.")]
-    [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private NavMeshAgent navAgent = null;
     [Header("Behavior Parameters")]
     [Tooltip("What the guard is doing when the scene loads.")]
     [SerializeField] private AIBehaviorState initialBehavior = AIBehaviorState.Stationary;
@@ -47,6 +47,11 @@ public class AIGuard : MonoBehaviour
     private Stack<Vector3> investigationPoints;
     private Transform transformCurrentlyChasing;
     private int patrolIndex;
+    // Note: current keys reflects which keys the guard
+    // thinks they have (only updated when approaching a door).
+    private List<KeyID> currentKeys;
+    // These keys are replaced when the guard returns to security.
+    private List<KeyID> stolenKeys;
     #endregion
     #region Debug Gizmos Drawing
     private void OnDrawGizmosSelected()
@@ -94,7 +99,7 @@ public class AIGuard : MonoBehaviour
                         currentBehavior = AIBehaviorState.Stationary;
                         if (renderDebug)
                             debugRenderer.material =
-                                AIDebug.debugMats?[AIBehaviorState.Stationary];
+                                AIDebug.AIMats?[AIBehaviorState.Stationary];
                         break;
                     case AIBehaviorState.Patrolling:
                         // Start the patrol loop.
@@ -103,18 +108,19 @@ public class AIGuard : MonoBehaviour
                         currentBehavior = AIBehaviorState.Patrolling;
                         if (renderDebug)
                             debugRenderer.material =
-                                AIDebug.debugMats?[AIBehaviorState.Patrolling];
+                                AIDebug.AIMats?[AIBehaviorState.Patrolling];
                         break;
                     case AIBehaviorState.Investigating:
                         // If there are places to investigate:
                         if (investigationPoints.Count > 0)
                         {
-                            // Start investigating the first place.
+                            // Start investigating the first point of interest.
+                            navAgent.ResetPath();
                             navAgent.SetDestination(investigationPoints.Peek());
                             currentBehavior = AIBehaviorState.Investigating;
                             if (renderDebug)
                                 debugRenderer.material =
-                                    AIDebug.debugMats?[AIBehaviorState.Investigating];
+                                    AIDebug.AIMats?[AIBehaviorState.Investigating];
                         }
                         break;
                     case AIBehaviorState.Chasing:
@@ -123,7 +129,7 @@ public class AIGuard : MonoBehaviour
                         StartCoroutine(ChaseRepath());
                         if (renderDebug)
                             debugRenderer.material =
-                                AIDebug.debugMats?[AIBehaviorState.Chasing];
+                                AIDebug.AIMats?[AIBehaviorState.Chasing];
                         break;
                     // This will throw if a new AI state is
                     // added and is not addressed here:
@@ -150,11 +156,76 @@ public class AIGuard : MonoBehaviour
             Behavior = AIBehaviorState.Investigating;
         }
     }
+    /// <summary>
+    /// Makes the guard check if they have a given key to open a door.
+    /// If the guard doesn't have the key they may become suspicious or look for the key.
+    /// </summary>
+    /// <param name="doorKey">The type of key.</param>
+    /// <returns>True if the key is present.</returns>
+    public bool CheckKey(KeyDoor door)
+    {
+        // Does the guard think they have the key?
+        if (currentKeys.Contains(door.LockID))
+        {
+            KeyID requiredKey = door.LockID;
+            // Make sure the key hasn't been stolen.
+            foreach (DoorKey key in gameObject.GetComponents<DoorKey>())
+                if (key.KeyIdentity == requiredKey)
+                    return true;
+            // Otherwise the key has been stolen.
+            currentKeys.Remove(requiredKey);
+            stolenKeys.Add(requiredKey);
+            // Update the pathing in navmesh.
+            navAgent.areaMask -= NavUtilities.NavAreaFromKeyID(requiredKey);
+            // React to the key loss with behavior:
+            switch (Behavior)
+            {
+                case AIBehaviorState.Stationary:
+                case AIBehaviorState.Patrolling:
+                    investigationPoints.Push(KeyRestock.RestockLocations[0].position);
+                    Behavior = AIBehaviorState.Investigating;
+                    break;
+                case AIBehaviorState.Investigating:
+                    // Generate a cluster of suspicion points on the other side of the door.
+                    investigationPoints.Push(KeyRestock.RestockLocations[0].position);
+                    Behavior = AIBehaviorState.Investigating;
+                    break;
+            }
+        }
+        return false;
+    }
+    /// <summary>
+    /// Restores all of this guards stolen keys.
+    /// </summary>
+    public void RestoreKeys()
+    {
+        // Re-enable keys on this guard.
+        foreach (KeyID key in stolenKeys)
+        {
+            DoorKey newKey = gameObject.AddComponent<DoorKey>();
+            newKey.KeyIdentity = key;
+            currentKeys.Add(key);
+            // Update where the AI can navigate to.
+            int maskBit = NavUtilities.NavAreaFromKeyID(key);
+            navAgent.areaMask = navAgent.areaMask | maskBit;
+        }
+        stolenKeys.Clear();
+    }
     #endregion
 
     #region MonoBehavior Implementation
     private void Start()
     {
+        // Populate the inital keys that this guard has.
+        stolenKeys = new List<KeyID>();
+        currentKeys = new List<KeyID>();
+        foreach (DoorKey key in gameObject.GetComponents<DoorKey>())
+        {
+            currentKeys.Add(key.KeyIdentity);
+            int maskBit = NavUtilities.NavAreaFromKeyID(key.KeyIdentity);
+            // Update where the AI can navigate to.
+            navAgent.areaMask = navAgent.areaMask | maskBit;
+        }
         investigationPoints = new Stack<Vector3>();
         // The stationary home is always the gaurds initial scene position.
         stationaryHome = transform.position;
@@ -210,7 +281,8 @@ public class AIGuard : MonoBehaviour
     private void PatrollingUpdate()
     {
         // Has the AI reached a point on their patrol?
-        if (navAgent.remainingDistance < pathTolerance)
+        if (!navAgent.pathPending && 
+                navAgent.remainingDistance < pathTolerance)
         {
             // Get the next point on the patrol.
             patrolIndex++;
@@ -223,7 +295,8 @@ public class AIGuard : MonoBehaviour
     private void InvestigatingUpdate()
     {
         // Has a point of interest been examined?
-        if (navAgent.remainingDistance < pathTolerance)
+        if (!navAgent.pathPending && 
+            navAgent.remainingDistance < pathTolerance)
         {
             investigationPoints.Pop();
             // Are there more points to investigate?

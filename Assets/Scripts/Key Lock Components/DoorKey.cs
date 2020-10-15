@@ -23,10 +23,18 @@ public sealed class DoorKey : MonoBehaviour
     /// <summary>
     /// Whether this key be pickpocketed from the guard.
     /// </summary>
-    public bool IsStealable { get { return isStealable; } }
+    public bool IsStealable
+    {
+        get { return isStealable; }
+        set { isStealable = value; }
+    }
     /// <summary>
     /// The set of doors that this key opens.
     /// </summary>
-    public KeyID KeyIdentity { get { return keyIdentity; } }
+    public KeyID KeyIdentity
+    {
+        get { return keyIdentity; }
+        set { keyIdentity = value; }
+    }
     #endregion
 }
