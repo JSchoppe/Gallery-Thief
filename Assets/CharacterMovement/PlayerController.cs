@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IKeyUser
 {
     [SerializeField] 
     float walkingSpeed = 5f;
@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Tooltip("Capsule Collider attached to the player. Used to change the player's collision height when crouching/crawling")]
     CapsuleCollider playerCollider;
 
+    // this is for debug.
+    [SerializeField]
+    private KeyID[] startingKeys;
+
     /* TODO camera ease in/out
     Vector3 cameraOrigin;
     Vector3 cameraTarget;
@@ -34,6 +38,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
+
+        keys = new List<KeyID>();
+        foreach (KeyID key in startingKeys)
+            keys.Add(key);
     }
     
     void Update()
@@ -121,5 +129,14 @@ public class PlayerController : MonoBehaviour
         {
             canMove = false;
         }
+
+    private List<KeyID> keys;
+    public bool CheckKey(KeyDoor door)
+    {
+        if (keys.Contains(door.LockID))
+        {
+            return true;
+        }
+        return false;
     }
 }
