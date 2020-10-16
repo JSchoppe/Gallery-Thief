@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] [Tooltip("Transform with the player mesh renderer and mesh filter")]
     Transform mesh;
+    [SerializeField] [Tooltip("Capsule Collider attached to the player. Used to change the player's collision height when crouching/crawling")]
+    CapsuleCollider playerCollider;
 
     /* TODO camera ease in/out
     Vector3 cameraOrigin;
@@ -28,14 +30,12 @@ public class PlayerController : MonoBehaviour
     */
 
     Transform cameraArm;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         UpdateCameraLoc();
@@ -66,21 +66,27 @@ public class PlayerController : MonoBehaviour
             if (crouching)
             {
                 // Animation Change
-                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);                
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);
+                playerCollider.height = 8f;
+                playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
             }
             else if (crawling)
             {
                 // Animation Change
                 this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crawlingSpeed * Time.deltaTime);
-                Debug.Log("Crawling");
+                playerCollider.height = 1f;
+                playerCollider.center = new Vector3(playerCollider.center.x, 2f, playerCollider.center.z);
             }
             else
             {
                 // Animation Change
                 this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
+                playerCollider.height = 12f;
+                playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
             }
 
-            lookRotation = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            // Makes sure the player faces the way it's moving
+            lookRotation = Input.GetAxis("Horizontal") * cameraArm.right + Input.GetAxis("Vertical") * cameraArm.forward;
             this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime); 
         }
     }
@@ -90,13 +96,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("CameraRight"))
         {
             // Rotate Camera Right
-            Debug.Log("Camera Right");
             StartCoroutine("RotateCameraRight");
         }
         else if (Input.GetButtonDown("CameraLeft"))
         {
             // Rotate Camera Left
-            Debug.Log("Camera Left");
             StartCoroutine("RotateCameraLeft");
         }
     }

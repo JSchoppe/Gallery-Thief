@@ -7,7 +7,7 @@
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" }
+        Tags { "Queue"="Opaque" }
         LOD 100
 
 		Pass
@@ -48,6 +48,7 @@
 
 					ENDCG
 		}
+			Lighting On
 
         Pass
 		{

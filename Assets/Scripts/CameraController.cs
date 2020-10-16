@@ -68,7 +68,6 @@ public class CameraController : MonoBehaviour
                 cameraCurrentDistance = hitDistance;
             }
             Debug.DrawRay(ray.origin, ray.direction, Color.red);
-            Debug.Log("hit wall");
         }
 
         // Line where the camera is actually moved

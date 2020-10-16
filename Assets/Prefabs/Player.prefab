@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5371008286500444113}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -50,8 +50,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4125471728267972529, guid: 00d3e20f718a1684d8de8d8b4956ad70, type: 3}
-  - {fileID: 5955844840416208063, guid: 95b384c4361ad9d40b435fd04e1cc241, type: 3}
+  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
+  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -306,9 +306,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 3.21
-  m_Height: 11.62
+  m_Height: 12
   m_Direction: 1
-  m_Center: {x: 0, y: 5.54, z: 0}
+  m_Center: {x: 0, y: 5.5, z: 0}
 --- !u!114 &7034251574549214652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,11 +321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0945b43e0698bce49962cc2bb6814f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 5
+  walkingSpeed: 4
   crouchingSpeed: 2.5
   crawlingSpeed: 1
-  playerTurnSpeed: 400
+  playerTurnSpeed: 500
   mesh: {fileID: 4520632550332030878}
+  playerCollider: {fileID: 7034251574549214627}
 --- !u!54 &7034251574549214631
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -351,7 +352,7 @@ SphereCollider:
   m_GameObject: {fileID: 7034251574549214653}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 7.54
+  m_Center: {x: 0, y: 5.75, z: 0}
