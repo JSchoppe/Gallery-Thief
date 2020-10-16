@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
         {
             canMove = false;
         }
+    }
 
     private List<KeyID> keys;
     public bool CheckKey(KeyDoor door)
