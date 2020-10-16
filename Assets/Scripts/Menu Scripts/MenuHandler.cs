@@ -58,12 +58,13 @@ public class MenuHandler : MonoBehaviour
 #endif
     }
 
-    private void ScrollCredits()
+    //scrolls credits upward
+    private void ScrollCredits() 
     {
         RectTransform rectTransform = creditsText.GetComponent<RectTransform>();
         float startPos = -600; //position where credits start
         float endPos = 1200; //position where credits end
-        float scrollSpeed = .8f;
+        float scrollSpeed = .5f;
 
         if (creditsScrolling)
         {
