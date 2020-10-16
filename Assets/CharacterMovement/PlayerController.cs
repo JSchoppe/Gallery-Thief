@@ -10,6 +10,18 @@ public class PlayerController : MonoBehaviour, IKeyUser
     float crouchingSpeed = 2.5f;
     [SerializeField]
     float crawlingSpeed = 1.5f;
+    [SerializeField] [Tooltip("How fast the player mesh rotates when changing forward directions")]
+    float playerTurnSpeed = 400f;
+
+    /// <summary> if the player can move </summary>
+    bool canMove = true;
+    /// <summary> forward direction of the player </summary>
+    Vector3 lookRotation;
+
+    [SerializeField] [Tooltip("Transform with the player mesh renderer and mesh filter")]
+    Transform mesh;
+    [SerializeField] [Tooltip("Capsule Collider attached to the player. Used to change the player's collision height when crouching/crawling")]
+    CapsuleCollider playerCollider;
 
     // this is for debug.
     [SerializeField]
@@ -22,8 +34,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
     */
 
     Transform cameraArm;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
@@ -32,11 +43,11 @@ public class PlayerController : MonoBehaviour, IKeyUser
         foreach (KeyID key in startingKeys)
             keys.Add(key);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         UpdateCameraLoc();
+        Interact();
     }
 
     private void FixedUpdate()
@@ -44,9 +55,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
         UpdateMovement();
     }
 
-    /// <summary>
-    /// Updates the inputs from the player
-    /// </summary>
+    /// <summary> Updates the inputs from the player </summary>
     void UpdateMovement()
     {
         // Gets direction of axises
@@ -65,19 +74,28 @@ public class PlayerController : MonoBehaviour, IKeyUser
             if (crouching)
             {
                 // Animation Change
-                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);                
+                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);
+                playerCollider.height = 8f;
+                playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
             }
             else if (crawling)
             {
                 // Animation Change
                 this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crawlingSpeed * Time.deltaTime);
-                Debug.Log("Crawling");
+                playerCollider.height = 1f;
+                playerCollider.center = new Vector3(playerCollider.center.x, 2f, playerCollider.center.z);
             }
             else
             {
                 // Animation Change
                 this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
+                playerCollider.height = 12f;
+                playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
             }
+
+            // Makes sure the player faces the way it's moving
+            lookRotation = Input.GetAxis("Horizontal") * cameraArm.right + Input.GetAxis("Vertical") * cameraArm.forward;
+            this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime); 
         }
     }
 
@@ -86,13 +104,11 @@ public class PlayerController : MonoBehaviour, IKeyUser
         if (Input.GetButtonDown("CameraRight"))
         {
             // Rotate Camera Right
-            Debug.Log("Camera Right");
             StartCoroutine("RotateCameraRight");
         }
         else if (Input.GetButtonDown("CameraLeft"))
         {
             // Rotate Camera Left
-            Debug.Log("Camera Left");
             StartCoroutine("RotateCameraLeft");
         }
     }
@@ -107,6 +123,12 @@ public class PlayerController : MonoBehaviour, IKeyUser
         this.cameraArm.transform.eulerAngles += Vector3.up * 90;
     }
 
+    void Interact()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            canMove = false;
+        }
 
     private List<KeyID> keys;
     public bool CheckKey(KeyDoor door)
