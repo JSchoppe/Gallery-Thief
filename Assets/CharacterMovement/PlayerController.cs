@@ -10,6 +10,16 @@ public class PlayerController : MonoBehaviour
     float crouchingSpeed = 2.5f;
     [SerializeField]
     float crawlingSpeed = 1.5f;
+    [SerializeField] [Tooltip("How fast the player mesh rotates when changing forward directions")]
+    float playerTurnSpeed = 400f;
+
+    /// <summary> if the player can move </summary>
+    bool canMove = true;
+    /// <summary> forward direction of the player </summary>
+    Vector3 lookRotation;
+
+    [SerializeField] [Tooltip("Transform with the player mesh renderer and mesh filter")]
+    Transform mesh;
 
     /* TODO camera ease in/out
     Vector3 cameraOrigin;
@@ -23,14 +33,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cameraArm = gameObject.transform.Find("CameraArm");
-
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateCameraLoc();
+        Interact();
     }
 
     private void FixedUpdate()
@@ -38,9 +47,7 @@ public class PlayerController : MonoBehaviour
         UpdateMovement();
     }
 
-    /// <summary>
-    /// Updates the inputs from the player
-    /// </summary>
+    /// <summary> Updates the inputs from the player </summary>
     void UpdateMovement()
     {
         // Gets direction of axises
@@ -72,6 +79,9 @@ public class PlayerController : MonoBehaviour
                 // Animation Change
                 this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
             }
+
+            lookRotation = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime); 
         }
     }
 
@@ -99,5 +109,13 @@ public class PlayerController : MonoBehaviour
     void RotateCameraLeft()
     {
         this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+    }
+
+    void Interact()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            canMove = false;
+        }
     }
 }

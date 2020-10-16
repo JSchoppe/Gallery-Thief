@@ -35,7 +35,8 @@ public class CameraController : MonoBehaviour
     {
         CameraCollision();
 
-        camera.transform.LookAt(player.transform);
+        // Makes sure that the camera is always pointing at the player
+        camera.transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + 3f, player.transform.position.z));
     }
 
     void CameraCollision()
@@ -58,10 +59,10 @@ public class CameraController : MonoBehaviour
         
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, wall))
         {
-            // gets the distance between the player and where the raycast hit
-            float hitDistance = Vector3.Distance(hit.point, player.transform.position);
+            // gets the distance between the player and where the raycast hit // -1 so the camera doesn't clip into the wall/roof
+            float hitDistance = Vector3.Distance(hit.point, player.transform.position) - 1f;
 
-            // if the camera is further from the player than the hit point. move the player to the hit point
+            // if the camera is further from the player than the hit point. move the camera to the hit point
             if (cameraCurrentDistance > hitDistance)
             {
                 cameraCurrentDistance = hitDistance;
