@@ -125,10 +125,11 @@ public class PlayerController : MonoBehaviour, IKeyUser
 
     void Interact()
     {
+        /*
         if (Input.GetButtonDown("Interact"))
         {
             canMove = false;
-        }
+        }*/
     }
 
     private List<KeyID> keys;

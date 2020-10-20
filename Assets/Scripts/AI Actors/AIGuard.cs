@@ -14,8 +14,6 @@ public class AIGuard : MonoBehaviour, IKeyUser
     private const float repathTime = 1f;
 
     #region Inspector Fields
-    [Tooltip("The transforms of the actors being searched for in the scene.")]
-    [SerializeField] private Transform[] suspiciousActors = null;
     [Tooltip("The agent that will be used to traverse the scene.")]
     [SerializeField] private NavMeshAgent navAgent = null;
     [Header("Behavior Parameters")]
@@ -251,11 +249,12 @@ public class AIGuard : MonoBehaviour, IKeyUser
         // players are inside the field of view.
         if (Behavior != AIBehaviorState.Chasing)
         {
-            foreach (Transform actor in suspiciousActors)
+            foreach (PlayerController actor in AlarmSingleton.SuspiciousActors)
             {
                 // Get the direction vector from the AI eyes to the actor.
                 Vector3 actorDirection =
-                    actor.position - (transform.position + transform.up * viewHeight);
+                    AlarmSingleton.GetActorTorso(actor) -
+                    (transform.position + transform.up * viewHeight);
                 // Check to see if the actor is in this AI's field of view.
                 // Then check to see if the actor is within the view distance.
                 if (Vector3.Angle(actorDirection, transform.forward) < fieldOfView / 2
@@ -263,10 +262,10 @@ public class AIGuard : MonoBehaviour, IKeyUser
                 {
                     // Run a linecast to make sure there isn't a
                     // wall between the guard and actor.
-                    if (IsSightLineClear(actor))
+                    if (IsSightLineClear(AlarmSingleton.GetActorTorso(actor)))
                     {
                         // If the player is seen switch to chasing.
-                        transformCurrentlyChasing = actor;
+                        transformCurrentlyChasing = actor.transform;
                         Behavior = AIBehaviorState.Chasing;
                     }
                 }
