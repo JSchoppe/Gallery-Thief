@@ -20,13 +20,26 @@ public class AnimController : MonoBehaviour
 
     void Walk()
     {
+
+        
+        //set in states after crouching and crawling is implemented
+
+        //will switch to switches for optimization
         if (Input.GetKey(KeyCode.W))
         {
             //rotate player
             //start walk animation
             animator.SetBool("isWalking", true);
         }
-        if (Input.GetKey(KeyCode.W))
+        else if (Input.GetKey(KeyCode.A))
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else if (Input.GetKey(KeyCode.D))
         {
             animator.SetBool("isWalking", true);
         }
