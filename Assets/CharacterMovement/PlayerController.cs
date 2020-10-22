@@ -141,4 +141,9 @@ public class PlayerController : MonoBehaviour, IKeyUser
         }
         return false;
     }
+
+    public void GrantKey(KeyID key)
+    {
+        keys.Add(key);
+    }
 }
