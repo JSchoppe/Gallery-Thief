@@ -9,6 +9,7 @@ public class MenuHandler : MonoBehaviour
     [SerializeField] GameObject creditsMenu;
     [SerializeField] GameObject creditsText;
     [SerializeField] GameObject settingsMenu;
+    
     private bool creditsScrolling;
 
     //loads next scene
@@ -19,7 +20,7 @@ public class MenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("SimplifiedGreybox");
     }
 
     //shows the main menu and hides other menus, stops credits scrolling
