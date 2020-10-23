@@ -10,8 +10,6 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
     [Header("Alarm Parameters")]
     [Tooltip("Whether the alarm is enabled initially.")]
     [SerializeField] private bool alarmEnabled = true;
-    [Tooltip("The players to look for in the frustum.")]
-    [SerializeField] private PlayerController[] suspiciousActors = null;
     [Header("Camera Parameters")]
     [Range(float.Epsilon, 80f)][Tooltip("The FOV of the security camera.")]
     [SerializeField] private float fieldOfView = 40f;
@@ -155,9 +153,9 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
     {
         bool suspiciousActorSeen = false;
         // Check each player:
-        foreach (PlayerController actor in suspiciousActors)
+        foreach (PlayerController actor in AlarmSingleton.SuspiciousActors)
         {
-            Vector3 actorDirection = actor.transform.position - transform.position;
+            Vector3 actorDirection = AlarmSingleton.GetActorTorso(actor) - transform.position;
             // Check to see if the actor is in the field of view and range of the camera.
             if (Vector3.Angle(actorDirection, transform.forward) < fieldOfView / 2f
                 && Vector3.Project(actorDirection, transform.forward).magnitude < maxViewDistance)

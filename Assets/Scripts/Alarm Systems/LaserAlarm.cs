@@ -9,10 +9,6 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
     [Header("Alarm Parameters")]
     [Tooltip("Whether the alarm is enabled initially.")]
     [SerializeField] private bool alarmEnabled = true;
-    [Tooltip("The players to look for in the lasers.")]
-    [SerializeField] private PlayerController[] suspiciousActors = null;
-    [Tooltip("The object containing the line renderer that will be instantiated.")]
-    [SerializeField] private GameObject laserRendererPrefab = null;
     [Tooltip("Pairs of transforms representing the starts and ends of lasers.")]
     [SerializeField] private Transform[] laserEnds = null;
     #endregion
@@ -56,11 +52,8 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
         renderers = new LineRenderer[laserEnds.Length / 2];
         for (int i = 0; i < laserEnds.Length - 1; i += 2)
         {
-            // Create a new game object.
-            GameObject gameObject = Instantiate(laserRendererPrefab);
-            gameObject.transform.parent = transform;
             // Set the relevant renderer properties.
-            LineRenderer renderer = gameObject.GetComponent<LineRenderer>();
+            LineRenderer renderer = AlarmSingleton.GetNewLaserRenderer();
             renderer.positionCount = 2;
             renderer.SetPosition(0, laserEnds[i].position);
             renderer.SetPosition(1, laserEnds[i + 1].position);
@@ -86,14 +79,14 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
         {
             // Scan for players.
             bool suspiciousActorSeen = false;
-            foreach (PlayerController actor in suspiciousActors)
+            foreach (PlayerController actor in AlarmSingleton.SuspiciousActors)
             {
                 for (int i = 0; i < laserEnds.Length - 1; i += 2)
                 {
                     // TODO: Make a utility method for this somewhere else.
                     Vector3 start = laserEnds[i].position;
                     Vector3 end = laserEnds[i + 1].position;
-                    Vector3 player = actor.transform.position;
+                    Vector3 player = AlarmSingleton.GetActorTorso(actor);
                     Vector3 closestPoint = Vector3.Project(player - start, end - start) + start;
                     closestPoint.x = Mathf.Clamp(closestPoint.x, Mathf.Min(start.x, end.x), Mathf.Max(start.x, end.x));
                     closestPoint.y = Mathf.Clamp(closestPoint.y, Mathf.Min(start.y, end.y), Mathf.Max(start.y, end.y));
