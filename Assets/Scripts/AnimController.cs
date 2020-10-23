@@ -6,7 +6,11 @@ public class AnimController : MonoBehaviour
 {
     private Animator animator;
     private GameObject player;
-    
+    //IEnum for player state standing, crouching etc
+
+
+    //WHEN ADDING TO MESH NOT PLAYER GAMEOBJECT
+    //PLACE ANIMATED MESH INSIDE EMPTY MESH GAMEOBJECT AND THIS SCRIPT ONTO EMPTY AS A COMPONENT
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -24,22 +28,8 @@ public class AnimController : MonoBehaviour
         
         //set in states after crouching and crawling is implemented
 
-        //will switch to switches for optimization
-        if (Input.GetKey(KeyCode.W))
-        {
-            //rotate player
-            //start walk animation
-            animator.SetBool("isWalking", true);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            animator.SetBool("isWalking", true);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            animator.SetBool("isWalking", true);
-        }
-        else if (Input.GetKey(KeyCode.D))
+        //IEnum = standing
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical")) //continuous input
         {
             animator.SetBool("isWalking", true);
         }
@@ -50,6 +40,7 @@ public class AnimController : MonoBehaviour
             animator.SetBool("isWalking", false);
 
         }
+        //set IEnums for crouching and crawling for later
 
 
     }
