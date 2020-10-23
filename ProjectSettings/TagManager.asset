@@ -7,6 +7,7 @@ TagManager:
   - Stealable
   - Hideable
   - Door
+  - Guard
   layers:
   - Default
   - TransparentFX
