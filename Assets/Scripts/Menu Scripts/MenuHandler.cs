@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject creditsMenu;
-    [SerializeField] GameObject creditsText;
-    [SerializeField] GameObject settingsMenu;
+    [Tooltip("The game object where the main menu is located.")]
+    [SerializeField] private GameObject mainMenu = null;
+    [Tooltip("The game object where the credits menu is located.")]
+    [SerializeField] private GameObject creditsMenu = null;
+    [Tooltip("The game object where the text for the credits is located.")]
+    [SerializeField] private GameObject creditsText = null;
+    [Tooltip("The game object where the settings menu is located.")]
+    [SerializeField] private GameObject settingsMenu = null;
     
     private bool creditsScrolling;
 
