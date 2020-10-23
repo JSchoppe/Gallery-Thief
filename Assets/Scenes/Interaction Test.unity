@@ -2612,6 +2612,8 @@ GameObject:
   - component: {fileID: 2001212954}
   - component: {fileID: 2001212953}
   - component: {fileID: 2001212956}
+  - component: {fileID: 2001212957}
+  - component: {fileID: 2001212958}
   m_Layer: 0
   m_Name: Test Singleton
   m_TagString: Untagged
@@ -2676,6 +2678,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testInteractable: {fileID: 1043364092}
   withPlayer: {fileID: 7034251574657475913}
+--- !u!114 &2001212957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001212952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b04a77c00bb384f86b5d12cfb9de2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testInteractable: {fileID: 526187393}
+  withPlayer: {fileID: 7034251574657475913}
+--- !u!114 &2001212958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001212952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b04a77c00bb384f86b5d12cfb9de2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testInteractable: {fileID: 8783826897831688576}
+  withPlayer: {fileID: 7034251574657475913}
 --- !u!114 &2039222519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2688,13 +2718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d189e8c236c0234a80ba8a6eb599327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 1115106304}
-  textcontroller: {fileID: 0}
-  <PromptVisible>k__BackingField: 0
-  <PromptLocation>k__BackingField: {x: 0, y: 0, z: 0}
-  <PromptMessage>k__BackingField: 
-  closestObject: {x: 0, y: 0, z: 0}
-  currentInteractable: {fileID: 0}
 --- !u!135 &785252656809795595
 SphereCollider:
   m_ObjectHideFlags: 0
