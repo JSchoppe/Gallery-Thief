@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5190818223669026851}
   - component: {fileID: 5190818223669026845}
   - component: {fileID: 5190818223669026850}
+  - component: {fileID: 3169162962850326859}
   - component: {fileID: 320495407321692838}
   - component: {fileID: 6037883149474482968}
   m_Layer: 0
@@ -70,7 +71,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ef6186d67010e48871be3462f30360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suspiciousActors: []
   navAgent: {fileID: 5190818223669026851}
   initialBehavior: 0
   illegalBehaviors: 
@@ -80,7 +80,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   pathTolerance: 1
-  viewHeight: 3
+  viewHeight: 3.73
   fieldOfView: 35
   viewDistance: 10
   renderDebug: 1
@@ -99,6 +99,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStealable: 0
   keyIdentity: 1
+--- !u!114 &3169162962850326859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190818223669026844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff274203cb057ae4197f547605c1cf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stealAngle: 30
+  stealDistance: 4
 --- !u!54 &320495407321692838
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -155,7 +169,7 @@ Transform:
   m_GameObject: {fileID: 5190818224567345432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.27, y: 0.27, z: 0.27}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5190818223669026848}
   m_RootOrder: 0
