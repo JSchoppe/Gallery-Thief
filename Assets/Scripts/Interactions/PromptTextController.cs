@@ -6,17 +6,17 @@ using UnityEngine;
 public class PromptTextController : MonoBehaviour
 {
     private TMP_Text promptText;
-    private CanvasGroup canvasGroup;
+    Vector3 promptPosition;
 
     private void Start()
     {
         promptText = GetComponent<TMP_Text>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        promptPosition = transform.position;
     }
 
-    public void OnInteractivePromptTriggered(string text, float opacity)
+    public void OnInteractivePromptTriggered(string text, bool visible)
     {
-        canvasGroup.alpha = opacity;
+        gameObject.SetActive(visible);
         promptText.text = text;
     }
 }
