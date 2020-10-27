@@ -11,7 +11,7 @@ using UnityEngine.AI;
 public class AIGuard : MonoBehaviour, IKeyUser
 {
     // Might need to change this if the AI causes lag.
-    private const float repathTime = 1f;
+    private const float repathTime = 0.1f;
 
     #region Inspector Fields
     [Tooltip("The agent that will be used to traverse the scene.")]
@@ -115,8 +115,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
         private set
         {
             // Make sure this behavior is legal for this AI.
-            if (!illegalBehaviors.Contains(value)
-                && value != currentBehavior)
+            if (!illegalBehaviors.Contains(value))
             {
                 // Initialize new state for this behavior.
                 switch (value)
@@ -167,8 +166,37 @@ public class AIGuard : MonoBehaviour, IKeyUser
             }
         }
     }
+    /// <summary>
+    /// Whether this guard can respond to an alarm.
+    /// </summary>
+    public bool CanRespond
+    {
+        get
+        {
+            return (Behavior != AIBehaviorState.Chasing)
+                && (!illegalBehaviors.Contains(AIBehaviorState.Investigating));
+        }
+    }
     #endregion
     #region Public Methods
+    /// <summary>
+    /// Gets the total distance to this guard must travel to reach the position.
+    /// </summary>
+    /// <param name="position">The point of interest they would be responding to.</param>
+    /// <returns>The total path distance to the response point.</returns>
+    public float GetResponseDistance(Vector3 position)
+    {
+        // Precalculate path and return length.
+        NavMeshPath path = new NavMeshPath();
+        if (navAgent.CalculatePath(position, path))
+        {
+            float length = 0f;
+            for (int i = 1; i < path.corners.Length; i++)
+                length += Vector3.Distance(path.corners[i], path.corners[i - 1]);
+            return length;
+        }
+        else { return float.MaxValue; }
+    }
     /// <summary>
     /// Adds a point of interest for this guard to investigate.
     /// </summary>
