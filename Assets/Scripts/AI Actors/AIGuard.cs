@@ -26,13 +26,17 @@ public class AIGuard : MonoBehaviour, IKeyUser
     [SerializeField] private Transform[] patrolRoute = null;
     [Range(float.Epsilon, 10f)][Tooltip("Controls how close a guard has to get to a node before going to the next node.")]
     [SerializeField] private float pathTolerance = 1f;
+    [Range(float.Epsilon, 10f)][Tooltip("Controls the rate guards will pivot towards a direction when stationary.")]
+    [SerializeField] private float pivotSpeed = 2f;
     [Header("Vision Parameters")]
     [Range(float.Epsilon, 5f)][Tooltip("The elevation of the view above the ground.")]
     [SerializeField] private float viewHeight = 1f;
-    [Range(10f, 80f)][Tooltip("Controls the field of view of this guards vision.")]
+    [Range(10f, 160f)][Tooltip("Controls the field of view of this guards vision.")]
     [SerializeField] private float fieldOfView = 35f;
     [Range(float.Epsilon, 100f)][Tooltip("Controls how far this guard can see ahead of itself.")]
     [SerializeField] private float viewDistance = 10f;
+    [Range(float.Epsilon, 5f)][Tooltip("If the player gets this close the guard will be alerted.")]
+    [SerializeField] private float personalSpaceRadius = 1f;
     [Header("Debug Parameters")]
     [Tooltip("Will render a given mesh with the color of the current state.")]
     [SerializeField] private bool renderDebug = true;
@@ -42,6 +46,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
     #region Private Fields
     private AIBehaviorState currentBehavior;
     private Vector3 stationaryHome;
+    private Vector3 stationaryDirection;
     private Stack<Vector3> investigationPoints;
     private Transform transformCurrentlyChasing;
     private int patrolIndex;
@@ -63,14 +68,39 @@ public class AIGuard : MonoBehaviour, IKeyUser
             foreach (Vector3 location in investigationPoints)
             {
                 Gizmos.DrawSphere(location, 0.5f);
-                Gizmos.DrawLine(transform.position + transform.up * viewHeight, location);
+                Gizmos.DrawLine(transform.position, location);
             }
         }
-        // Draw the view frustrum of this guard.
         Gizmos.color = Color.blue;
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.matrix *= Matrix4x4.Translate(Vector3.up * viewHeight);
-        Gizmos.DrawFrustum(Vector3.zero, fieldOfView, viewDistance, 0, 1);
+        // Draw the personal space of this guard.
+        Vector3[] arcPoints = new Vector3[16];
+        for (int i = 0; i < 16; i++)
+        {
+            float angle = (i / 16f) * Mathf.PI * 2f;
+            arcPoints[i] = transform.TransformPoint(new Vector3
+            {
+                x = Mathf.Cos(angle) * personalSpaceRadius,
+                z = Mathf.Sin(angle) * personalSpaceRadius
+            });
+        }
+        for (int i = 0; i < 15; i++)
+            Gizmos.DrawLine(arcPoints[i], arcPoints[i + 1]);
+        Gizmos.DrawLine(arcPoints[0], arcPoints[15]);
+        // Draw the front view region for this guard.
+        // This is a bit jank tbh.
+        for (int i = 0; i < 15; i++)
+        {
+            float angle = ((i - 7) / 7f) * (fieldOfView / 2) * Mathf.Deg2Rad;
+            arcPoints[i] = transform.TransformPoint(new Vector3
+            {
+                x = Mathf.Sin(angle) * viewDistance,
+                z = Mathf.Cos(angle) * viewDistance
+            });
+        }
+        for (int i = 0; i < 14; i++)
+            Gizmos.DrawLine(arcPoints[i], arcPoints[i + 1]);
+        Gizmos.DrawLine(transform.position, arcPoints[0]);
+        Gizmos.DrawLine(transform.position, arcPoints[14]);
     }
     #endregion
 
@@ -225,8 +255,9 @@ public class AIGuard : MonoBehaviour, IKeyUser
             navAgent.areaMask = navAgent.areaMask | maskBit;
         }
         investigationPoints = new Stack<Vector3>();
-        // The stationary home is always the gaurds initial scene position.
+        // The stationary home is always the gaurds initial scene position and rotation.
         stationaryHome = transform.position;
+        stationaryDirection = transform.forward;
         // Set the initial state of this guard.
         Behavior = initialBehavior;
     }
@@ -251,14 +282,17 @@ public class AIGuard : MonoBehaviour, IKeyUser
         {
             foreach (PlayerController actor in AlarmSingleton.SuspiciousActors)
             {
-                // Get the direction vector from the AI eyes to the actor.
-                Vector3 actorDirection =
-                    AlarmSingleton.GetActorTorso(actor) -
-                    (transform.position + transform.up * viewHeight);
-                // Check to see if the actor is in this AI's field of view.
-                // Then check to see if the actor is within the view distance.
-                if (Vector3.Angle(actorDirection, transform.forward) < fieldOfView / 2
-                    && Vector3.Project(actorDirection, transform.forward).magnitude < viewDistance)
+                // Get the direction vector from the AI to the actor.
+                Vector3 actorDirection = AlarmSingleton.GetActorTorso(actor)
+                    - transform.position;
+                // Ignore elevation.
+                actorDirection.y = 0f;
+                // Check to see if the actor is within the personal space,
+                // or if they are within the field of view.
+                if (actorDirection.magnitude < personalSpaceRadius
+                    ||
+                    (actorDirection.magnitude < viewDistance &&
+                    Vector3.Angle(actorDirection, transform.forward) < fieldOfView / 2))
                 {
                     // Run a linecast to make sure there isn't a
                     // wall between the guard and actor.
@@ -267,6 +301,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                         // If the player is seen switch to chasing.
                         transformCurrentlyChasing = actor.transform;
                         Behavior = AIBehaviorState.Chasing;
+                        break;
                     }
                 }
             }
@@ -275,7 +310,14 @@ public class AIGuard : MonoBehaviour, IKeyUser
     #region State Specific Updates
     private void StationaryUpdate()
     {
-
+        // If the stationary guard has come to rest,
+        // make sure they are facing the correct direction.
+        if (!navAgent.hasPath && transform.forward != stationaryDirection)
+        {
+            transform.forward =
+                Vector3.RotateTowards(transform.forward, stationaryDirection,
+                pivotSpeed * Time.deltaTime, float.MaxValue);
+        }
     }
     private void PatrollingUpdate()
     {
@@ -315,7 +357,15 @@ public class AIGuard : MonoBehaviour, IKeyUser
     private void ChasingUpdate()
     {
         // Look at the player that is being chased.
-        transform.LookAt(transformCurrentlyChasing.position + Vector3.down);
+        transform.LookAt(new Vector3
+        {
+            x = transformCurrentlyChasing.position.x,
+            y = transform.position.y,
+            z = transformCurrentlyChasing.position.z,
+        });
+        if (Vector3.Distance(transformCurrentlyChasing.position, transform.position) < personalSpaceRadius)
+            LevelStateSingleton.NotifyPlayerCaught(
+                transformCurrentlyChasing.GetComponent<PlayerController>());
     }
     // This is run alongside chasing
     // update but not as frequently.
