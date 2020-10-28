@@ -57,6 +57,7 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
             renderer.positionCount = 2;
             renderer.SetPosition(0, laserEnds[i].position);
             renderer.SetPosition(1, laserEnds[i + 1].position);
+            renderer.material = AlarmSingleton.DefaultLaserMat;
             renderers[i / 2] = renderer;
         }
         IsEnabled = alarmEnabled;
@@ -70,6 +71,13 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
             {
                 renderers[i / 2].SetPosition(0, laserEnds[i].position);
                 renderers[i / 2].SetPosition(1, laserEnds[i + 1].position);
+
+                // Set the laser material based on the alarm state.
+                // TODO should not be set every frame.
+                if (isCurrentlyAlarmed)
+                    renderers[i / 2].material = AlarmSingleton.AlarmedLaserMat;
+                else
+                    renderers[i / 2].material = AlarmSingleton.DefaultLaserMat;
             }
         }
     }

@@ -9,10 +9,15 @@ public sealed class AlarmSingleton : MonoBehaviour
 {
     [SerializeField] private PlayerController[] suspiciousActors = null;
     [SerializeField] private GameObject laserLineRendererObject = null;
+    [SerializeField] private Material defaultLaserMat = null;
+    [SerializeField] private Material alarmedLaserMat = null;
 
     public static PlayerController[] SuspiciousActors { get; private set; }
     private static GameObject laserLineRendererPrefab;
     private static Transform laserHolderTransform;
+
+    public static Material DefaultLaserMat { get; private set; }
+    public static Material AlarmedLaserMat { get; private set; }
 
     private static List<AIGuard> guards;
 
@@ -21,6 +26,9 @@ public sealed class AlarmSingleton : MonoBehaviour
         laserHolderTransform = transform;
         SuspiciousActors = suspiciousActors;
         laserLineRendererPrefab = laserLineRendererObject;
+
+        DefaultLaserMat = defaultLaserMat;
+        AlarmedLaserMat = alarmedLaserMat;
 
         // TODO this feels kinda jank the way this is setup.
         foreach (IAlarmSystem system in FindObjectsOfType<MonoBehaviour>().OfType<IAlarmSystem>())

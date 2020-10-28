@@ -16,6 +16,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
     #region Inspector Fields
     [Tooltip("The agent that will be used to traverse the scene.")]
     [SerializeField] private NavMeshAgent navAgent = null;
+    [Tooltip("The audio source used to play the alarmed sfx.")]
+    [SerializeField] private AudioSource whistleSource = null;
     [Header("Behavior Parameters")]
     [Tooltip("What the guard is doing when the scene loads.")]
     [SerializeField] private AIBehaviorState initialBehavior = AIBehaviorState.Stationary;
@@ -329,6 +331,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
                         // If the player is seen switch to chasing.
                         transformCurrentlyChasing = actor.transform;
                         Behavior = AIBehaviorState.Chasing;
+                        // Play the whistle sound effect.
+                        whistleSource.Play();
                         break;
                     }
                 }

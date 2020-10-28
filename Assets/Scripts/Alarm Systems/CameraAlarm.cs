@@ -7,6 +7,12 @@ using UnityEngine;
 public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
 {
     #region Inspector Fields
+    [Tooltip("The light that shows the state of the camera.")]
+    [SerializeField] private Light indicatorLight = null;
+    [Tooltip("Indicator light color when the camera is not alarmed.")]
+    [SerializeField] private Color defaultColor = Color.green;
+    [Tooltip("Indicator light color when the camera is alarmed.")]
+    [SerializeField] private Color alarmedColor = Color.red;
     [Header("Alarm Parameters")]
     [Tooltip("Whether the alarm is enabled initially.")]
     [SerializeField] private bool alarmEnabled = true;
@@ -126,6 +132,12 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
                 Animate();
             // Scan the are for players.
             Scan();
+            // Set the light color.
+            // TODO shouldn't set this every single frame.
+            if (isCurrentlyAlarmed)
+                indicatorLight.color = alarmedColor;
+            else
+                indicatorLight.color = defaultColor;
         }
     }
     #endregion
