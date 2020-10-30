@@ -12952,6 +12952,7 @@ GameObject:
   - component: {fileID: 548829817921150305}
   - component: {fileID: 548829817921150310}
   - component: {fileID: 548829817921150311}
+  - component: {fileID: 2727714676283510821}
   m_Layer: 0
   m_Name: Bench (9)
   m_TagString: Untagged
@@ -13756,6 +13757,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548829817921150308}
   m_Mesh: {fileID: 0}
+--- !u!65 &2727714676283510821
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548829817921150308}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.000005, y: 1.435, z: 1.0000067}
+  m_Center: {x: 0.00000011920929, y: -0.09249994, z: -0.00000074505806}
 --- !u!1 &548829817968879304
 GameObject:
   m_ObjectHideFlags: 0
