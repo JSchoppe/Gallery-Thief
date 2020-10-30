@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IKeyUser
 {
     [SerializeField] 
-    float walkingSpeed = 5f;
+    float walkingSpeed = 100f;
     [SerializeField]
     float crouchingSpeed = 2.5f;
     [SerializeField]
@@ -22,23 +22,17 @@ public class PlayerController : MonoBehaviour, IKeyUser
     Transform mesh;
     [SerializeField] [Tooltip("Capsule Collider attached to the player. Used to change the player's collision height when crouching/crawling")]
     CapsuleCollider playerCollider;
+    [SerializeField] [Tooltip("Player's Rigidbody")]
+    Rigidbody rb;
+    [SerializeField]
+    Transform CinemachineCamera;
 
     // this is for debug.
     [SerializeField]
     private KeyID[] startingKeys;
-
-    /* TODO camera ease in/out
-    Vector3 cameraOrigin;
-    Vector3 cameraTarget;
-    AnimationCurve cameraCurve;
-    */
-
-    Transform cameraArm;
     
     void Start()
     {
-        cameraArm = gameObject.transform.Find("CameraArm");
-
         keys = new List<KeyID>();
         foreach (KeyID key in startingKeys)
             keys.Add(key);
@@ -46,8 +40,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
     
     void Update()
     {
-        UpdateCameraLoc();
-        Interact();
+        CameraZoom();
     }
 
     private void FixedUpdate()
@@ -69,73 +62,68 @@ public class PlayerController : MonoBehaviour, IKeyUser
         // changes position of player if any direction is used
         if (horizontal > 0 || horizontal < 0 || vertical > 0 || vertical < 0)
         {
-            // Changes movement speed 
-            // TODO make sure speed does not change until animation between crawl/crouch/walking is complete
+            // Changes movement speed and player collider
             if (crouching)
             {
-                // Animation Change
-                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crouchingSpeed * Time.deltaTime);
+                rb.velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * crouchingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
             }
-            else if (crawling)
-            {
-                // Animation Change
-                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (crawlingSpeed * Time.deltaTime);
-                playerCollider.height = 1f;
-                playerCollider.center = new Vector3(playerCollider.center.x, 2f, playerCollider.center.z);
-            }
             else
             {
-                // Animation Change
-                this.transform.position += ((horizontal * cameraArm.right) + (vertical * cameraArm.forward)) * (walkingSpeed * Time.deltaTime);
+                rb.velocity = (((new Vector3(CinemachineCamera.forward.x, 0, CinemachineCamera.forward.z)).normalized * vertical) + (CinemachineCamera.right * horizontal)) * walkingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
             }
 
             // Makes sure the player faces the way it's moving
-            lookRotation = Input.GetAxis("Horizontal") * cameraArm.right + Input.GetAxis("Vertical") * cameraArm.forward;
+            
+
+            lookRotation = (CinemachineCamera.forward * vertical) + (CinemachineCamera.right * horizontal);
             //OG code
-            this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
+            //this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
             //new code, turns 
             //this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
-
-
+            
         }
     }
 
-    void UpdateCameraLoc()
+    void CameraZoom()
     {
-        if (Input.GetButtonDown("CameraRight"))
+        Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            // Rotate Camera Right
-            StartCoroutine("RotateCameraRight");
+            // move camera closer
         }
-        else if (Input.GetButtonDown("CameraLeft"))
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            // Rotate Camera Left
-            StartCoroutine("RotateCameraLeft");
+            // move camera away
         }
     }
 
-    void RotateCameraRight()
-    {
-        this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
-    }
+    //void UpdateCameraLoc()
+    //{
+    //    if (Input.GetButtonDown("CameraRight"))
+    //    {
+    //        // Rotate Camera Right
+    //        StartCoroutine("RotateCameraRight");
+    //    }
+    //    else if (Input.GetButtonDown("CameraLeft"))
+    //    {
+    //        // Rotate Camera Left
+    //        StartCoroutine("RotateCameraLeft");
+    //    }
+    //}
 
-    void RotateCameraLeft()
-    {
-        this.cameraArm.transform.eulerAngles += Vector3.up * 90;
-    }
+    //void RotateCameraRight()
+    //{
+    //   // this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
+    //}
 
-    void Interact()
-    {
-        /*
-        if (Input.GetButtonDown("Interact"))
-        {
-            canMove = false;
-        }*/
-    }
+    //void RotateCameraLeft()
+    //{
+    //   // this.cameraArm.transform.eulerAngles += Vector3.up * 90;
+    //}
 
     private List<KeyID> keys;
     public bool CheckKey(KeyDoor door)
