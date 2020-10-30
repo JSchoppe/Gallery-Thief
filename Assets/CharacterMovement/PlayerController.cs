@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour, IKeyUser
     [SerializeField] [Tooltip("How fast the player mesh rotates when changing forward directions")]
     float playerTurnSpeed = 400f;
 
-    /// <summary> if the player can move </summary>
-    bool canMove = true;
     /// <summary> forward direction of the player </summary>
     Vector3 lookRotation;
 
@@ -25,7 +23,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
     [SerializeField] [Tooltip("Player's Rigidbody")]
     Rigidbody rb;
     [SerializeField]
-    Transform CinemachineCamera;
+    Transform camera;
 
     // this is for debug.
     [SerializeField]
@@ -65,26 +63,40 @@ public class PlayerController : MonoBehaviour, IKeyUser
             // Changes movement speed and player collider
             if (crouching)
             {
-                rb.velocity = ((transform.forward * vertical) + (transform.right * horizontal)) * crouchingSpeed * Time.fixedDeltaTime;
+                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * crouchingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
             }
             else
             {
-                rb.velocity = (((new Vector3(CinemachineCamera.forward.x, 0, CinemachineCamera.forward.z)).normalized * vertical) + (CinemachineCamera.right * horizontal)) * walkingSpeed * Time.fixedDeltaTime;
+                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * walkingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
             }
 
             // Makes sure the player faces the way it's moving
+
+
+            // Makes sure the player faces the way it's moving
+            //lookRotation = Input.GetAxis("Horizontal") * cameraArm.right + Input.GetAxis("Vertical") * cameraArm.forward;
+            //this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
+
+
+
+
             
 
-            lookRotation = (CinemachineCamera.forward * vertical) + (CinemachineCamera.right * horizontal);
-            //OG code
-            //this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
-            //new code, turns 
-            //this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
+
+            lookRotation = rb.velocity;
             
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
+            
+            
+            
+        }
+        else
+        {
+            rb.velocity = Vector3.Scale(new Vector3(0,1,0), rb.velocity);
         }
     }
 
@@ -100,30 +112,6 @@ public class PlayerController : MonoBehaviour, IKeyUser
             // move camera away
         }
     }
-
-    //void UpdateCameraLoc()
-    //{
-    //    if (Input.GetButtonDown("CameraRight"))
-    //    {
-    //        // Rotate Camera Right
-    //        StartCoroutine("RotateCameraRight");
-    //    }
-    //    else if (Input.GetButtonDown("CameraLeft"))
-    //    {
-    //        // Rotate Camera Left
-    //        StartCoroutine("RotateCameraLeft");
-    //    }
-    //}
-
-    //void RotateCameraRight()
-    //{
-    //   // this.cameraArm.transform.eulerAngles -= Vector3.up * 90;
-    //}
-
-    //void RotateCameraLeft()
-    //{
-    //   // this.cameraArm.transform.eulerAngles += Vector3.up * 90;
-    //}
 
     private List<KeyID> keys;
     public bool CheckKey(KeyDoor door)
