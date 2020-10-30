@@ -53,7 +53,7 @@ MonoBehaviour:
   alarmedColor: {r: 1, g: 0, b: 0, a: 1}
   alarmEnabled: 1
   fieldOfView: 40
-  maxViewDistance: 5
+  maxViewDistance: 12
   panSpeed: 80
   keyFocalPoints:
   - {fileID: 5424241913538827955}
