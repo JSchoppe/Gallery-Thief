@@ -514,7 +514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669696162771829566}
-  m_LocalRotation: {x: -0.0012024859, y: 0.27310506, z: 0.00034138316, w: 0.96198344}
+  m_LocalRotation: {x: -0.0012024839, y: 0.27310506, z: 0.00034138237, w: 0.96198344}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -650,7 +650,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048174734466480134}
-  m_LocalRotation: {x: -0.01870026, y: 0.27305365, z: 0.0053089643, w: 0.9618024}
+  m_LocalRotation: {x: -0.018700255, y: 0.27305365, z: 0.0053089834, w: 0.9618024}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1998,7 +1998,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663909468763424898}
-  m_LocalRotation: {x: -0.036145683, y: 0.2729124, z: 0.010261683, w: 0.9613049}
+  m_LocalRotation: {x: -0.036145683, y: 0.27291238, z: 0.010261682, w: 0.9613049}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2449,7 +2449,7 @@ MonoBehaviour:
   mesh: {fileID: 520757817189597878}
   playerCollider: {fileID: 7002549371148337517}
   rb: {fileID: 7002549371148337513}
-  CinemachineCamera: {fileID: 3001530197697101652}
+  camera: {fileID: 7002549371925207154}
   startingKeys: 
 --- !u!54 &7002549371148337513
 Rigidbody:
@@ -2523,6 +2523,7 @@ GameObject:
   - component: {fileID: 7002549371925207155}
   - component: {fileID: 7002549371925207152}
   - component: {fileID: 7002549371925207149}
+  - component: {fileID: 545186526}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2537,8 +2538,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7002549371925207153}
-  m_LocalRotation: {x: 0.2164396, y: -0, z: -0, w: 0.97629607}
-  m_LocalPosition: {x: 0, y: 4.11, z: -9.3}
+  m_LocalRotation: {x: -0.018700266, y: 0.27305368, z: 0.005308966, w: 0.9618024}
+  m_LocalPosition: {x: -42.03567, y: 10, z: -68.06616}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7002549371482186421}
@@ -2567,9 +2568,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2602,13 +2603,46 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7002549371925207153}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e67f94462d518d84f8eda7cdf19a8224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTargetDistance: 20
   cameraSmoothing: 10
+--- !u!114 &545186526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002549371925207153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7179267591102404188
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,6 +3436,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e4e39da8b2d33374cb0379201f189c7a,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'QuickRigCharacter_RightToeBase'\n\tTransform
+        'QuickRigCharacter_LeftHand'\n\tTransform 'QuickRigCharacter_RightLeg'\n\tTransform
+        'QuickRigCharacter_LeftShoulder'\n\tTransform 'QuickRigCharacter_Hips'\n\tTransform
+        'QuickRigCharacter_RightShoulder'\n\tTransform 'QuickRigCharacter_RightFoot'\n\tTransform
+        'QuickRigCharacter_LeftFoot'\n\tTransform 'QuickRigCharacter_RightHand'\n\tTransform
+        'QuickRigCharacter_LeftArm'\n\tand more ...\n\tFrom animation clip 'MainCharacterIdle'"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4e39da8b2d33374cb0379201f189c7a, type: 3}
