@@ -15,7 +15,7 @@ public class HideInteraction : MonoBehaviour, IInteractable
     public string PromptMessage { get; private set; }
     public void OnPromptEnter(PlayerController player)
     {
-
+        
     }
     public void OnPromptExit(PlayerController player)
     {

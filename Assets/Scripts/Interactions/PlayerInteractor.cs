@@ -19,6 +19,12 @@ public sealed class PlayerInteractor : MonoBehaviour
     [SerializeField] private TMP_Text promptText = null;
     [Tooltip("Defines the keyboard key that starts interaction.")]
     [SerializeField] private KeyCode interactKey = KeyCode.E;
+    // TODO this should be accomplished via parenting relationships in
+    // the scene; not done programatically.
+    [Tooltip("The camera that defines the direction the prompt faces towards.")]
+    [SerializeField] private Transform cameraTransform = null;
+    [Tooltip("The transform of the prompt canvas.")]
+    [SerializeField] private Transform promptTransform = null;
     #endregion
     #region Fields
     private InteractionState state;
@@ -46,7 +52,11 @@ public sealed class PlayerInteractor : MonoBehaviour
         // require a check every frame.
         if (state == InteractionState.InsideRange
             && currentInteractable.PromptVisible)
+        {
             promptText.text = currentInteractable.PromptMessage;
+            // Update the facing direction of the prompt.
+            promptTransform.forward = promptTransform.position - cameraTransform.position;
+        }
         else
             promptText.text = string.Empty;
     }

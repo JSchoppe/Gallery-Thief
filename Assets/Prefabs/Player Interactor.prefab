@@ -293,3 +293,5 @@ MonoBehaviour:
   player: {fileID: 0}
   promptText: {fileID: 5171311232376729879}
   interactKey: 101
+  cameraTransform: {fileID: 0}
+  promptTransform: {fileID: 5171311232739096453}
