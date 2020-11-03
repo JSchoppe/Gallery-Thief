@@ -19,7 +19,7 @@ public class AnimController : MonoBehaviour
     void Update()
     {
         Walk();
-        
+        Interact();
     }
 
     void Walk()
@@ -43,5 +43,17 @@ public class AnimController : MonoBehaviour
         //set IEnums for crouching and crawling for later
 
 
+    }
+    void Interact()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            animator.SetBool("canInteract", true);
+        }
+        else
+        {
+            animator.SetBool("canInteract", false);
+
+        }
     }
 }
