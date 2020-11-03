@@ -28,9 +28,31 @@ public class PlayerController : MonoBehaviour, IKeyUser
     // this is for debug.
     [SerializeField]
     private KeyID[] startingKeys;
+
+    // TODO this should not be globally public.
+    private bool isHiding;
+    public bool IsHiding
+    {
+        get { return isHiding; }
+        set
+        {
+            isHiding = value;
+            if (isHiding)
+            {
+                rb.detectCollisions = false;
+                rb.isKinematic = true;
+            }
+            else
+            {
+                rb.detectCollisions = true;
+                rb.isKinematic = false;
+            }
+        }
+    }
     
     void Start()
     {
+        isHiding = false;
         keys = new List<KeyID>();
         foreach (KeyID key in startingKeys)
             keys.Add(key);
@@ -43,7 +65,8 @@ public class PlayerController : MonoBehaviour, IKeyUser
 
     private void FixedUpdate()
     {
-        UpdateMovement();
+        if (!isHiding)
+            UpdateMovement();
     }
 
     /// <summary> Updates the inputs from the player </summary>

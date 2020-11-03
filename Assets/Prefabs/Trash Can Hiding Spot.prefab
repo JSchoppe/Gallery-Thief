@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0e9b9d55fbef043a718f9614408a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitHidingKey: 101
+  enterExitHideSpeed: 2.5
+  exitDistance: 2
 --- !u!136 &7334388421056701309
 CapsuleCollider:
   m_ObjectHideFlags: 0

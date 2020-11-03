@@ -50,7 +50,7 @@ public sealed class PlayerInteractor : MonoBehaviour
         // TODO this is kind of a hack.
         // Find a better way to do this that doesn't
         // require a check every frame.
-        if (state == InteractionState.InsideRange
+        if (state != InteractionState.OutsideRange
             && currentInteractable.PromptVisible)
         {
             promptText.text = currentInteractable.PromptMessage;
