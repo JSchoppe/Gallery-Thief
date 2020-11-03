@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IKeyUser
@@ -29,7 +30,8 @@ public class PlayerController : MonoBehaviour, IKeyUser
     [SerializeField]
     private KeyID[] startingKeys;
 
-    // TODO this should not be globally public.
+    // TODO these should not be globally public.
+    // Also could be handled in a cleaner way.
     private bool isHiding;
     public bool IsHiding
     {
@@ -37,18 +39,36 @@ public class PlayerController : MonoBehaviour, IKeyUser
         set
         {
             isHiding = value;
-            if (isHiding)
-            {
-                rb.detectCollisions = false;
-                rb.isKinematic = true;
-            }
-            else
-            {
-                rb.detectCollisions = true;
-                rb.isKinematic = false;
-            }
+            isMovementLocked = value;
+            SetMovable(!isHiding);
         }
     }
+    private bool isMovementLocked;
+    public bool IsMovementLocked
+    {
+        get { return isMovementLocked; }
+        set
+        {
+            isMovementLocked = value;
+            SetMovable(!isMovementLocked);
+        }
+    }
+    private void SetMovable(bool canMove)
+    {
+        if (canMove)
+        {
+            rb.detectCollisions = true;
+            rb.isKinematic = false;
+        }
+        else
+        {
+            rb.detectCollisions = false;
+            rb.isKinematic = true;
+        }
+    }
+
+    // TODO should not be globally public.
+    public int PaintingsStolen { get; set; }
     
     void Start()
     {
@@ -65,7 +85,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
 
     private void FixedUpdate()
     {
-        if (!isHiding)
+        if (!isMovementLocked)
             UpdateMovement();
     }
 
