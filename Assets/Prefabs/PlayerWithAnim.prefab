@@ -514,7 +514,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669696162771829566}
-  m_LocalRotation: {x: -0.0012024839, y: 0.27310506, z: 0.00034138237, w: 0.96198344}
+  m_LocalRotation: {x: -0.0012024665, y: 0.27310506, z: 0.00034137772, w: 0.96198344}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -650,7 +650,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048174734466480134}
-  m_LocalRotation: {x: -0.018700255, y: 0.27305365, z: 0.0053089834, w: 0.9618024}
+  m_LocalRotation: {x: -0.01870026, y: 0.27305365, z: 0.0053089643, w: 0.9618024}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3414,6 +3414,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainCharacter_Crouching
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e4e39da8b2d33374cb0379201f189c7a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: e4e39da8b2d33374cb0379201f189c7a,
         type: 3}
       propertyPath: m_Controller
@@ -3427,14 +3432,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: e4e39da8b2d33374cb0379201f189c7a,
         type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'QuickRigCharacter_RightToeBase'\n\tTransform
-        'QuickRigCharacter_LeftHand'\n\tTransform 'QuickRigCharacter_RightLeg'\n\tTransform
-        'QuickRigCharacter_LeftShoulder'\n\tTransform 'QuickRigCharacter_Hips'\n\tTransform
-        'QuickRigCharacter_RightShoulder'\n\tTransform 'QuickRigCharacter_RightFoot'\n\tTransform
-        'QuickRigCharacter_LeftFoot'\n\tTransform 'QuickRigCharacter_RightHand'\n\tTransform
-        'QuickRigCharacter_LeftArm'\n\tand more ...\n\tFrom animation clip 'MainCharacterIdle'"
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4e39da8b2d33374cb0379201f189c7a, type: 3}

@@ -219,7 +219,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh101108
+  m_Name: pb_Mesh38524
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -29414,6 +29414,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.010261683
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056152408992014791, guid: 342b81ead4625484593a32b28a91436f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.01870026
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056152408992014791, guid: 342b81ead4625484593a32b28a91436f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0053089643
       objectReference: {fileID: 0}
     - target: {fileID: 6063480969595477601, guid: 342b81ead4625484593a32b28a91436f,
         type: 3}
