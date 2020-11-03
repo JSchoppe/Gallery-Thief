@@ -70,10 +70,10 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: CameraRight
+    m_Name: CameraHorizontal
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
+    negativeButton: q
     positiveButton: e
     altNegativeButton: 
     altPositiveButton: 
@@ -86,7 +86,7 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: CameraLeft
+    m_Name: 
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 

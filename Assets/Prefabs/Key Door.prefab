@@ -88,11 +88,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6708033104242121809}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -11, y: 0.05, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children:
   - {fileID: 6708033103989563692}
   - {fileID: 6708033103494236216}
+  - {fileID: 4745003914129515886}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -155,7 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ce44ce604fb37449285b8ae87f3047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerBlocker: {fileID: 1319050089354472357}
   doorIdentity: 1
+  startsLocked: 1
   doorFront: {fileID: 6708033103989563692}
   doorBack: {fileID: 6708033103494236216}
 --- !u!135 &6708033104242121811
@@ -170,4 +173,48 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.8
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7161027214498473528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4745003914129515886}
+  - component: {fileID: 1319050089354472357}
+  m_Layer: 0
+  m_Name: Player Blocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4745003914129515886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161027214498473528}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: -1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6708033104242121806}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1319050089354472357
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161027214498473528}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}

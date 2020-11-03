@@ -57,6 +57,7 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
             renderer.positionCount = 2;
             renderer.SetPosition(0, laserEnds[i].position);
             renderer.SetPosition(1, laserEnds[i + 1].position);
+            renderer.material = AlarmSingleton.DefaultLaserMat;
             renderers[i / 2] = renderer;
         }
         IsEnabled = alarmEnabled;
@@ -70,6 +71,13 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
             {
                 renderers[i / 2].SetPosition(0, laserEnds[i].position);
                 renderers[i / 2].SetPosition(1, laserEnds[i + 1].position);
+
+                // Set the laser material based on the alarm state.
+                // TODO should not be set every frame.
+                if (isCurrentlyAlarmed)
+                    renderers[i / 2].material = AlarmSingleton.AlarmedLaserMat;
+                else
+                    renderers[i / 2].material = AlarmSingleton.DefaultLaserMat;
             }
         }
     }
@@ -81,18 +89,18 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
             bool suspiciousActorSeen = false;
             foreach (PlayerController actor in AlarmSingleton.SuspiciousActors)
             {
+                CapsuleCollider collider = actor.GetComponent<CapsuleCollider>();
                 for (int i = 0; i < laserEnds.Length - 1; i += 2)
                 {
-                    // TODO: Make a utility method for this somewhere else.
-                    Vector3 start = laserEnds[i].position;
-                    Vector3 end = laserEnds[i + 1].position;
-                    Vector3 player = AlarmSingleton.GetActorTorso(actor);
-                    Vector3 closestPoint = Vector3.Project(player - start, end - start) + start;
-                    closestPoint.x = Mathf.Clamp(closestPoint.x, Mathf.Min(start.x, end.x), Mathf.Max(start.x, end.x));
-                    closestPoint.y = Mathf.Clamp(closestPoint.y, Mathf.Min(start.y, end.y), Mathf.Max(start.y, end.y));
-                    closestPoint.z = Mathf.Clamp(closestPoint.z, Mathf.Min(start.z, end.z), Mathf.Max(start.z, end.z));
-                    // TODO: PlayerController needs a capsule width property to check against here.
-                    if (Vector3.Distance(player, closestPoint) < 0.5f)
+                    // Get the ray for each laser.
+                    Vector3 laserDirection = laserEnds[i + 1].position - laserEnds[i].position;
+                    Ray laserRay = new Ray
+                    {
+                        origin = laserEnds[i].position,
+                        direction = laserDirection
+                    };
+                    // Run a raycast to see if the laser crosses the player.
+                    if (collider.Raycast(laserRay, out RaycastHit hit, laserDirection.magnitude))
                     {
                         // Trigger event if this is the first actor seen
                         // and the alarm is not already in a triggered state.
