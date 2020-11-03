@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PromptTextController : MonoBehaviour
+public sealed class PromptTextController : MonoBehaviour
 {
     private TMP_Text promptText;
     Vector3 promptPosition;

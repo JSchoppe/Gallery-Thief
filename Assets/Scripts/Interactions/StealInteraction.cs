@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StealInteraction : MonoBehaviour, IInteractable
+public sealed class StealInteraction : MonoBehaviour, IInteractable
 {
-    [SerializeField] [Tooltip("The UI that changes")] GameObject promptUI = null;
-    private PromptTextController textcontroller;
-
     private void Start()
     {
-        textcontroller = promptUI.GetComponent<PromptTextController>();
-        PromptVisible = false;
+        PromptVisible = true;
         PromptMessage = "Steal";
         PromptLocation = Vector3.zero;
     }
@@ -22,25 +16,12 @@ public class StealInteraction : MonoBehaviour, IInteractable
 
     public void OnPromptEnter(PlayerController player)
     {
+
     }
 
     public void OnPromptExit(PlayerController player)
     {
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            PromptVisible = true;
-        }
-        textcontroller.OnInteractivePromptTriggered(PromptMessage, PromptVisible);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        PromptVisible = false;
-        textcontroller.OnInteractivePromptTriggered(PromptMessage, PromptVisible);
     }
 
     public void Interact()
@@ -51,8 +32,7 @@ public class StealInteraction : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// This is called once the art piece
-    /// has been stolen.
+    /// This is called once the art piece has been stolen.
     /// </summary>
     public event Action OnInteractionComplete;
 }
