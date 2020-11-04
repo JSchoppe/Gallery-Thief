@@ -40,7 +40,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
     private void Start()
     {
         PromptVisible = false;
-        PromptMessage = "Steal";
+        PromptMessage = "Steal Key";
         PromptLocation = Vector3.zero;
     }
     #endregion

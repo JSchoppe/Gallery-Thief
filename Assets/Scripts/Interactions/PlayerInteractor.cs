@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TMPro;
 
 /// <summary>
@@ -6,6 +7,11 @@ using TMPro;
 /// </summary>
 public sealed class PlayerInteractor : MonoBehaviour
 {
+    // TODO: This event routing is dubious,
+    // there should be a more explicit place
+    // that stores this player state.
+    public event Action ArtPieceStolen;
+
     #region State Enums
     private enum InteractionState : byte
     {
@@ -34,6 +40,7 @@ public sealed class PlayerInteractor : MonoBehaviour
     private void Start()
     {
         state = InteractionState.OutsideRange;
+        GameplayHUDSingleton.PlayerCanCrouch = true;
     }
     private void Update()
     {
@@ -43,8 +50,15 @@ public sealed class PlayerInteractor : MonoBehaviour
         {
             // Initiate interaction and listen for
             // completion of interaction.
-            currentInteractable.OnInteractionComplete += InteractionCompleteHandler;
+            currentInteractable.OnInteractionComplete += () =>
+            {
+                // TODO: this is a hotfix, see comment at top.
+                if (currentInteractable is StealInteraction)
+                    ArtPieceStolen?.Invoke();
+                InteractionCompleteHandler();
+            };
             state = InteractionState.Interacting;
+            GameplayHUDSingleton.PlayerCanCrouch = false;
             currentInteractable.Interact();
         }
         // TODO this is kind of a hack.
@@ -53,15 +67,21 @@ public sealed class PlayerInteractor : MonoBehaviour
         if (state != InteractionState.OutsideRange
             && currentInteractable.PromptVisible)
         {
+            GameplayHUDSingleton.InteractionFocus = currentInteractable;
+
             promptText.text = currentInteractable.PromptMessage;
             // Update the facing direction of the prompt.
             promptTransform.forward = promptTransform.position - cameraTransform.position;
         }
         else
+        {
+            GameplayHUDSingleton.InteractionFocus = null;
             promptText.text = string.Empty;
+        }
     }
     private void InteractionCompleteHandler()
     {
+        GameplayHUDSingleton.PlayerCanCrouch = false;
         currentInteractable.OnInteractionComplete -= InteractionCompleteHandler;
         state = InteractionState.OutsideRange;
     }
