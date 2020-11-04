@@ -121,6 +121,31 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &395309745 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5190818223669026844, guid: 8ce41af600e7d4146807abfb0eb78874,
+    type: 3}
+  m_PrefabInstance: {fileID: 1897544471}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &395309753
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395309745}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7277527ad9ebd2441865d2893880afbb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &692442481
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +244,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh38524
+  m_Name: pb_Mesh49452
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -29477,12 +29502,12 @@ PrefabInstance:
     - target: {fileID: 651369218333563087, guid: 342b81ead4625484593a32b28a91436f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.27291238
+      value: 0.2729124
       objectReference: {fileID: 0}
     - target: {fileID: 651369218333563087, guid: 342b81ead4625484593a32b28a91436f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.010261682
+      value: 0.010261683
       objectReference: {fileID: 0}
     - target: {fileID: 2056152408992014791, guid: 342b81ead4625484593a32b28a91436f,
         type: 3}
