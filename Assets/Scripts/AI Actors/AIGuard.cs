@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Represents the behavior of a guard.
@@ -13,6 +14,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
     // Might need to change this if the AI causes lag.
     private const float repathTime = 0.1f;
 
+    public AudioSource audioSource;
+    [SerializeField] private AudioClip[] guardFootsteps;
     #region Inspector Fields
     [Tooltip("The agent that will be used to traverse the scene.")]
     [SerializeField] private NavMeshAgent navAgent = null;
@@ -274,6 +277,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
     #region MonoBehavior Implementation
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         // Populate the inital keys that this guard has.
         stolenKeys = new List<KeyID>();
         currentKeys = new List<KeyID>();
@@ -315,6 +319,9 @@ public class AIGuard : MonoBehaviour, IKeyUser
                 // Get the direction vector from the AI to the actor.
                 Vector3 actorDirection = AlarmSingleton.GetActorTorso(actor)
                     - transform.position;
+
+                if (audioSource.isPlaying == false)
+                    audioSource.PlayOneShot(guardFootsteps[Random.Range(0, guardFootsteps.Length)]);
                 // Ignore elevation.
                 actorDirection.y = 0f;
                 // Check to see if the actor is within the personal space,
@@ -323,6 +330,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
                     ||
                     (actorDirection.magnitude < viewDistance &&
                     Vector3.Angle(actorDirection, transform.forward) < fieldOfView / 2))
+                    
+
                 {
                     // Run a linecast to make sure there isn't a
                     // wall between the guard and actor.

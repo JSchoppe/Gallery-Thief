@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour, IKeyUser
     [SerializeField] [Tooltip("How fast the player mesh rotates when changing forward directions")]
     float playerTurnSpeed = 400f;
 
+    
+    public AudioSource audioSource;
+    [SerializeField] private AudioClip[] playerFootsteps;
+
     /// <summary> forward direction of the player </summary>
     Vector3 lookRotation;
 
@@ -72,6 +76,8 @@ public class PlayerController : MonoBehaviour, IKeyUser
     
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         isHiding = false;
         keys = new List<KeyID>();
         foreach (KeyID key in startingKeys)
@@ -109,12 +115,21 @@ public class PlayerController : MonoBehaviour, IKeyUser
                 rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * crouchingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
+                audioSource.volume = 0.3f;
+                if (audioSource.isPlaying == false)
+                    audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
             }
             else
             {
                 rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * walkingSpeed * Time.fixedDeltaTime;
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
+                audioSource.volume = 2f;
+                if (audioSource.isPlaying == false)
+                    audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
+
+
+
             }
 
             // Makes sure the player faces the way it's moving
