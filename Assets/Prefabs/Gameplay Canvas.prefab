@@ -645,6 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stolenItemsText: {fileID: 2983628966064662159}
+  objectiveText: {fileID: 0}
   crouchIcon: {fileID: 7919545046636510644}
   hideIcon: {fileID: 549777377651238234}
   stealIcon: {fileID: 2623572597993388779}
@@ -1123,7 +1124,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

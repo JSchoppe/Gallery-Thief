@@ -9,6 +9,8 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     #region Inspector Fields
     [Tooltip("The text linked to the stolen items objective.")]
     [SerializeField] private Text stolenItemsText = null;
+    [Tooltip("The text linked to the current objective.")]
+    [SerializeField] private Text objectiveText = null;
     [Tooltip("The icon linked to the crouch affordance.")]
     [SerializeField] private Image crouchIcon = null;
     [Tooltip("The icon linked to the hide affordance.")]
@@ -31,6 +33,7 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     {
         instance = this;
         UpdateStolenItemsText();
+        objectiveText.text = "Steal 5 Art Pieces"; 
     }
     #endregion
     #region Singleton Accessors
@@ -72,10 +75,7 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     }
 
     //Waypoint
-    public static void WaypointHUD()
-    {
-        //escape through entry hatch
-    }
+    
     #endregion
     #region UI Binding
     private void SetCrouchFocus(bool canCrouch)
@@ -109,6 +109,8 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     {
         stolenItemsText.text = $"{stolenItemsObtained}/{stolenItemsNeeded}";
     }
+
+    
 
     
     #endregion

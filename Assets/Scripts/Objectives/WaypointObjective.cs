@@ -10,6 +10,10 @@ public sealed class WaypointObjective : Objective
 
     public override void OnObjectiveEnabled()
     {
-        GameplayHUDSingleton.WaypointHUD();
+        //update objecive
+        
+        //set text notification to active 
+
+        //set ending trigger to active
     }
 }
