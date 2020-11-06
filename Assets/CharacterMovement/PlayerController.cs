@@ -6,11 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IKeyUser
 {
     [SerializeField] 
-    float walkingSpeed = 100f;
+    float walkingSpeed = 500f;
     [SerializeField]
-    float crouchingSpeed = 2.5f;
-    [SerializeField]
-    float crawlingSpeed = 1.5f;
+    float crouchingSpeed = 300f;
     [SerializeField] [Tooltip("How fast the player mesh rotates when changing forward directions")]
     float playerTurnSpeed = 400f;
 
@@ -127,40 +125,22 @@ public class PlayerController : MonoBehaviour, IKeyUser
                 audioSource.volume = 2f;
                 if (audioSource.isPlaying == false)
                     audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
-
-
-
             }
 
             // Makes sure the player faces the way it's moving
-
-
-            // Makes sure the player faces the way it's moving
-            //lookRotation = Input.GetAxis("Horizontal") * cameraArm.right + Input.GetAxis("Vertical") * cameraArm.forward;
-            //this.mesh.rotation = Quaternion.RotateTowards(this.mesh.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
-
-
-
-
-            
-
-
             lookRotation = rb.velocity;
-            
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
-            
-            
-            
         }
         else
         {
+            // Makes sure to set the velocity to zero when the user has no input
             rb.velocity = Vector3.Scale(new Vector3(0,1,0), rb.velocity);
         }
     }
 
+    // TODO
     void CameraZoom()
     {
-        Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             // move camera closer
