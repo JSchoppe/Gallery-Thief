@@ -70,6 +70,12 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
             instance?.UpdateStolenItemsText();
         }
     }
+
+    //Waypoint
+    public static void WaypointHUD()
+    {
+        //escape through entry hatch
+    }
     #endregion
     #region UI Binding
     private void SetCrouchFocus(bool canCrouch)
@@ -103,5 +109,7 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     {
         stolenItemsText.text = $"{stolenItemsObtained}/{stolenItemsNeeded}";
     }
+
+    
     #endregion
 }

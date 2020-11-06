@@ -8,15 +8,8 @@ public sealed class WaypointObjective : Objective
 {
     public override event Action ObjectiveComplete;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnObjectiveEnabled()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameplayHUDSingleton.WaypointHUD();
     }
 }
