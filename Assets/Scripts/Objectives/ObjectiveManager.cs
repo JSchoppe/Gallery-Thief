@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Managers a sequence of objectives.
@@ -81,7 +82,7 @@ public sealed class ObjectiveManager : MonoBehaviour
     {
         // TODO add stage completion logic here.
         // Should probably call something in another script.
-        Debug.Log("Stage Completion Logic Here");
+        SceneManager.LoadScene(0);
         // TODO maybe add another objective of waypoint where
         // you must exit.
     }
