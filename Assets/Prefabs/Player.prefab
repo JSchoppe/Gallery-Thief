@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947580204473100057}
   m_LocalRotation: {x: 0.07346455, y: -0, z: -0, w: 0.9972978}
-  m_LocalPosition: {x: 0, y: -0.00000023841858, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6436374807322214071}
@@ -223,8 +223,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2170960581037709058}
-  m_LocalRotation: {x: 0.0915449, y: -0, z: -0, w: 0.995801}
-  m_LocalPosition: {x: 0, y: -0.00000023841858, z: 0}
+  m_LocalRotation: {x: 0.09154489, y: 0.000000019158932, z: -0.0000000017612979, w: 0.995801}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4551617754768128581}
@@ -711,8 +711,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3594248679085989287}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.00000023841858, z: 0}
+  m_LocalRotation: {x: 0.109642856, y: -0, z: -0, w: 0.99397105}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6641762889497563771}
@@ -1361,7 +1361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 300
   crouchingSpeed: 2.5
-  crawlingSpeed: 1
   playerTurnSpeed: 200
   audioSource: {fileID: 0}
   playerFootsteps:
@@ -1415,7 +1414,8 @@ AudioSource:
   m_GameObject: {fileID: 7034251574549214653}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 513fdd4b6363eeb4d9d6b9d6073a4193,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

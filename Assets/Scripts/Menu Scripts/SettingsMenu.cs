@@ -20,6 +20,15 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        //TODO: this is kind of ugly and will most definitely need to be changed when we add mixers for sfx and music
+        Slider volumeSlider = GetComponentInChildren<Slider>();
+        float currentVolume;
+
+        audioMixer.GetFloat("Volume", out currentVolume);
+
+        volumeSlider.value = currentVolume;
+
+
         resolutions = Screen.resolutions;
 
         resolutionsDropdown.ClearOptions();
@@ -36,7 +45,7 @@ public class SettingsMenu : MonoBehaviour
 
     /// <summary>
     /// This sets the master volume.
-    /// Min value is 80dB, max value is 0dB.
+    /// Min value is 60dB, max value is 0dB.
     /// </summary>
     public void SetMasterVolume(float volume)
     {

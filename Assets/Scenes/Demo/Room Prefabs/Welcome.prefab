@@ -2387,6 +2387,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Alarm Camera (Stationary) (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8351925120199554058, guid: 453e2b6105f9f6a4390599b85fac981a,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 513fdd4b6363eeb4d9d6b9d6073a4193,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 453e2b6105f9f6a4390599b85fac981a, type: 3}
 --- !u!4 &1013871680139504032 stripped
@@ -2402,6 +2408,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4781734336691359614}
     m_Modifications:
+    - target: {fileID: -5727577931558593231, guid: a6e939f38852789469c6711a185525d5,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 513fdd4b6363eeb4d9d6b9d6073a4193,
+        type: 2}
     - target: {fileID: 5359113831126894252, guid: a6e939f38852789469c6711a185525d5,
         type: 3}
       propertyPath: m_LocalPosition.y
