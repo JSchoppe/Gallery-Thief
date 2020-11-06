@@ -20,6 +20,8 @@ public sealed class PauseInteractionLogic : MonoBehaviour
     #region Inspector Fields
     [Tooltip("The top level panel for the pause screen.")]
     [SerializeField] private GameObject gameMenuPanel = null;
+    [Tooltip("The panel for the settings screen.")]
+    [SerializeField] private GameObject settingsMenuPanel = null;
     #endregion
     #region Private Fields
     private bool isPaused;
@@ -52,6 +54,19 @@ public sealed class PauseInteractionLogic : MonoBehaviour
     #endregion
     #region UI Binding
     public void OnResumePressed() { Resume(); }
+
+    public void OnSettingsPressed()
+    {
+        settingsMenuPanel.SetActive(true);
+        gameMenuPanel.SetActive(false);
+    }
+
+    public void OnSettingsBackPressed()
+    {
+        settingsMenuPanel.SetActive(false);
+        gameMenuPanel.SetActive(true);
+    }
+
     public void OnQuitPressed()
     {
         // TODO add the routing back to the menu.
