@@ -801,6 +801,7 @@ MonoBehaviour:
   personalSpaceRadius: 1.5
   renderDebug: 1
   debugRenderer: {fileID: 5190818224567345438}
+  anim: {fileID: 862827457974602082}
 --- !u!114 &5190818223669026850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,7 +876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5190818224567345433
 Transform:
   m_ObjectHideFlags: 0
@@ -1163,6 +1164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5802095866414705434}
+  - component: {fileID: 1248302248701935318}
   - component: {fileID: 5007722704065639621}
   - component: {fileID: 862827457974602082}
   m_Layer: 0
@@ -1189,6 +1191,14 @@ Transform:
   m_Father: {fileID: 5190818223669026848}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1248302248701935318
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6615506238125470112}
+  m_Mesh: {fileID: 0}
 --- !u!23 &5007722704065639621
 MeshRenderer:
   m_ObjectHideFlags: 0

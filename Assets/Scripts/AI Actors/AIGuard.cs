@@ -44,6 +44,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
     [SerializeField] private bool renderDebug = true;
     [Tooltip("The renderer that displays the collider and state of the AI.")]
     [SerializeField] private Renderer debugRenderer = null;
+    //animator
+    [SerializeField] private Animator anim;
     #endregion
     #region Private Fields
     private AIBehaviorState currentBehavior;
@@ -350,6 +352,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                 Vector3.RotateTowards(transform.forward, stationaryDirection,
                 pivotSpeed * Time.deltaTime, float.MaxValue);
         }
+        anim.SetBool("isWalking", false);
     }
     private void PatrollingUpdate()
     {
@@ -364,6 +367,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
             // Retarget the AI towards the next patrol point.
             navAgent.SetDestination(patrolRoute[patrolIndex].position);
         }
+        anim.SetBool("isWalking", false);
     }
     private void InvestigatingUpdate()
     {
@@ -385,6 +389,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                     Behavior = AIBehaviorState.Patrolling;
             }
         }
+        anim.SetBool("isWalking", false);
     }
     private void ChasingUpdate()
     {
@@ -398,6 +403,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
         if (Vector3.Distance(transformCurrentlyChasing.position, transform.position) < personalSpaceRadius)
             LevelStateSingleton.NotifyPlayerCaught(
                 transformCurrentlyChasing.GetComponent<PlayerController>());
+        anim.SetBool("isWalking", true);
     }
     // This is run alongside chasing
     // update but not as frequently.
