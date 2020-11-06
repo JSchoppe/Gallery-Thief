@@ -41,6 +41,7 @@ public sealed class StealAnyObjective : Objective
         GameplayHUDSingleton.StolenItemsObtained = totalStolen;
         if (totalStolen >= amountToSteal)
             ObjectiveComplete?.Invoke();
+        //add waypoint hud here
     }
     #endregion
 }
