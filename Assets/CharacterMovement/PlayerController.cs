@@ -96,21 +96,22 @@ public class PlayerController : MonoBehaviour, IKeyUser
     /// <summary> Updates the inputs from the player </summary>
     void UpdateMovement()
     {
-        // Gets direction of axises
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        // Gets direction of axes
+        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         // Input variables for Crouching and Crawling
         bool crouching = Input.GetButton("Crouch");
         bool crawling = Input.GetButton("Crawl");
 
         // changes position of player if any direction is used
-        if (horizontal > 0 || horizontal < 0 || vertical > 0 || vertical < 0)
+        if (input != Vector2.zero)
         {
+            input.Normalize();
             // Changes movement speed and player collider
             if (crouching)
             {
-                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * crouchingSpeed * Time.fixedDeltaTime;
+                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * crouchingSpeed * Time.fixedDeltaTime
+                    + Vector3.up * rb.velocity.y;
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
                 audioSource.volume = 0.3f;
@@ -119,7 +120,8 @@ public class PlayerController : MonoBehaviour, IKeyUser
             }
             else
             {
-                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * vertical) + (camera.right * horizontal)) * walkingSpeed * Time.fixedDeltaTime;
+                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * walkingSpeed * Time.fixedDeltaTime
+                    + Vector3.up * rb.velocity.y;
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
                 audioSource.volume = 2f;
@@ -128,7 +130,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
             }
 
             // Makes sure the player faces the way it's moving
-            lookRotation = rb.velocity;
+            lookRotation = Vector3.Scale(rb.velocity, new Vector3(1f, 0f, 1f));
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
         }
         else
