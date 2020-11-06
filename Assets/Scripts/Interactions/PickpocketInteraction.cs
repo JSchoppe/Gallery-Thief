@@ -12,6 +12,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
     [SerializeField] private float stealAngle = 30f;
     [Range(1f, 10f)][Tooltip("Controls the distance leniency that the player can steal keys.")]
     [SerializeField] private float stealDistance = 4f;
+    
     #endregion
     #region Private Fields
     private PlayerController nearbyPlayer;
@@ -37,11 +38,15 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
     }
     #endregion
     #region State Initialization
+    public AudioSource audioSource;
+    [SerializeField] private AudioClip keySteal;
+
     private void Start()
     {
         PromptVisible = false;
         PromptMessage = "Steal Key";
         PromptLocation = Vector3.zero;
+        audioSource = GetComponent<AudioSource>();
     }
     #endregion
     #region IInteractable Piping
@@ -131,6 +136,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
             if (key.IsStealable)
             {
                 // Grant the key to the player.
+                audioSource.PlayOneShot(keySteal);
                 nearbyPlayer.GrantKey(key.KeyIdentity);
                 Destroy(key);
                 break;

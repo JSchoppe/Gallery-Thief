@@ -20,6 +20,10 @@ public sealed class StealInteraction : MonoBehaviour, IInteractable
     #region Inspector Fields
     [Range(0, 10)][Tooltip("The number of seconds required to steal this piece.")]
     [SerializeField] private int stealTime = 5;
+
+    public AudioSource audioSource;
+    [SerializeField] private AudioClip artStealing;
+
     #endregion
     #region Fields (Player and Animation State)
     private PlayerController nearbyPlayer;
@@ -36,6 +40,7 @@ public sealed class StealInteraction : MonoBehaviour, IInteractable
     {
         // TODO actually use this when rendering the prompt.
         PromptLocation = transform.forward + Vector3.up;
+        audioSource = GetComponent<AudioSource>();
     }
     #endregion
     #region IInteractable - Handle Nearby Players
@@ -59,6 +64,7 @@ public sealed class StealInteraction : MonoBehaviour, IInteractable
     {
         nearbyPlayer.IsMovementLocked = true;
         StartCoroutine(WhileStealing());
+        audioSource.PlayOneShot(artStealing);
     }
     private IEnumerator WhileStealing()
     {

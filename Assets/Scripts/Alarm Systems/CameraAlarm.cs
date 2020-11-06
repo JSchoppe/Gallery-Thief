@@ -28,6 +28,10 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
     [SerializeField] private Transform[] keyFocalPoints = null;
     [Tooltip("Defines the wait time at each focal point.")]
     [SerializeField] private float[] keyPointsHoldTime = null;
+
+    public AudioSource audioSource;
+    [SerializeField] private AudioClip cameraAlarm;
+
     private void OnValidate()
     {
         for (int i = 0; i < keyPointsHoldTime.Length; i++)
@@ -72,6 +76,8 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
     private void Start()
     {
         // Initialize animation state if necessary.
+        audioSource = GetComponent<AudioSource>();
+
         doesAnimate = (keyFocalPoints.Length > 0);
         if (doesAnimate)
         {
@@ -174,6 +180,8 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
             {
                 // Trigger event if this is the first actor seen
                 // and the alarm is not already in a triggered state.
+                if (audioSource.isPlaying == false)
+                    audioSource.PlayOneShot(cameraAlarm);
                 suspiciousActorSeen = true;
                 if (!isCurrentlyAlarmed)
                 {
