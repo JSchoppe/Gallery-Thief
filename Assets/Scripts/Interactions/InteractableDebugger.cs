@@ -15,7 +15,7 @@ public sealed class InteractableDebugger : MonoBehaviour
         if (toTest != null)
         {
             toTest.OnPromptEnter(withPlayer);
-            toTest.OnInteractionComplete += () => Debug.Log("Interaction Completed");
+            toTest.InteractionComplete += () => Debug.Log("Interaction Completed");
         }
         else
             Debug.LogError("The test interactable must implement IInteractable!");

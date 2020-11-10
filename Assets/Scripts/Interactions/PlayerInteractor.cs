@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 /// <summary>
 /// Manages interaction with IInteractables.
@@ -15,7 +16,7 @@ public sealed class PlayerInteractor : MonoBehaviour
     #region State Enums
     private enum InteractionState : byte
     {
-        OutsideRange, InsideRange, Interacting
+        Free, Interacting
     }
     #endregion
     #region Inspector Fields
@@ -34,44 +35,90 @@ public sealed class PlayerInteractor : MonoBehaviour
     #endregion
     #region Fields
     private InteractionState state;
-    private IInteractable currentInteractable;
+    private IInteractable focusedInteractable;
+    private List<IInteractable> nearbyInteractables;
     #endregion
     #region MonoBehaviour Implementation
     private void Start()
     {
-        state = InteractionState.OutsideRange;
+        state = InteractionState.Free;
+        nearbyInteractables = new List<IInteractable>();
         GameplayHUDSingleton.PlayerCanCrouch = true;
     }
     private void Update()
     {
         // Check for interaction.
-        if (Input.GetKeyDown(interactKey)
-            && state == InteractionState.InsideRange)
+        switch (state)
         {
-            // Initiate interaction and listen for
-            // completion of interaction.
-            currentInteractable.OnInteractionComplete += () =>
-            {
-                // TODO: this is a hotfix, see comment at top.
-                if (currentInteractable is StealInteraction)
-                    ArtPieceStolen?.Invoke();
-                InteractionCompleteHandler();
-            };
-            state = InteractionState.Interacting;
-            GameplayHUDSingleton.PlayerCanCrouch = false;
-            currentInteractable.Interact();
-        }
-        // TODO this is kind of a hack.
-        // Find a better way to do this that doesn't
-        // require a check every frame.
-        if (state != InteractionState.OutsideRange
-            && currentInteractable.PromptVisible)
-        {
-            GameplayHUDSingleton.InteractionFocus = currentInteractable;
+            case InteractionState.Free:
+                ScanInteractables();
+                ProcessInput();
+                break;
+            case InteractionState.Interacting:
 
-            promptText.text = currentInteractable.PromptMessage;
+                break;
+        }
+
+        void ScanInteractables()
+        {
+            if (nearbyInteractables.Count > 0)
+            {
+                IInteractable nearestInteractable = null;
+                float nearestDistance = float.MaxValue;
+                foreach (IInteractable interactable in nearbyInteractables)
+                {
+                    float squaredDistance =
+                        transform.position.SquaredDistanceTo(interactable.InteractionVisiblePoint);
+                    if (squaredDistance < nearestDistance
+                        && !Physics.Linecast(transform.position, interactable.InteractionVisiblePoint))
+                    {
+                        nearestInteractable = interactable;
+                        nearestDistance = squaredDistance;
+                    }
+                }
+                if (nearestInteractable != focusedInteractable)
+                {
+                    focusedInteractable?.OnPromptExit(player);
+                    focusedInteractable = nearestInteractable;
+                    focusedInteractable?.OnPromptEnter(player);
+                }
+            }
+            else
+                focusedInteractable = null;
+        }
+        void ProcessInput()
+        {
+            if (Input.GetKeyDown(interactKey)
+                && focusedInteractable != null)
+            {
+                // Initiate interaction and listen for
+                // completion of interaction.
+                if (focusedInteractable is StealInteraction)
+                {
+                    focusedInteractable.InteractionComplete += () =>
+                    {
+                        // TODO: this is a hotfix, see comment at top.
+                        ArtPieceStolen?.Invoke();
+                        OnInteractionComplete();
+                    };
+                }
+                else
+                    focusedInteractable.InteractionComplete += OnInteractionComplete;
+                state = InteractionState.Interacting;
+                GameplayHUDSingleton.PlayerCanCrouch = false;
+                focusedInteractable.Interact();
+            }
+        }
+
+        if (focusedInteractable != null
+            && focusedInteractable.PromptVisible)
+        {
+            GameplayHUDSingleton.InteractionFocus = focusedInteractable;
+
+            promptText.text = focusedInteractable.PromptMessage;
             // Update the facing direction of the prompt.
             promptTransform.forward = promptTransform.position - cameraTransform.position;
+            promptTransform.position = focusedInteractable.PromptLocation;
         }
         else
         {
@@ -79,56 +126,28 @@ public sealed class PlayerInteractor : MonoBehaviour
             promptText.text = string.Empty;
         }
     }
-    private void InteractionCompleteHandler()
+    private void OnInteractionComplete()
     {
-        GameplayHUDSingleton.PlayerCanCrouch = false;
-        currentInteractable.OnInteractionComplete -= InteractionCompleteHandler;
-        state = InteractionState.OutsideRange;
+        GameplayHUDSingleton.PlayerCanCrouch = true;
+        focusedInteractable.InteractionComplete -= OnInteractionComplete;
+        state = InteractionState.Free;
     }
     #endregion
     #region Interactables Trigger Processing
     private void OnTriggerEnter(Collider other)
     {
-        IInteractable interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
+        if (other.HasComponent(out IInteractable interactable)
+            && !nearbyInteractables.Contains(interactable))
         {
-            switch (state)
-            {
-                case InteractionState.OutsideRange:
-                    currentInteractable = interactable;
-                    interactable.OnPromptEnter(player);
-                    state = InteractionState.InsideRange;
-                    break;
-                case InteractionState.InsideRange:
-                    // Prefer pickpocketing since it is a moving trigger.
-                    if (interactable is PickpocketInteraction)
-                    {
-                        currentInteractable.OnPromptExit(player);
-                        interactable.OnPromptEnter(player);
-                        currentInteractable = interactable;
-                    }
-                    // Otherwise the existing interaction is not written over.
-                    break;
-                case InteractionState.Interacting:
-                    // If the player is already busy in an interaction,
-                    // then don't do anything with this new interactor.
-                    break;
-            }
+            nearbyInteractables.Add(interactable);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        IInteractable interactable = other.GetComponent<IInteractable>();
-        if (interactable != null)
+        if (other.HasComponent(out IInteractable interactable)
+            && nearbyInteractables.Contains(interactable))
         {
-            // Remove focus from the interactable if
-            // it has focus.
-            if (state != InteractionState.Interacting
-                && interactable == currentInteractable)
-            {
-                interactable.OnPromptExit(player);
-                state = InteractionState.OutsideRange;
-            }
+            nearbyInteractables.Remove(interactable);
         }
     }
     #endregion

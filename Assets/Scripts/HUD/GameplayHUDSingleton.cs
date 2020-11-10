@@ -33,7 +33,7 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     {
         instance = this;
         UpdateStolenItemsText();
-        objectiveText.text = "Steal 5 Art Pieces"; 
+        //objectiveText.text = "Steal 5 Art Pieces"; 
     }
     #endregion
     #region Singleton Accessors
@@ -73,9 +73,6 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
             instance?.UpdateStolenItemsText();
         }
     }
-
-    //Waypoint
-    
     #endregion
     #region UI Binding
     private void SetCrouchFocus(bool canCrouch)
@@ -109,9 +106,5 @@ public sealed class GameplayHUDSingleton : MonoBehaviour
     {
         stolenItemsText.text = $"{stolenItemsObtained}/{stolenItemsNeeded}";
     }
-
-    
-
-    
     #endregion
 }
