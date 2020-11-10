@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Managers a sequence of objectives.
 /// </summary>
-public sealed class ObjectiveManager : MonoBehaviour
+public sealed class ObjectiveManager : MonoBehaviour, IProgressCheater
 {
     #region Enums
     private enum Completion : byte
@@ -36,6 +36,10 @@ public sealed class ObjectiveManager : MonoBehaviour
     #region Objective Routing Logic
     private void RefreshObjectives()
     {
+        // This list needs to be accumulated and marked
+        // after the following foreach iterator. Otherwise
+        // the compiler throws a fit for modifying the collection.
+        List<IObjective> markedInProgress = new List<IObjective>();
         foreach (IObjective objective in objectiveState.Keys)
         {
             // Should we consider starting this objective?
@@ -55,7 +59,7 @@ public sealed class ObjectiveManager : MonoBehaviour
                 {
                     // Start the objective.
                     objective.OnObjectiveEnabled();
-                    objectiveState[objective] = Completion.InProgress;
+                    markedInProgress.Add(objective);
                     // Listen for the completion of the event.
                     if (finalObjectives.Contains((Objective)objective))
                     {
@@ -77,6 +81,8 @@ public sealed class ObjectiveManager : MonoBehaviour
                 }
             }
         }
+        foreach (IObjective objective in markedInProgress)
+            objectiveState[objective] = Completion.InProgress;
     }
     private void OnStageComplete(IObjective completionObjective)
     {
@@ -85,6 +91,30 @@ public sealed class ObjectiveManager : MonoBehaviour
         SceneManager.LoadScene(0);
         // TODO maybe add another objective of waypoint where
         // you must exit.
+    }
+    #endregion
+    #region Cheating Implementation
+    public void IncrementProgress()
+    {
+        foreach (IObjective objective in objectiveState.Keys)
+        {
+            if (objectiveState[objective] == Completion.InProgress
+                && objective is IProgressCheater cheater)
+            {
+                cheater.IncrementProgress();
+            }
+        }
+    }
+    public void DecrementProgress()
+    {
+        foreach (IObjective objective in objectiveState.Keys)
+        {
+            if (objectiveState[objective] == Completion.InProgress
+                && objective is IProgressCheater cheater)
+            {
+                cheater.DecrementProgress();
+            }
+        }
     }
     #endregion
 }

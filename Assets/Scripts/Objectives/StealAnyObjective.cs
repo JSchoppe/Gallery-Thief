@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Objective requiring the player to steal a number of art pieces.
 /// </summary>
-public sealed class StealAnyObjective : Objective
+public sealed class StealAnyObjective : Objective, IProgressCheater
 {
     #region Event Piping
     /// <summary>
@@ -41,7 +41,20 @@ public sealed class StealAnyObjective : Objective
         GameplayHUDSingleton.StolenItemsObtained = totalStolen;
         if (totalStolen >= amountToSteal)
             ObjectiveComplete?.Invoke();
-        //add waypoint hud here
+    }
+    #endregion
+    #region Cheating Implementation
+    public void IncrementProgress()
+    {
+        totalStolen++;
+        GameplayHUDSingleton.StolenItemsObtained = totalStolen;
+        if (totalStolen >= amountToSteal)
+            ObjectiveComplete?.Invoke();
+    }
+    public void DecrementProgress()
+    {
+        totalStolen--;
+        GameplayHUDSingleton.StolenItemsObtained = totalStolen;
     }
     #endregion
 }

@@ -9,58 +9,58 @@ using UnityEngine;
 /// An interaction where the player steals an art piece.
 /// After stealing the piece is removed from the scene.
 /// </summary>
-public sealed class StealInteraction : MonoBehaviour, IInteractable
+public sealed class StealInteraction : Interaction
 {
     #region Events
     /// <summary>
     /// This is called once the player is done stealing.
     /// </summary>
-    public event Action OnInteractionComplete;
+    public override event Action InteractionComplete;
     #endregion
     #region Inspector Fields
+    [Header("Stealing Parameters")]
     [Range(0, 10)][Tooltip("The number of seconds required to steal this piece.")]
     [SerializeField] private int stealTime = 5;
-
-    public AudioSource audioSource;
-    [SerializeField] private AudioClip artStealing;
-
+    [Header("Audio References")]
+    [Tooltip("The audio source that will play the stealing SFX.")]
+    [SerializeField] private AudioSource audioSource = null;
+    [Tooltip("The art stealing SFX.")]
+    [SerializeField] private AudioClip artStealing = null;
+    #endregion
+    #region Interaction Property Overrides
+    public override Vector3 PromptLocation
+    {
+        get { return interactionVisibleTransform.position; }
+    }
     #endregion
     #region Fields (Player and Animation State)
     private PlayerController nearbyPlayer;
-    private Vector3 animatedPosition;
-    private Vector3 animatedDirection;
-    #endregion
-    #region IInteractable Properties
-    public bool PromptVisible { get; private set; }
-    public Vector3 PromptLocation { get; private set; }
-    public string PromptMessage { get; private set; }
     #endregion
     #region Initialization
     private void Start()
     {
         // TODO actually use this when rendering the prompt.
         PromptLocation = transform.forward + Vector3.up;
-        audioSource = GetComponent<AudioSource>();
     }
     #endregion
     #region IInteractable - Handle Nearby Players
     // TODO these functions need to be revised if
     // multiple players are added.
-    public void OnPromptEnter(PlayerController player)
+    public override void OnPromptEnter(PlayerController player)
     {
         PromptMessage = $"Steal ({stealTime}s)";
         PromptVisible = true;
         nearbyPlayer = player;
     }
-    public void OnPromptExit(PlayerController player)
+    public override void OnPromptExit(PlayerController player)
     {
 
     }
     #endregion
-    #region Interaction and Animation Definition
+    #region Interaction and Animation
     // TODO this is messy; should implement actual
     // animation cycle.
-    public void Interact()
+    public override void Interact()
     {
         nearbyPlayer.IsMovementLocked = true;
         StartCoroutine(WhileStealing());
@@ -80,7 +80,7 @@ public sealed class StealInteraction : MonoBehaviour, IInteractable
         PromptMessage = string.Empty;
         nearbyPlayer.IsMovementLocked = false;
         nearbyPlayer.PaintingsStolen++;
-        OnInteractionComplete?.Invoke();
+        InteractionComplete?.Invoke();
         Destroy(gameObject);
     }
     #endregion

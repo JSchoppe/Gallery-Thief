@@ -5,16 +5,23 @@ using UnityEngine;
 /// <summary>
 /// An interaction where a player can steal a key from a guard.
 /// </summary>
-public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
+public sealed class PickpocketInteraction : Interaction
 {
+    #region Events
+    /// <summary>
+    /// This is called once the pickpocketing has completed
+    /// or has been rejected due to position.
+    /// </summary>
+    public override event Action InteractionComplete;
+    #endregion
     #region Inspector Fields
+    [Header("Pickpocketing Parameters")]
     [Range(5f, 90f)][Tooltip("Controls the angle leniency that the player can steal keys.")]
     [SerializeField] private float stealAngle = 30f;
     [Range(1f, 10f)][Tooltip("Controls the distance leniency that the player can steal keys.")]
     [SerializeField] private float stealDistance = 4f;
-    
     #endregion
-    #region Private Fields
+    #region Fields (Animation State)
     private PlayerController nearbyPlayer;
     private Coroutine validate;
     #endregion
@@ -22,7 +29,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        // Draw a primitive arc to demonstrate the interaction area.
+        // Draw an arc to demonstrate the interaction area.
         Vector3 backCenter = -transform.forward;
         Vector3 backRight = Vector3.RotateTowards(backCenter,
             transform.right, stealAngle * Mathf.Deg2Rad, float.MaxValue);
@@ -49,28 +56,19 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
         audioSource = GetComponent<AudioSource>();
     }
     #endregion
-    #region IInteractable Piping
-    public bool PromptVisible { get; private set; }
-    public Vector3 PromptLocation { get; private set; }
-    public string PromptMessage { get; private set; }
-    public void OnPromptEnter(PlayerController player)
+    #region IInteractable - Handle Nearby Players
+    public override void OnPromptEnter(PlayerController player)
     {
         // TODO: this is not multiplayer safe.
         nearbyPlayer = player;
         validate = StartCoroutine(ValidateInteraction());
     }
-    public void OnPromptExit(PlayerController player)
+    public override void OnPromptExit(PlayerController player)
     {
         StopCoroutine(validate);
         PromptVisible = false;
     }
-    /// <summary>
-    /// This is called once the pickpocketing has completed
-    /// or has been rejected due to position.
-    /// </summary>
-    public event Action OnInteractionComplete;
     #endregion
-
     #region Proximity Checking
     private IEnumerator ValidateInteraction()
     {
@@ -107,10 +105,10 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
         }
     }
     #endregion
-    #region IInteraction
+    #region Interaction and Animation
     // This is called when the player
     // pressed the interact button
-    public void Interact()
+    public override void Interact()
     {
         // If the player is currently in the prompt range,
         // then start stealing the key.
@@ -118,7 +116,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
             StartCoroutine(StealKeyAnimation());
         // Otherwise reject this interaction attempt.
         else
-            OnInteractionComplete?.Invoke();
+            InteractionComplete?.Invoke();
     }
     private IEnumerator StealKeyAnimation()
     {
@@ -143,7 +141,7 @@ public sealed class PickpocketInteraction : MonoBehaviour, IInteractable
             }
         }
         // Release interaction state.
-        OnInteractionComplete?.Invoke();
+        InteractionComplete?.Invoke();
     }
     #endregion
 }
