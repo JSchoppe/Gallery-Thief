@@ -21,6 +21,10 @@ public sealed class StealInteraction : Interaction
     [Header("Stealing Parameters")]
     [Range(0, 10)][Tooltip("The number of seconds required to steal this piece.")]
     [SerializeField] private int stealTime = 5;
+    // TODO this should not be an inspector field!!!
+    // Implement new input system.
+    [Tooltip("The key that the player can release to stop stealing.")]
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
     [Header("Audio References")]
     [Tooltip("The audio source that will play the stealing SFX.")]
     [SerializeField] private AudioSource audioSource = null;
@@ -48,7 +52,7 @@ public sealed class StealInteraction : Interaction
     // multiple players are added.
     public override void OnPromptEnter(PlayerController player)
     {
-        PromptMessage = $"Steal ({stealTime}s)";
+        PromptMessage = $"Steal";
         PromptVisible = true;
         nearbyPlayer = player;
     }
@@ -68,20 +72,39 @@ public sealed class StealInteraction : Interaction
     }
     private IEnumerator WhileStealing()
     {
+        // TODO: this string should be made
+        // into an inspector field. Maybe
+        // inherit this from Interaction class.
+        PromptMessage = "Stealing...";
         float timeRemaining = stealTime;
         while (true)
         {
-            timeRemaining -= Time.deltaTime;
-            if (timeRemaining < 0f)
+            // If the player releases the interact key
+            // they can abort this stealing.
+            if (!Input.GetKey(interactKey))
+            {
+                PromptProgress = 0f;
+                PromptMessage = "Steal";
                 break;
-            PromptMessage = $"Stealing... ({Mathf.CeilToInt(timeRemaining)}s)";
+            }
+
+            // Check the remaining time.
+            timeRemaining -= Time.deltaTime;
+            PromptProgress = Mathf.Clamp((stealTime - timeRemaining) / stealTime, 0f, 1f);
+            if (timeRemaining < 0f)
+            {
+                // TODO this is a hot fix. Player state needs to be
+                // better stolen. Perhaps an objective singleton to handle
+                // objective event routing.
+                FindObjectOfType<PlayerInteractor>().TriggerArtStolen();
+                InteractionComplete?.Invoke();
+                Destroy(gameObject);
+                break;
+            }
             yield return null;
         }
-        PromptMessage = string.Empty;
         nearbyPlayer.IsMovementLocked = false;
-        nearbyPlayer.PaintingsStolen++;
         InteractionComplete?.Invoke();
-        Destroy(gameObject);
     }
     #endregion
 }
