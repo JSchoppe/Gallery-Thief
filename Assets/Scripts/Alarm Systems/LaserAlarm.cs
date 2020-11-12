@@ -13,6 +13,9 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
     [SerializeField] private Transform[] laserEnds = null;
     [Tooltip("Interpolant speed that this laser re-extends at.")]
     [SerializeField] private float restoreSpeed = 5f;
+    [Header("Audio References")]
+    [Tooltip("The audio source that plays an alarm sound.")]
+    [SerializeField] private AudioSource alarmSource = null;
     #endregion
     #region Private Fields
     private LineRenderer[] renderers;
@@ -112,6 +115,7 @@ public sealed class LaserAlarm : MonoBehaviour, IAlarmSystem
                         suspiciousActorSeen = true;
                         if (!isCurrentlyAlarmed)
                         {
+                            //alarmSource.Play();
                             isCurrentlyAlarmed = true;
                             OnTriggered?.Invoke(actor);
                         }
