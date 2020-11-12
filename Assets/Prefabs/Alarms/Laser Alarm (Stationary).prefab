@@ -110,6 +110,8 @@ MonoBehaviour:
   laserEnds:
   - {fileID: 5359113831130446846}
   - {fileID: 5359113831126894252}
+  restoreSpeed: 5
+  alarmSource: {fileID: 0}
 --- !u!82 &-5727577931558593231
 AudioSource:
   m_ObjectHideFlags: 0
@@ -120,7 +122,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 109eb5cb3e6585549bcd99ee403dec84, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9aec014add98bc34c8d6db3621c03b02, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

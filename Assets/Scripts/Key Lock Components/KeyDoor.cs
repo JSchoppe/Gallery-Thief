@@ -57,6 +57,7 @@ public sealed class KeyDoor : MonoBehaviour, IInteractable
     public string PromptMessage { get; private set; }
     // TODO not implemented:
     public Vector3 InteractionVisiblePoint => Vector3.zero;
+    public float PromptProgress => 1f;
     #endregion
 
     private void Start()

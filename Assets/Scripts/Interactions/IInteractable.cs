@@ -36,6 +36,10 @@ public interface IInteractable
     /// </summary>
     string PromptMessage { get; }
     /// <summary>
+    /// Interpolant between 0-1 that communicates meter fill on prompt.
+    /// </summary>
+    float PromptProgress { get; }
+    /// <summary>
     /// To interact a linecast must clear between the player and this point.
     /// </summary>
     Vector3 InteractionVisiblePoint { get; }
@@ -72,6 +76,10 @@ public abstract class Interaction : MonoBehaviour, IInteractable
     /// The contextual location of the interaction prompt.
     /// </summary>
     public virtual Vector3 PromptLocation { get; protected set; }
+    /// <summary>
+    /// The progress of the interaction.
+    /// </summary>
+    public virtual float PromptProgress { get; protected set; }
     /// <summary>
     /// Point in 3D space that should be linecast clear for interaction to take place.
     /// </summary>
