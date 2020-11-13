@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
     
     void Update()
     {
-        CameraZoom();
+       
     }
 
     private void FixedUpdate()
@@ -124,6 +124,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
                     + Vector3.up * rb.velocity.y;
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
+
                 audioSource.volume = 2f;
                 if (audioSource.isPlaying == false)
                     audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
@@ -137,19 +138,6 @@ public class PlayerController : MonoBehaviour, IKeyUser
         {
             // Makes sure to set the velocity to zero when the user has no input
             rb.velocity = Vector3.Scale(new Vector3(0,1,0), rb.velocity);
-        }
-    }
-
-    // TODO
-    void CameraZoom()
-    {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            // move camera closer
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            // move camera away
         }
     }
 

@@ -13,6 +13,10 @@ public class CameraController : MonoBehaviour
     Camera camera;
     GameObject player;
 
+    float zoomSpeed;
+    float horizontalSensitivity = 20f;
+    float verticalSensitivity = 20f;
+
     MeshRenderer ceiling;
 
     private void Start()
@@ -24,6 +28,7 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         CameraRotation();
+        CameraZoom();
 
         ray = camera.ScreenPointToRay(player.transform.position);
 
@@ -46,7 +51,18 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            camera.transform.Translate(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"), 0.0f);
+            camera.transform.RotateAround(player.transform.position, Vector3.up, Input.GetAxis("Mouse Y") * horizontalSensitivity * Time.deltaTime);
+            //camera.transform.Rotate(-Input.GetAxis("Mouse Y"), -Input.GetAxis("Mouse X"), 0.0f);
+        }
+    }
+
+    void CameraZoom()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        {
+            Ray ray = camera.ScreenPointToRay(player.transform.position);
+            float zoomDistance = zoomSpeed * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime;
+            camera.transform.Translate(ray.direction * zoomDistance, Space.World);
         }
     }
 
