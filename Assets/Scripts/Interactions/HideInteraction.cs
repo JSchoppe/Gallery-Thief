@@ -5,15 +5,18 @@ using UnityEngine;
 /// <summary>
 /// An interaction where the player hides in a static location.
 /// </summary>
-public sealed class HideInteraction : MonoBehaviour, IInteractable
+public sealed class HideInteraction : Interaction
 {
     #region Events
     /// <summary>
     /// This is called once the player is done hiding.
     /// </summary>
-    public event Action OnInteractionComplete;
+    public override event Action InteractionComplete;
     #endregion
     #region Inspector Fields
+    [Tooltip("The location of the interaction prompt in space.")]
+    [SerializeField] private Transform promptLocation = null;
+    [Header("Hiding Parameters")]
     [Tooltip("The key to press to exit hiding.")]
     [SerializeField] private KeyCode exitHidingKey = KeyCode.E;
     [Range(0.2f, 5f)][Tooltip("Controls the rate at which the enter-exit animations play.")]
@@ -21,15 +24,19 @@ public sealed class HideInteraction : MonoBehaviour, IInteractable
     [Range(0.5f, 5f)][Tooltip("Controls how far the player is ejected from the hiding spot.")]
     [SerializeField] private float exitDistance = 1f;
     #endregion
+    #region Interaction Property Overrides
+    public override Vector3 PromptLocation
+    {
+        get { return promptLocation.position; }
+    }
+    // Hiding does not use prompt progress so it
+    // will always show 1.
+    public override float PromptProgress => 1f;
+    #endregion
     #region Fields (Player and Animation State)
     private PlayerController nearbyPlayer;
     private Vector3 animatedPosition;
     private Vector3 animatedDirection;
-    #endregion
-    #region IInteractable Properties
-    public bool PromptVisible { get; private set; }
-    public Vector3 PromptLocation { get; private set; }
-    public string PromptMessage { get; private set; }
     #endregion
     #region Initialization
     private void Start()
@@ -41,23 +48,23 @@ public sealed class HideInteraction : MonoBehaviour, IInteractable
     #region IInteractable - Handle Nearby Players
     // TODO these functions need to be revised if
     // multiple players are added.
-    public void OnPromptEnter(PlayerController player)
+    public override void OnPromptEnter(PlayerController player)
     {
         PromptMessage = "Hide";
         PromptVisible = true;
         nearbyPlayer = player;
     }
-    public void OnPromptExit(PlayerController player)
+    public override void OnPromptExit(PlayerController player)
     {
         
     }
     #endregion
-    #region Interaction and Animation Definition
+    #region Interaction and Animation
     // TODO this is messy; should implement actual
     // animation cycle.
-    public void Interact()
+    public override void Interact()
     {
-        PromptMessage = string.Empty;
+        PromptVisible = false;
         nearbyPlayer.IsHiding = true;
         StartCoroutine(EnterHiding());
     }
@@ -81,6 +88,7 @@ public sealed class HideInteraction : MonoBehaviour, IInteractable
             }
             yield return null;
         }
+        PromptVisible = true;
         PromptMessage = "Leave";
         StartCoroutine(WhileHiding());
     }
@@ -92,7 +100,7 @@ public sealed class HideInteraction : MonoBehaviour, IInteractable
                 break;
             yield return null;
         }
-        PromptMessage = string.Empty;
+        PromptVisible = false;
         StartCoroutine(ExitHiding());
     }
     private IEnumerator ExitHiding()
@@ -115,9 +123,10 @@ public sealed class HideInteraction : MonoBehaviour, IInteractable
             }
             yield return null;
         }
+        PromptVisible = true;
         PromptMessage = "Hide";
         nearbyPlayer.IsHiding = false;
-        OnInteractionComplete?.Invoke();
+        InteractionComplete?.Invoke();
     }
     #endregion
 }

@@ -9,58 +9,62 @@ using UnityEngine;
 /// An interaction where the player steals an art piece.
 /// After stealing the piece is removed from the scene.
 /// </summary>
-public sealed class StealInteraction : MonoBehaviour, IInteractable
+public sealed class StealInteraction : Interaction
 {
     #region Events
     /// <summary>
     /// This is called once the player is done stealing.
     /// </summary>
-    public event Action OnInteractionComplete;
+    public override event Action InteractionComplete;
     #endregion
     #region Inspector Fields
+    [Header("Stealing Parameters")]
     [Range(0, 10)][Tooltip("The number of seconds required to steal this piece.")]
     [SerializeField] private int stealTime = 5;
-
-    public AudioSource audioSource;
-    [SerializeField] private AudioClip artStealing;
-
+    // TODO this should not be an inspector field!!!
+    // Implement new input system.
+    [Tooltip("The key that the player can release to stop stealing.")]
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [Header("Audio References")]
+    [Tooltip("The audio source that will play the stealing SFX.")]
+    [SerializeField] private AudioSource audioSource = null;
+    [Tooltip("The art stealing SFX.")]
+    [SerializeField] private AudioClip artStealing = null;
+    #endregion
+    #region Interaction Property Overrides
+    public override Vector3 PromptLocation
+    {
+        get { return interactionVisibleTransform.position; }
+    }
     #endregion
     #region Fields (Player and Animation State)
     private PlayerController nearbyPlayer;
-    private Vector3 animatedPosition;
-    private Vector3 animatedDirection;
-    #endregion
-    #region IInteractable Properties
-    public bool PromptVisible { get; private set; }
-    public Vector3 PromptLocation { get; private set; }
-    public string PromptMessage { get; private set; }
     #endregion
     #region Initialization
     private void Start()
     {
         // TODO actually use this when rendering the prompt.
         PromptLocation = transform.forward + Vector3.up;
-        audioSource = GetComponent<AudioSource>();
     }
     #endregion
     #region IInteractable - Handle Nearby Players
     // TODO these functions need to be revised if
     // multiple players are added.
-    public void OnPromptEnter(PlayerController player)
+    public override void OnPromptEnter(PlayerController player)
     {
-        PromptMessage = $"Steal ({stealTime}s)";
+        PromptMessage = $"Steal";
         PromptVisible = true;
         nearbyPlayer = player;
     }
-    public void OnPromptExit(PlayerController player)
+    public override void OnPromptExit(PlayerController player)
     {
 
     }
     #endregion
-    #region Interaction and Animation Definition
+    #region Interaction and Animation
     // TODO this is messy; should implement actual
     // animation cycle.
-    public void Interact()
+    public override void Interact()
     {
         nearbyPlayer.IsMovementLocked = true;
         StartCoroutine(WhileStealing());
@@ -68,20 +72,39 @@ public sealed class StealInteraction : MonoBehaviour, IInteractable
     }
     private IEnumerator WhileStealing()
     {
+        // TODO: this string should be made
+        // into an inspector field. Maybe
+        // inherit this from Interaction class.
+        PromptMessage = "Stealing...";
         float timeRemaining = stealTime;
         while (true)
         {
-            timeRemaining -= Time.deltaTime;
-            if (timeRemaining < 0f)
+            // If the player releases the interact key
+            // they can abort this stealing.
+            if (!Input.GetKey(interactKey))
+            {
+                PromptProgress = 0f;
+                PromptMessage = "Steal";
                 break;
-            PromptMessage = $"Stealing... ({Mathf.CeilToInt(timeRemaining)}s)";
+            }
+
+            // Check the remaining time.
+            timeRemaining -= Time.deltaTime;
+            PromptProgress = Mathf.Clamp((stealTime - timeRemaining) / stealTime, 0f, 1f);
+            if (timeRemaining < 0f)
+            {
+                // TODO this is a hot fix. Player state needs to be
+                // better stolen. Perhaps an objective singleton to handle
+                // objective event routing.
+                FindObjectOfType<PlayerInteractor>().TriggerArtStolen();
+                InteractionComplete?.Invoke();
+                Destroy(gameObject);
+                break;
+            }
             yield return null;
         }
-        PromptMessage = string.Empty;
         nearbyPlayer.IsMovementLocked = false;
-        nearbyPlayer.PaintingsStolen++;
-        OnInteractionComplete?.Invoke();
-        Destroy(gameObject);
+        InteractionComplete?.Invoke();
     }
     #endregion
 }

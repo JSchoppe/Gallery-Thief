@@ -8,7 +8,7 @@ public sealed class KeyDoor : MonoBehaviour, IInteractable
 {
     // This event is required to notify once the
     // player has completed an interaction.
-    public event Action OnInteractionComplete;
+    public event Action InteractionComplete;
 
     #region Inspector Fields
     [Tooltip("The collider that stops players from entering locked doors.")]
@@ -55,6 +55,9 @@ public sealed class KeyDoor : MonoBehaviour, IInteractable
     public bool PromptVisible { get; private set; }
     public Vector3 PromptLocation { get; private set; }
     public string PromptMessage { get; private set; }
+    // TODO not implemented:
+    public Vector3 InteractionVisiblePoint => Vector3.zero;
+    public float PromptProgress => 1f;
     #endregion
 
     private void Start()
@@ -124,7 +127,7 @@ public sealed class KeyDoor : MonoBehaviour, IInteractable
             }
         }
 
-        OnInteractionComplete?.Invoke();
+        InteractionComplete?.Invoke();
     }
     #endregion
 }
