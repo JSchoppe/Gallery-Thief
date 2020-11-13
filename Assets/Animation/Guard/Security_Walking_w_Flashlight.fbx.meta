@@ -1,0 +1,485 @@
+fileFormatVersion: 2
+guid: a075baadfe0700d4ebe2b4eccb3498d5
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Security_Walking_w_Flashlight(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: group
+      parentName: Security_Walking_w_Flashlight(Clone)
+      position: {x: 0.0000018226187, y: 1.4844627, z: 0.7314303}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Skeleton1
+      parentName: group
+      position: {x: -0.0409314, y: -1.3785694, z: -0.7314303}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Skel_Spine_1
+      parentName: pasted__Skeleton1
+      position: {x: -0.01993955, y: 1.5982747, z: -0.22739448}
+      rotation: {x: -0.44288555, y: 0.5512281, z: -0.44288537, w: 0.5512282}
+      scale: {x: 1.0000002, y: 1, z: 1.0000001}
+    - name: pasted__Skel_Spine_2
+      parentName: pasted__Skel_Spine_1
+      position: {x: -0.43390512, y: 0.032659672, z: 0.0052874256}
+      rotation: {x: 0.000000059604645, y: -0.000000059604645, z: -0.06476261, w: 0.9979007}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000002}
+    - name: pasted__Skel_Rib_L02
+      parentName: pasted__Skel_Spine_2
+      position: {x: -0.0070243874, y: -0.15682629, z: -0.3219741}
+      rotation: {x: 0.47765473, y: -0.5213884, z: 0.47765478, w: 0.5213886}
+      scale: {x: 1, y: 0.99999994, z: 0.9999999}
+    - name: pasted__Skel_Rib_R02
+      parentName: pasted__Skel_Spine_2
+      position: {x: -0.0070243874, y: -0.15682629, z: 0.30445686}
+      rotation: {x: 0.47765473, y: -0.5213884, z: 0.47765478, w: 0.5213886}
+      scale: {x: 1, y: 0.99999994, z: 0.9999999}
+    - name: pasted__Skel_Rib_M02
+      parentName: pasted__Skel_Spine_2
+      position: {x: -0.032536633, y: -0.44766593, z: -0.0018593448}
+      rotation: {x: 0.47765473, y: -0.5213884, z: 0.47765478, w: 0.5213886}
+      scale: {x: 1, y: 0.99999994, z: 0.9999999}
+    - name: pasted__Skel_Spine_3
+      parentName: pasted__Skel_Spine_2
+      position: {x: -0.3147325, y: 0.03380948, z: 0.003967252}
+      rotation: {x: 0.99615234, y: -0.08763893, z: -0.000000003314625, w: 0.00000009481502}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000004}
+    - name: pasted__Skel_Rib_M03
+      parentName: pasted__Skel_Spine_3
+      position: {x: 0.07617545, y: 0.36953712, z: 0.0018593448}
+      rotation: {x: -0.47752127, y: 0.5215108, z: 0.47752118, w: 0.5215107}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: pasted__Skel_Rib_R03
+      parentName: pasted__Skel_Spine_3
+      position: {x: 0.057559405, y: 0.15855527, z: -0.28318766}
+      rotation: {x: -0.47752127, y: 0.5215108, z: 0.47752118, w: 0.5215107}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: pasted__Skel_Rib_L03
+      parentName: pasted__Skel_Spine_3
+      position: {x: 0.057559405, y: 0.15855527, z: 0.2876926}
+      rotation: {x: -0.47752127, y: 0.5215108, z: 0.47752118, w: 0.5215107}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: pasted__Skel_Spine_4
+      parentName: pasted__Skel_Spine_3
+      position: {x: -0.4675702, y: 0.0710486, z: -0.00000005978129}
+      rotation: {x: -0.9919997, y: 0.12624036, z: -0.000000025064452, w: 0.00000009207229}
+      scale: {x: 1.0000006, y: 1.0000006, z: 1.0000006}
+    - name: pasted__pDisc1
+      parentName: pasted__Skel_Spine_4
+      position: {x: 0.00000015258789, y: -2.429605, z: 0.23646437}
+      rotation: {x: 0.45705608, y: -0.5395366, z: 0.4570559, w: 0.5395368}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Skel_Clavicle_L
+      parentName: pasted__Skel_Spine_4
+      position: {x: 0.011177984, y: -0.094545364, z: -0.271952}
+      rotation: {x: 0.35751674, y: -0.6954425, z: 0.43900868, w: 0.44250762}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: pasted__Skel_Shoulder_L
+      parentName: pasted__Skel_Clavicle_L
+      position: {x: -0.18784, y: -0.009149651, z: 0.05873427}
+      rotation: {x: -0.0144163035, y: 0.08352516, z: -0.32716423, w: 0.94115853}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: pasted__Skel_Elbow_L
+      parentName: pasted__Skel_Shoulder_L
+      position: {x: -0.40760878, y: -0.1974304, z: 0.016993212}
+      rotation: {x: -0.01151528, y: 0.023207527, z: 0.060693536, w: 0.99782014}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1}
+    - name: pasted__Skel_Wrist_L
+      parentName: pasted__Skel_Elbow_L
+      position: {x: -0.4185741, y: -0.15835783, z: 0.0019986627}
+      rotation: {x: -0.00000007561122, y: 0.0000000126895445, z: 0.20011778, w: 0.9797719}
+      scale: {x: 0.9999998, y: 0.9999998, z: 1.0000001}
+    - name: pasted__Skel_Hand_L
+      parentName: pasted__Skel_Wrist_L
+      position: {x: -0.20706138, y: 0.012271504, z: -1.90386e-18}
+      rotation: {x: -0.000000020226274, y: 0.000000031759306, z: -0.37522087, w: 0.92693543}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__Skel_Clavicle_R
+      parentName: pasted__Skel_Spine_4
+      position: {x: 0.011174204, y: -0.0945448, z: 0.27195218}
+      rotation: {x: 0.6650273, y: 0.43228137, z: 0.45460948, w: -0.40521815}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: pasted__Skel_Shoulder_R
+      parentName: pasted__Skel_Clavicle_R
+      position: {x: 0.22857335, y: 0.018792659, z: -0.058734234}
+      rotation: {x: -0.016190466, y: 0.10844994, z: -0.31786117, w: 0.9417754}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000002}
+    - name: pasted__Skel_Elbow_R
+      parentName: pasted__Skel_Shoulder_R
+      position: {x: 0.3982709, y: 0.20037791, z: 0.036231976}
+      rotation: {x: 0.0069872765, y: -0.017885117, z: 0.062735446, w: 0.99784553}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000004}
+    - name: pasted__Skel_Wrist_R
+      parentName: pasted__Skel_Elbow_R
+      position: {x: 0.38294703, y: 0.15738307, z: -0.028819153}
+      rotation: {x: 0.000000031062125, y: -0.000000026766365, z: 0.2001174, w: 0.979772}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: pasted__Skel_Hand_R
+      parentName: pasted__Skel_Wrist_R
+      position: {x: 0.20706, y: 0.01227, z: 1.7763568e-17}
+      rotation: {x: 0.000000025379515, y: 0.000000033592126, z: -0.3752211, w: 0.9269354}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000002}
+    - name: pasted__Skel_Rib_M01
+      parentName: pasted__Skel_Spine_1
+      position: {x: -0.09778783, y: -0.5008975, z: -0.0018593448}
+      rotation: {x: 0.44288552, y: -0.5512281, z: 0.44288555, w: 0.5512281}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1}
+    - name: pasted__Skel_Rib_R01
+      parentName: pasted__Skel_Spine_1
+      position: {x: -0.034897592, y: -0.21579514, z: 0.34607756}
+      rotation: {x: 0.44288552, y: -0.5512281, z: 0.44288555, w: 0.5512281}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1}
+    - name: pasted__Skel_Rib_L01
+      parentName: pasted__Skel_Spine_1
+      position: {x: -0.034897592, y: -0.21579514, z: -0.35393837}
+      rotation: {x: 0.44288552, y: -0.5512281, z: 0.44288555, w: 0.5512281}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1}
+    - name: pasted__Skel_Hip_R
+      parentName: pasted__Skeleton1
+      position: {x: 0.2662038, y: 1.5153798, z: -0.028864743}
+      rotation: {x: 0.53645843, y: 0.54723483, z: 0.409881, w: 0.4947161}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: pasted__Skel_Knee_R
+      parentName: pasted__Skel_Hip_R
+      position: {x: -0.6883757, y: -0.0011537963, z: -0.0012170934}
+      rotation: {x: -0.9933013, y: -0.11555278, z: -0.00043269986, w: -0.000025928017}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
+    - name: pasted__Skel_Ankle_R
+      parentName: pasted__Skel_Knee_R
+      position: {x: -0.7490532, y: 0.009947021, z: -0.002855865}
+      rotation: {x: 0.9337518, y: 0.34450674, z: 0.021777451, w: 0.094596356}
+      scale: {x: 1.0000001, y: 0.9999998, z: 0.9999998}
+    - name: pasted__Skel_Ball_R
+      parentName: pasted__Skel_Ankle_R
+      position: {x: -0.27622616, y: 0.115901545, z: 8.6487595e-10}
+      rotation: {x: 0.60828733, y: -0.36053684, z: 0.37500957, w: -0.5994728}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: pasted__Skel_Toe_R
+      parentName: pasted__Skel_Ball_R
+      position: {x: -0.36087275, y: -0.008649199, z: -0.006579351}
+      rotation: {x: -0.009063242, y: 0.7070487, z: -0.009063205, w: -0.70704865}
+      scale: {x: 1.0000004, y: 0.9999998, z: 1}
+    - name: pasted__Skel_Heel_R
+      parentName: pasted__Skel_Ankle_R
+      position: {x: -0.06644225, y: -0.19071151, z: -8.823027e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: pasted__Skel_Hip_L
+      parentName: pasted__Skeleton1
+      position: {x: -0.18434463, y: 1.4928008, z: 0.023377962}
+      rotation: {x: 0.41122517, y: 0.40862584, z: 0.5898776, w: 0.5621061}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: pasted__Skel_Knee_L
+      parentName: pasted__Skel_Hip_L
+      position: {x: -0.6809325, y: 0.099160634, z: 0.011805275}
+      rotation: {x: 0.99801385, y: 0.06296347, z: -0.0019164383, w: 0.00057703257}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000005}
+    - name: pasted__Skel_Ankle_L
+      parentName: pasted__Skel_Knee_L
+      position: {x: -0.74902594, y: 0.010288239, z: -0.004305006}
+      rotation: {x: -0.92135215, y: -0.35083622, z: -0.022771036, w: 0.165848}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000004}
+    - name: pasted__Skel_Ball_L
+      parentName: pasted__Skel_Ankle_L
+      position: {x: -0.27622846, y: 0.115900055, z: 0.00000010908319}
+      rotation: {x: 0.60827357, y: -0.3605597, z: 0.37504575, w: -0.59945035}
+      scale: {x: 1.0000002, y: 1, z: 1}
+    - name: pasted__Skel_Toe_L
+      parentName: pasted__Skel_Ball_L
+      position: {x: -0.36087158, y: -0.00865763, z: -0.006585881}
+      rotation: {x: -0.009063214, y: 0.7070488, z: -0.009063169, w: -0.7070486}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000001}
+    - name: pasted__Skel_Heel_L
+      parentName: pasted__Skel_Ankle_L
+      position: {x: -0.06644225, y: -0.19071151, z: -8.823027e-17}
+      rotation: {x: -0.000000014901161, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1}
+    - name: pasted__CTL_Neck
+      parentName: pasted__Skeleton1
+      position: {x: -0.028575966, y: 2.8847091, z: 0.113051206}
+      rotation: {x: 0.30710503, y: -0.63693523, z: -0.30710503, w: 0.63693523}
+      scale: {x: 1, y: 0.9999999, z: 1.0000001}
+    - name: pasted__CTL_Head
+      parentName: pasted__CTL_Neck
+      position: {x: -0.5128152, y: 0.028750475, z: 0}
+      rotation: {x: -0.50616986, y: 0.86243385, z: 0.000000014901163, w: -0.000000029802326}
+      scale: {x: 1, y: 0.99999994, z: 0.99999976}
+    - name: pasted__CTL_Head_2
+      parentName: pasted__CTL_Head
+      position: {x: -0.66125447, y: -0.081538744, z: -0.000000001215022}
+      rotation: {x: 0.057539523, y: -0.7047618, z: 0.057539552, w: 0.70476186}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Main
+      parentName: group
+      position: {x: -0.0000018226187, y: -1.4844627, z: -0.7314303}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Foot_L
+      parentName: pasted__CTL_Main
+      position: {x: -0.23201889, y: 0.16515428, z: 0.29799506}
+      rotation: {x: -0.0017871136, y: -0.07630961, z: -0.019567879, w: 0.99689054}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Heel_L
+      parentName: pasted__CTL_Foot_L
+      position: {x: -0.00087381364, y: -0.17628597, z: 0.13319154}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Heel_L
+      parentName: pasted__CTL_Heel_L
+      position: {x: -0, y: 0.010616553, z: -0.23356418}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Ankle_L
+      parentName: pasted__CTL_Heel_L
+      position: {x: -0, y: 0.16965038, z: -0.1090905}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Toe_L
+      parentName: pasted__CTL_Foot_L
+      position: {x: -0.00087381364, y: -0.17628597, z: 0.13319154}
+      rotation: {x: -0.08005035, y: 0, z: -0, w: 0.9967908}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Toe_L
+      parentName: pasted__CTL_Toe_L
+      position: {x: -0, y: 0.0053082765, z: 0.2070228}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Foot_R
+      parentName: pasted__CTL_Main
+      position: {x: 0.23289, y: 0.41055548, z: -0.8660935}
+      rotation: {x: 0.24893071, y: 0.049076237, z: -0.012630944, w: 0.9671947}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Toe_R
+      parentName: pasted__CTL_Foot_R
+      position: {x: -0, y: -0.16965038, z: 0.1090905}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Toe_R
+      parentName: pasted__CTL_Toe_R
+      position: {x: -0, y: 0.005308277, z: 0.2070228}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Heel_R
+      parentName: pasted__CTL_Foot_R
+      position: {x: -0, y: -0.16965038, z: 0.1090905}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Ankle_R
+      parentName: pasted__CTL_Heel_R
+      position: {x: -0, y: 0.16965038, z: -0.1090905}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__ikHandle_Heel_R
+      parentName: pasted__CTL_Heel_R
+      position: {x: 0.000000019073486, y: 0.010616554, z: -0.23356418}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Knee_L
+      parentName: pasted__CTL_Main
+      position: {x: -0.23289269, y: 0.91897464, z: 1.3563571}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Knee_R
+      parentName: pasted__CTL_Main
+      position: {x: 0.23289, y: 0.91897464, z: 1.2686288}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Body
+      parentName: pasted__CTL_Main
+      position: {x: -0.115893625, y: 0.10531621, z: 1.0766977}
+      rotation: {x: 0.05909682, y: 0.017145999, z: 0.074740626, w: 0.99530274}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Pelvis
+      parentName: pasted__CTL_Body
+      position: {x: -7.105427e-17, y: -0.06872602, z: -4.2632563e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Hip_R
+      parentName: pasted__CTL_Pelvis
+      position: {x: -0.06124666, y: 0.16239305, z: 0.2695859}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Hip_L
+      parentName: pasted__CTL_Pelvis
+      position: {x: -0.061246585, y: 0.16239305, z: -0.1844005}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTLK_Spine_1
+      parentName: pasted__CTL_Body
+      position: {x: 0.19870353, y: 0, z: -1.0766977}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTLK_Spine_2
+      parentName: pasted__CTLK_Spine_1
+      position: {x: 0.000000038667793, y: 0.08571948, z: 0.0033469833}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTLK_Spine_3
+      parentName: pasted__CTLK_Spine_2
+      position: {x: 0.0000000017048389, y: -0.026933964, z: -0.0003360382}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Shoulder_L
+      parentName: pasted__CTLK_Spine_3
+      position: {x: -0.38615015, y: 0.27526096, z: -0.023995187}
+      rotation: {x: 0.17512167, y: -0.041347798, z: 0.26622722, w: 0.94696665}
+      scale: {x: 1.1310838, y: 1.0234145, z: 1.1575676}
+    - name: pasted__CTL_Elbow_L
+      parentName: pasted__CTL_Shoulder_L
+      position: {x: -0.3600163, y: -0.28035903, z: 0}
+      rotation: {x: -0.09837785, y: 0.066590965, z: 0.0031203704, w: 0.9929138}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Wrist_L
+      parentName: pasted__CTL_Elbow_L
+      position: {x: -0.32191563, y: -0.29915464, z: 0}
+      rotation: {x: 0.00008451822, y: 0.0016634472, z: 0.21464038, w: 0.9766917}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Shoulder_R
+      parentName: pasted__CTLK_Spine_3
+      position: {x: 0.3861464, y: 0.23365173, z: -0.023995105}
+      rotation: {x: -0.33464977, y: -0.1358007, z: -0.27532795, w: 0.89093333}
+      scale: {x: 1.131, y: 1.0234138, z: 1.1575676}
+    - name: pasted__CTL_Elbow_R
+      parentName: pasted__CTL_Shoulder_R
+      position: {x: 0.36001998, y: -0.28035998, z: 1.34214116e-17}
+      rotation: {x: -0.1661211, y: -0.1761884, z: -0.059650954, w: 0.9684024}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__CTL_Wrist_R
+      parentName: pasted__CTL_Elbow_R
+      position: {x: 0.31922898, y: -0.3134451, z: 0.0016738385}
+      rotation: {x: 0.022123357, y: -0.027550653, z: -0.2003547, w: 0.9790861}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pasted__nurbsCircle1
+      parentName: pasted__CTLK_Spine_3
+      position: {x: -0.000001863074, y: 0.5791001, z: -0.09860063}
+      rotation: {x: 0.031950563, y: -0.023435311, z: -0.0007495232, w: 0.9992144}
+      scale: {x: 1.1575676, y: 1, z: 1.1575676}
+    - name: pSphere5
+      parentName: Security_Walking_w_Flashlight(Clone)
+      position: {x: 0.10895709, y: 27.050789, z: -1.4530056e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 27.175022, y: 27.175022, z: 27.175022}
+    - name: pCylinder1
+      parentName: Security_Walking_w_Flashlight(Clone)
+      position: {x: -0, y: -0.0648263, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 4.163204, z: 1}
+    - name: transform2
+      parentName: pCylinder1
+      position: {x: -0, y: 0.0648263, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pCylinder3
+      parentName: Security_Walking_w_Flashlight(Clone)
+      position: {x: -0.0012718968, y: 0.37601015, z: -0.050892666}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 0.73414576, y: 1, z: 0.73414576}
+    - name: transform1
+      parentName: pCylinder3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pCylinder4
+      parentName: Security_Walking_w_Flashlight(Clone)
+      position: {x: 0.43483067, y: 1.8881724, z: 0.85625815}
+      rotation: {x: 0.8170354, y: 0.071684346, z: -0.10411061, w: 0.5625617}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
