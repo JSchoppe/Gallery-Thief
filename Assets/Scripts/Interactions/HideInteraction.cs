@@ -29,6 +29,9 @@ public sealed class HideInteraction : Interaction
     {
         get { return promptLocation.position; }
     }
+    // Hiding does not use prompt progress so it
+    // will always show 1.
+    public override float PromptProgress => 1f;
     #endregion
     #region Fields (Player and Animation State)
     private PlayerController nearbyPlayer;
@@ -61,7 +64,7 @@ public sealed class HideInteraction : Interaction
     // animation cycle.
     public override void Interact()
     {
-        PromptMessage = string.Empty;
+        PromptVisible = false;
         nearbyPlayer.IsHiding = true;
         StartCoroutine(EnterHiding());
     }
@@ -85,6 +88,7 @@ public sealed class HideInteraction : Interaction
             }
             yield return null;
         }
+        PromptVisible = true;
         PromptMessage = "Leave";
         StartCoroutine(WhileHiding());
     }
@@ -96,7 +100,7 @@ public sealed class HideInteraction : Interaction
                 break;
             yield return null;
         }
-        PromptMessage = string.Empty;
+        PromptVisible = false;
         StartCoroutine(ExitHiding());
     }
     private IEnumerator ExitHiding()
@@ -119,6 +123,7 @@ public sealed class HideInteraction : Interaction
             }
             yield return null;
         }
+        PromptVisible = true;
         PromptMessage = "Hide";
         nearbyPlayer.IsHiding = false;
         InteractionComplete?.Invoke();

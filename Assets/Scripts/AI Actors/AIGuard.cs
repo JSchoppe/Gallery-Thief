@@ -376,7 +376,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
             // Retarget the AI towards the next patrol point.
             navAgent.SetDestination(patrolRoute[patrolIndex].position);
         }
-        anim.SetBool("isWalking", false);
+        anim.SetBool("isWalking", true);
     }
     private void InvestigatingUpdate()
     {
@@ -398,7 +398,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                     Behavior = AIBehaviorState.Patrolling;
             }
         }
-        anim.SetBool("isWalking", false);
+        anim.SetBool("isWalking", true);
     }
     private void ChasingUpdate()
     {
