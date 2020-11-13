@@ -753,6 +753,11 @@ PrefabInstance:
       propertyPath: illegalBehaviors.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5190818223669026845, guid: 8ce41af600e7d4146807abfb0eb78874,
+        type: 3}
+      propertyPath: viewDistance
+      value: 15.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5190818223669026848, guid: 8ce41af600e7d4146807abfb0eb78874,
         type: 3}
       propertyPath: m_LocalPosition.x
