@@ -57,38 +57,41 @@ public sealed class CameraController : MonoBehaviour
 
         player = GameObject.FindWithTag("Player");
 
-        // TODO once settings writes to sensitivity,
-        // remove these lines and uncomment following lines.
-        sensitivity = Vector3.one * 600f;
-        inversion = Vector3.one;
-        /*
-        // Set intial sensitivity from settings.
-        sensitivity = new Vector3
+        // TODO should not have to check to apply default options.
+        if (!SettingsState.hasInitialized)
         {
-            x = SettingsState.SensitivityRevolve,
-            y = SettingsState.SensitivityPitch,
-            z = SettingsState.SensitivityZoom
-        };
-        inversion = new Vector3
+            sensitivity = Vector3.one * 600f;
+            inversion = Vector3.one;
+        }
+        else
         {
-            x = SettingsState.InvertRevolve? -1f : 1f,
-            y = SettingsState.InvertPitch? -1f : 1f,
-            z = SettingsState.InvertZoom? -1f : 1f
-        };
-        // Subscribe to settings changes.
-        SettingsState.SensitivityRevolveChanged += (float newValue) =>
-        { sensitivity.x = newValue; };
-        SettingsState.SensitivityPitchChanged += (float newValue) =>
-        { sensitivity.y = newValue; };
-        SettingsState.SensitivityZoomChanged += (float newValue) =>
-        { sensitivity.z = newValue; };
-        SettingsState.InvertRevolveChanged += (bool newValue) =>
-        { inversion.x = newValue ? -1f : 1f; };
-        SettingsState.InvertPitchChanged += (bool newValue) =>
-        { inversion.y = newValue ? -1f : 1f; };
-        SettingsState.InvertZoomChanged += (bool newValue) =>
-        { inversion.z = newValue ? -1f : 1f; };
-        */
+            // Set intial sensitivity from settings.
+            sensitivity = new Vector3
+            {
+                x = SettingsState.SensitivityRevolve,
+                y = SettingsState.SensitivityPitch,
+                z = SettingsState.SensitivityZoom
+            };
+            inversion = new Vector3
+            {
+                x = SettingsState.InvertRevolve? -1f : 1f,
+                y = SettingsState.InvertPitch? -1f : 1f,
+                z = SettingsState.InvertZoom? -1f : 1f
+            };
+            // Subscribe to settings changes.
+            SettingsState.SensitivityRevolveChanged += (float newValue) =>
+            { sensitivity.x = newValue; };
+            SettingsState.SensitivityPitchChanged += (float newValue) =>
+            { sensitivity.y = newValue; };
+            SettingsState.SensitivityZoomChanged += (float newValue) =>
+            { sensitivity.z = newValue; };
+            SettingsState.InvertRevolveChanged += (bool newValue) =>
+            { inversion.x = newValue ? -1f : 1f; };
+            SettingsState.InvertPitchChanged += (bool newValue) =>
+            { inversion.y = newValue ? -1f : 1f; };
+            SettingsState.InvertZoomChanged += (bool newValue) =>
+            { inversion.z = newValue ? -1f : 1f; };
+        }
     }
     #endregion
     #region Update Logic

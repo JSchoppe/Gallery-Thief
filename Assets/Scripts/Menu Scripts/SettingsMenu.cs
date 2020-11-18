@@ -11,6 +11,11 @@ public class SettingsMenu : MonoBehaviour
     [Tooltip("The dropdown where resolution is changed.")]
     [SerializeField] private Dropdown resolutionsDropdown = null;
 
+    [SerializeField] private Slider revolveSlider = null;
+    [SerializeField] private Slider pitchSlider = null;
+    [SerializeField] private Slider zoomSlider = null;
+    [SerializeField] private Toggle invertCameraToggle = null;
+
     //current monitor's resolutions
     Resolution[] resolutions;
 
@@ -41,6 +46,28 @@ public class SettingsMenu : MonoBehaviour
         }
 
         resolutionsDropdown.RefreshShownValue();
+
+        if (!SettingsState.hasInitialized)
+        {
+            // TODO remove this condition once all
+            // scenes properly implement settings.
+            if (revolveSlider != null && pitchSlider != null
+                && zoomSlider != null && invertCameraToggle != null)
+            {
+                SetRevolveCameraSensitivity(revolveSlider.value);
+                SetPitchCameraSensitivity(pitchSlider.value);
+                SetZoomCameraSensitivity(zoomSlider.value);
+                SetInvertCamera(invertCameraToggle.isOn);
+                SettingsState.hasInitialized = true;
+            }
+        }
+        else
+        {
+            revolveSlider.value = SettingsState.SensitivityRevolve;
+            pitchSlider.value = SettingsState.SensitivityPitch;
+            zoomSlider.value = SettingsState.SensitivityZoom;
+            invertCameraToggle.isOn = SettingsState.InvertPitch;
+        }
     }
 
     /// <summary>
@@ -66,5 +93,23 @@ public class SettingsMenu : MonoBehaviour
     public void SetResolution(int resolutionIndex)
     {
         Screen.SetResolution(resolutions[resolutionsDropdown.value].width, resolutions[resolutionsDropdown.value].height, Screen.fullScreen);
+    }
+
+    public void SetRevolveCameraSensitivity(float sensitivity)
+    {
+        SettingsState.SensitivityRevolve = sensitivity;
+    }
+    public void SetPitchCameraSensitivity(float sensitivity)
+    {
+        SettingsState.SensitivityPitch = sensitivity;
+    }
+    public void SetZoomCameraSensitivity(float sensitivity)
+    {
+        SettingsState.SensitivityZoom = sensitivity;
+    }
+
+    public void SetInvertCamera(bool isInverted)
+    {
+        SettingsState.InvertPitch = isInverted;
     }
 }

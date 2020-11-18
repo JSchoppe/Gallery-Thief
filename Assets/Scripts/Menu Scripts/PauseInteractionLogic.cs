@@ -69,8 +69,9 @@ public sealed class PauseInteractionLogic : MonoBehaviour
 
     public void OnQuitPressed()
     {
-        // TODO add the routing back to the menu.
-        //SceneManager.LoadScene();
+        Time.timeScale = 1f;
+        isPaused = false;
+        SceneManager.LoadScene(0);
     }
     #endregion
     #region Resume/Pause Methods

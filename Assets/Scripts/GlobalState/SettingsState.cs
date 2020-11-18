@@ -2,6 +2,9 @@
 
 public static class SettingsState
 {
+    #region Fields
+    public static bool hasInitialized = false;
+    #endregion
     #region Events
     public static event Action<float> VolumeChanged;
     public static event Action<float> SensitivityRevolveChanged;
