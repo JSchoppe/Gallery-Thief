@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -31,7 +32,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
     [SerializeField] private Transform[] patrolRoute = null;
     [Range(float.Epsilon, 10f)][Tooltip("Controls how close a guard has to get to a node before going to the next node.")]
     [SerializeField] private float pathTolerance = 1f;
-    [Range(float.Epsilon, 10f)][Tooltip("Controls the rate guards will pivot towards a direction when stationary.")]
+    [Range(float.Epsilon, 10f)][Tooltip("Controls the rate guards will pivot towards a direction.")]
     [SerializeField] private float pivotSpeed = 2f;
     [Header("Vision Parameters")]
     [Range(float.Epsilon, 5f)][Tooltip("The elevation of the view above the ground.")]
@@ -42,13 +43,11 @@ public class AIGuard : MonoBehaviour, IKeyUser
     [SerializeField] private float viewDistance = 10f;
     [Range(float.Epsilon, 5f)][Tooltip("If the player gets this close the guard will be alerted.")]
     [SerializeField] private float personalSpaceRadius = 1f;
-    [Header("Debug Parameters")]
-    [Tooltip("Will render a given mesh with the color of the current state.")]
-    [SerializeField] private bool renderDebug = true;
-    [Tooltip("The renderer that displays the collider and state of the AI.")]
-    [SerializeField] private Renderer debugRenderer = null;
-    //animator
-    [SerializeField] private Animator anim;
+    [Header("Attached References")]
+    [Tooltip("The animator for this gaurd.")]
+    [SerializeField] private Animator anim = null;
+    [Tooltip("The text used to display guard state.")]
+    [SerializeField] private TMP_Text stateText = null;
     #endregion
     #region Private Fields
     private AIBehaviorState currentBehavior;
@@ -131,18 +130,14 @@ public class AIGuard : MonoBehaviour, IKeyUser
                         // Walk the AI back to its home.
                         navAgent.SetDestination(stationaryHome);
                         currentBehavior = AIBehaviorState.Stationary;
-                        if (renderDebug)
-                            debugRenderer.material =
-                                AIDebug.AIMats?[AIBehaviorState.Stationary];
+                        stateText.text = "";
                         break;
                     case AIBehaviorState.Patrolling:
                         // Start the patrol loop.
                         patrolIndex = 0;
                         navAgent.SetDestination(patrolRoute[patrolIndex].position);
                         currentBehavior = AIBehaviorState.Patrolling;
-                        if (renderDebug)
-                            debugRenderer.material =
-                                AIDebug.AIMats?[AIBehaviorState.Patrolling];
+                        stateText.text = "";
                         break;
                     case AIBehaviorState.Investigating:
                         // If there are places to investigate:
@@ -152,18 +147,14 @@ public class AIGuard : MonoBehaviour, IKeyUser
                             navAgent.ResetPath();
                             navAgent.SetDestination(investigationPoints.Peek());
                             currentBehavior = AIBehaviorState.Investigating;
-                            if (renderDebug)
-                                debugRenderer.material =
-                                    AIDebug.AIMats?[AIBehaviorState.Investigating];
+                            stateText.text = "?";
                         }
                         break;
                     case AIBehaviorState.Chasing:
                         navAgent.SetDestination(transformCurrentlyChasing.position);
                         currentBehavior = AIBehaviorState.Chasing;
                         StartCoroutine(ChaseRepath());
-                        if (renderDebug)
-                            debugRenderer.material =
-                                AIDebug.AIMats?[AIBehaviorState.Chasing];
+                        stateText.text = "!";
                         break;
                     // This will throw if a new AI state is
                     // added and is not addressed here:
@@ -299,6 +290,12 @@ public class AIGuard : MonoBehaviour, IKeyUser
     }
     private void Update()
     {
+        // Reorient the text to face the main camera.
+        // TODO this behavior should be abstracted into
+        // another script.
+        stateText.transform.parent.LookAt(
+            transform.position - (Camera.main.transform.position - transform.position));
+
         // Do the update behavior specific to the current state.
         switch (Behavior)
         {
@@ -360,8 +357,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
             transform.forward =
                 Vector3.RotateTowards(transform.forward, stationaryDirection,
                 pivotSpeed * Time.deltaTime, float.MaxValue);
+            anim.SetBool("isWalking", false);
         }
-        anim.SetBool("isWalking", false);
     }
     private void PatrollingUpdate()
     {
@@ -403,12 +400,16 @@ public class AIGuard : MonoBehaviour, IKeyUser
     private void ChasingUpdate()
     {
         // Look at the player that is being chased.
-        transform.LookAt(new Vector3
-        {
-            x = transformCurrentlyChasing.position.x,
-            y = transform.position.y,
-            z = transformCurrentlyChasing.position.z,
-        });
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            Quaternion.LookRotation(new Vector3
+            {
+                // Ignore Y elevation differences.
+                x = transformCurrentlyChasing.position.x - transform.position.x,
+                z = transformCurrentlyChasing.position.z - transform.position.z
+            }),
+            pivotSpeed * Time.deltaTime
+        );
         if (Vector3.Distance(transformCurrentlyChasing.position, transform.position) < personalSpaceRadius)
             LevelStateSingleton.NotifyPlayerCaught(
                 transformCurrentlyChasing.GetComponent<PlayerController>());
