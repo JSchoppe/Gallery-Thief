@@ -293,8 +293,8 @@ public class AIGuard : MonoBehaviour, IKeyUser
         // Reorient the text to face the main camera.
         // TODO this behavior should be abstracted into
         // another script.
-        stateText.transform.parent.LookAt(
-            transform.position - (Camera.main.transform.position - transform.position));
+        stateText.transform.parent.LookAt(Camera.main.transform.position);
+        stateText.transform.parent.forward *= -1f;
 
         // Do the update behavior specific to the current state.
         switch (Behavior)
