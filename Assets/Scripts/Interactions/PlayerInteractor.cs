@@ -36,6 +36,7 @@ public sealed class PlayerInteractor : MonoBehaviour
     [SerializeField] private Transform cameraTransform = null;
     [Tooltip("The transform of the prompt canvas.")]
     [SerializeField] private Transform promptTransform = null;
+    [SerializeField] private Animator anim;
     #endregion
     #region Fields
     private InteractionState state;
@@ -97,10 +98,13 @@ public sealed class PlayerInteractor : MonoBehaviour
             {
                 // Initiate interaction and listen for
                 // completion of interaction.
+                // run grab animation
+
                 focusedInteractable.InteractionComplete += OnInteractionComplete;
                 state = InteractionState.Interacting;
                 GameplayHUDSingleton.PlayerCanCrouch = false;
                 focusedInteractable.Interact();
+                anim.SetBool("canInteract", true);
             }
         }
 
@@ -120,6 +124,8 @@ public sealed class PlayerInteractor : MonoBehaviour
         {
             interactorCanvas.SetActive(false);
             GameplayHUDSingleton.InteractionFocus = null;
+            //exits and/or doesn't run animation
+            anim.SetBool("canInteract", false);
         }
     }
     private void OnInteractionComplete()
