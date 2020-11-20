@@ -19,13 +19,12 @@ public class AnimController : MonoBehaviour
     void Update()
     {
         Walk();
+        Crawl();
         
     }
 
     void Walk()
     {
-
-        
         //set in states after crouching and crawling is implemented
 
         //IEnum = standing
@@ -41,7 +40,17 @@ public class AnimController : MonoBehaviour
 
         }
         //set IEnums for crouching and crawling for later
+    }
 
-
+    void Crawl()
+    {
+        if (Input.GetButton("Crouch"))
+        {
+            animator.SetBool("isCrawling", true);
+        }
+        else
+        {
+            animator.SetBool("isCrawling", false);
+        }
     }
 }
