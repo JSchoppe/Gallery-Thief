@@ -1,4 +1,5 @@
-﻿// This shaders goals is to occlude 
+﻿// This shaders goals is to occlude geometry
+// that is outside a certain y-range.
 
 Shader "Custom/ElevationSlice"
 {
