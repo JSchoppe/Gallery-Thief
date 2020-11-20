@@ -112,6 +112,9 @@ public class PlayerController : MonoBehaviour, IKeyUser
             {
                 rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * crouchingSpeed * Time.fixedDeltaTime
                     + Vector3.up * rb.velocity.y;
+
+                // Changing Animation Speed
+
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
                 audioSource.volume = 0.3f;
@@ -122,14 +125,17 @@ public class PlayerController : MonoBehaviour, IKeyUser
             {
                 rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * walkingSpeed * Time.fixedDeltaTime
                     + Vector3.up * rb.velocity.y;
+
+                // Changing animation speed
+
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
 
-                audioSource.volume = .2f;
+                audioSource.volume = 2f;
                 if (audioSource.isPlaying == false)
                     audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
             }
-            
+
             // Makes sure the player faces the way it's moving
             lookRotation = Vector3.Scale(rb.velocity, new Vector3(1f, 0f, 1f));
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);
