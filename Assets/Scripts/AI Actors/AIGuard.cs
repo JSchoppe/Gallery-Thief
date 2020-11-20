@@ -319,6 +319,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                 Vector3 actorDirection = AlarmSingleton.GetActorTorso(actor)
                     - transform.position;
 
+                audioSource.volume = 4f;
                 if (audioSource.isPlaying == false)
                     audioSource.PlayOneShot(guardFootsteps[Random.Range(0, guardFootsteps.Length)]);
                 // Ignore elevation.
@@ -338,7 +339,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
                     {
                         // If the player is seen switch to chasing.
                         transformCurrentlyChasing = actor.transform;
-                        Behavior = AIBehaviorState.Chasing;
+                        Behavior = AIBehaviorState.Chasing;   
                         // Play the whistle sound effect.
                         whistleSource.Play();
                         break;
@@ -399,6 +400,9 @@ public class AIGuard : MonoBehaviour, IKeyUser
     }
     private void ChasingUpdate()
     {
+        audioSource.volume = 4f;
+        if (audioSource.isPlaying == false)
+            audioSource.PlayOneShot(guardFootsteps[Random.Range(0, guardFootsteps.Length)]);
         // Look at the player that is being chased.
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,

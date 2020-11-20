@@ -125,11 +125,11 @@ public class PlayerController : MonoBehaviour, IKeyUser
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
 
-                audioSource.volume = 2f;
+                audioSource.volume = .2f;
                 if (audioSource.isPlaying == false)
                     audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
             }
-
+            
             // Makes sure the player faces the way it's moving
             lookRotation = Vector3.Scale(rb.velocity, new Vector3(1f, 0f, 1f));
             this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(lookRotation), playerTurnSpeed * Time.deltaTime);

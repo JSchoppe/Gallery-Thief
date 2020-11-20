@@ -27,9 +27,9 @@ public sealed class StealInteraction : Interaction
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [Header("Audio References")]
     [Tooltip("The audio source that will play the stealing SFX.")]
-    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioSource audioSource;
     [Tooltip("The art stealing SFX.")]
-    [SerializeField] private AudioClip artStealing = null;
+    [SerializeField] private AudioClip artStealing;
     #endregion
     #region Interaction Property Overrides
     public override Vector3 PromptLocation
@@ -45,6 +45,7 @@ public sealed class StealInteraction : Interaction
     {
         // TODO actually use this when rendering the prompt.
         PromptLocation = transform.forward + Vector3.up;
+        audioSource = GetComponent<AudioSource>();
     }
     #endregion
     #region IInteractable - Handle Nearby Players
@@ -58,7 +59,7 @@ public sealed class StealInteraction : Interaction
     }
     public override void OnPromptExit(PlayerController player)
     {
-
+        audioSource.PlayOneShot(artStealing);
     }
     #endregion
     #region Interaction and Animation
@@ -68,7 +69,7 @@ public sealed class StealInteraction : Interaction
     {
         nearbyPlayer.IsMovementLocked = true;
         StartCoroutine(WhileStealing());
-        audioSource.PlayOneShot(artStealing);
+        //audioSource.PlayOneShot(artStealing);
     }
     private IEnumerator WhileStealing()
     {
@@ -90,14 +91,19 @@ public sealed class StealInteraction : Interaction
 
             // Check the remaining time.
             timeRemaining -= Time.deltaTime;
-            PromptProgress = Mathf.Clamp((stealTime - timeRemaining) / stealTime, 0f, 1f);
+            PromptProgress = Mathf.Clamp((stealTime - timeRemaining) / stealTime, 0f, 1f); 
+            if(timeRemaining < 0.2)
+            {
+                if(audioSource.isPlaying == false)
+                    audioSource.PlayOneShot(artStealing);
+            }
             if (timeRemaining < 0f)
             {
                 // TODO this is a hot fix. Player state needs to be
                 // better stolen. Perhaps an objective singleton to handle
-                // objective event routing.
+                // objective event routing.  
                 FindObjectOfType<PlayerInteractor>().TriggerArtStolen();
-                InteractionComplete?.Invoke();
+                InteractionComplete?.Invoke(); 
                 Destroy(gameObject);
                 break;
             }
@@ -105,6 +111,7 @@ public sealed class StealInteraction : Interaction
         }
         nearbyPlayer.IsMovementLocked = false;
         InteractionComplete?.Invoke();
+        
     }
     #endregion
 }
