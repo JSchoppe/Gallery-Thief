@@ -31,6 +31,7 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
 
     public AudioSource audioSource;
     [SerializeField] private AudioClip cameraAlarm;
+    [SerializeField] private AudioClip cameraMove;
 
     private void OnValidate()
     {
@@ -158,6 +159,7 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
         {
             if (cycleTimeElapsed < keyTimes[i])
             {
+                
                 float subInterpolant = Mathf.InverseLerp(keyTimes[i - 1], keyTimes[i], cycleTimeElapsed);
                 // Apply camera rotation.
                 transform.LookAt(transform.position + Vector3.Slerp(keyRotations[i - 1], keyRotations[i], subInterpolant));
