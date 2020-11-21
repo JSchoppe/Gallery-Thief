@@ -1865,12 +1865,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Artist</b>
+  m_text: '<b>Art</b>
 
     Janet Santoyo
 
 
-    <b>Designers</b>
+    <b>Design</b>
 
     Danny Lopez
 
@@ -1884,7 +1884,7 @@ MonoBehaviour:
     Adrian Yogore
 
 
-    <b>Programmers</b>
+    <b>Programming</b>
 
     Sam
     Hirsch
@@ -1892,12 +1892,15 @@ MonoBehaviour:
     Jethro Schoppenhorst
 
 
-    <b>Sound</b>
+    <b>Sound Design</b>
 
-    Aaron Baer
+    Carley Thompson
 
-    Carley
-    Thompson'
+
+    <b>Music
+    & Sound Programming</b>
+
+    Aaron Baer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
