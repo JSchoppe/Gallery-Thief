@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class AnimController : MonoBehaviour
 {
+    [SerializeField] private AudioClip[] playerFootsteps;
     private Animator animator;
     private GameObject player;
+    private AudioSource audioSource;
+    
     //IEnum for player state standing, crouching etc
 
 
@@ -15,6 +18,7 @@ public class AnimController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         player = GetComponent<GameObject>();
+        audioSource = GetComponentInParent<AudioSource>();
     }
     void Update()
     {
@@ -52,5 +56,12 @@ public class AnimController : MonoBehaviour
         {
             animator.SetBool("isCrawling", false);
         }
+    }
+
+    public void PlayFootstepSFX()
+    {
+        audioSource.volume = 0.3f;
+        audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
+        Debug.Log("foostep sound play");
     }
 }
