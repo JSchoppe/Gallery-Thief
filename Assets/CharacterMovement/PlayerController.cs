@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour, IKeyUser
     float playerTurnSpeed = 400f;
 
     
-    public AudioSource audioSource;
-    [SerializeField] private AudioClip[] playerFootsteps;
+    private AudioSource audioSource;
+    
 
     /// <summary> forward direction of the player </summary>
     Vector3 lookRotation;
@@ -117,9 +117,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
 
                 playerCollider.height = 8f;
                 playerCollider.center = new Vector3(playerCollider.center.x, 3f, playerCollider.center.z);
-                audioSource.volume = 0.3f;
-                if (audioSource.isPlaying == false)
-                    audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
+                
             }
             else
             {
@@ -131,9 +129,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
                 playerCollider.height = 12f;
                 playerCollider.center = new Vector3(playerCollider.center.x , 5.5f, playerCollider.center.z);
 
-                audioSource.volume = 2f;
-                if (audioSource.isPlaying == false)
-                    audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
+                
             }
 
             // Makes sure the player faces the way it's moving
@@ -161,4 +157,11 @@ public class PlayerController : MonoBehaviour, IKeyUser
     {
         keys.Add(key);
     }
+
+    public void PlayerFootstepSFX()
+    {
+        Debug.Log("playing foosteps");
+    }
 }
+
+
