@@ -36,7 +36,7 @@ public sealed class PlayerInteractor : MonoBehaviour
     [SerializeField] private Transform cameraTransform = null;
     [Tooltip("The transform of the prompt canvas.")]
     [SerializeField] private Transform promptTransform = null;
-    [SerializeField] private Animator anim;
+    [SerializeField] private Animator anim = null;
     #endregion
     #region Fields
     private InteractionState state;

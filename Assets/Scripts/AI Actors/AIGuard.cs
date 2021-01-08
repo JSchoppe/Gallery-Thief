@@ -16,7 +16,7 @@ public class AIGuard : MonoBehaviour, IKeyUser
     private const float repathTime = 0.1f;
 
     public AudioSource audioSource;
-    [SerializeField] private AudioClip[] guardFootsteps;
+    [SerializeField] private AudioClip[] guardFootsteps = null;
     #region Inspector Fields
     [Tooltip("The agent that will be used to traverse the scene.")]
     [SerializeField] private NavMeshAgent navAgent = null;

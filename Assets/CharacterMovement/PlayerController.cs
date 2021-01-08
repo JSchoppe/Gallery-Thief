@@ -20,17 +20,17 @@ public class PlayerController : MonoBehaviour, IKeyUser
     Vector3 lookRotation;
 
     [SerializeField] [Tooltip("Transform with the player mesh renderer and mesh filter")]
-    Transform mesh;
+    Transform mesh = null;
     [SerializeField] [Tooltip("Capsule Collider attached to the player. Used to change the player's collision height when crouching/crawling")]
-    CapsuleCollider playerCollider;
+    CapsuleCollider playerCollider = null;
     [SerializeField] [Tooltip("Player's Rigidbody")]
-    Rigidbody rb;
+    Rigidbody rb = null;
     [SerializeField]
-    Transform camera;
+    Transform cameraTransform = null;
 
     // this is for debug.
     [SerializeField]
-    private KeyID[] startingKeys;
+    private KeyID[] startingKeys = null;
 
     // TODO these should not be globally public.
     // Also could be handled in a cleaner way.
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
             // Changes movement speed and player collider
             if (crouching)
             {
-                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * crouchingSpeed * Time.fixedDeltaTime
+                rb.velocity = (((new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z)).normalized * input.y) + (cameraTransform.right * input.x)) * crouchingSpeed * Time.fixedDeltaTime
                     + Vector3.up * rb.velocity.y;
 
                 // Changing Animation Speed
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour, IKeyUser
             }
             else
             {
-                rb.velocity = (((new Vector3(camera.forward.x, 0, camera.forward.z)).normalized * input.y) + (camera.right * input.x)) * walkingSpeed * Time.fixedDeltaTime
+                rb.velocity = (((new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z)).normalized * input.y) + (cameraTransform.right * input.x)) * walkingSpeed * Time.fixedDeltaTime
                     + Vector3.up * rb.velocity.y;
 
                 // Changing animation speed

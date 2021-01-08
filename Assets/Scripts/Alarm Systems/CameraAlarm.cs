@@ -30,8 +30,8 @@ public sealed class CameraAlarm : MonoBehaviour, IAlarmSystem
     [SerializeField] private float[] keyPointsHoldTime = null;
 
     public AudioSource audioSource;
-    [SerializeField] private AudioClip cameraAlarm;
-    [SerializeField] private AudioClip cameraMove;
+    [SerializeField] private AudioClip cameraAlarm = null;
+    [SerializeField] private AudioClip cameraMove = null;
 
     private void OnValidate()
     {

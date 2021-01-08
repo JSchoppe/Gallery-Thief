@@ -46,7 +46,7 @@ public sealed class PickpocketInteraction : Interaction
     #endregion
     #region State Initialization
     public AudioSource audioSource;
-    [SerializeField] private AudioClip keySteal;
+    [SerializeField] private AudioClip keySteal = null;
 
     private void Start()
     {

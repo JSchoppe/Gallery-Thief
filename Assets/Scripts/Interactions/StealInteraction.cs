@@ -29,7 +29,7 @@ public sealed class StealInteraction : Interaction
     [Tooltip("The audio source that will play the stealing SFX.")]
     [SerializeField] private AudioSource audioSource;
     [Tooltip("The art stealing SFX.")]
-    [SerializeField] private AudioClip artStealing;
+    [SerializeField] private AudioClip artStealing = null;
     #endregion
     #region Interaction Property Overrides
     public override Vector3 PromptLocation

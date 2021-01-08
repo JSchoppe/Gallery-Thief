@@ -8,10 +8,10 @@ public sealed class CameraController : MonoBehaviour
 {
     #region Local POCOs
     [Serializable]
-    private struct RendererColliderPair
+    private sealed class RendererColliderPair
     {
-        public MeshRenderer renderer;
-        public Collider collider;
+        public MeshRenderer renderer = null;
+        public Collider collider = null;
         [HideInInspector] public float currentOpacity;
     }
     #endregion

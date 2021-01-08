@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimController : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] playerFootsteps;
+    [SerializeField] private AudioClip[] playerFootsteps = null;
     private Animator animator;
     private GameObject player;
     private AudioSource audioSource;
