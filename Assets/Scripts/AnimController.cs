@@ -62,6 +62,5 @@ public class AnimController : MonoBehaviour
     {
         audioSource.volume = 0.3f;
         audioSource.PlayOneShot(playerFootsteps[Random.Range(0, playerFootsteps.Length)]);
-        Debug.Log("foostep sound play");
     }
 }

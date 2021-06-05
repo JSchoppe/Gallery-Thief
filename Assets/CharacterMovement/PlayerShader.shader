@@ -7,7 +7,8 @@
     }
     SubShader
     {
-        Tags { "Queue"="Opaque" }
+		// Following line causes Error;
+        //Tags { "Queue"="Opaque" }
         LOD 100
 
 		Pass
