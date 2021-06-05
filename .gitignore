@@ -1,6 +1,3 @@
-# Ignore ProBuilder Data folder
-Assets/ProBuilder Data
-
 # STANDARD UNITY GITIGNORE BELOW
 
 # This .gitignore file should be placed at the root of your Unity project directory
