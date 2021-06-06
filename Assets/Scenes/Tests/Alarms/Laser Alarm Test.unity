@@ -152,9 +152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alarmEnabled: 1
-  suspiciousActors:
-  - {fileID: 145783471}
-  laserRendererPrefab: {fileID: 1510493023}
   laserEnds:
   - {fileID: 1552075764}
   - {fileID: 1112442604}
@@ -164,6 +161,8 @@ MonoBehaviour:
   - {fileID: 1391200066}
   - {fileID: 377245234}
   - {fileID: 1566791234}
+  restoreSpeed: 5
+  alarmSource: {fileID: 0}
 --- !u!4 &13522810
 Transform:
   m_ObjectHideFlags: 0
@@ -240,7 +239,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 5
   crouchingSpeed: 2.5
-  crawlingSpeed: 1
+  playerTurnSpeed: 400
+  mesh: {fileID: 0}
+  playerCollider: {fileID: 0}
+  rb: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  startingKeys: 
 --- !u!136 &145783472
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -273,7 +277,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
+  - {fileID: 2100000, guid: eab6ef5d3f2e41f419bcd63007a1b286, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

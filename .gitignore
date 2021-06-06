@@ -1,3 +1,6 @@
+# Ignored utility only plugins:
+/Assets/Plugins/AssetUsageDetector/
+
 # STANDARD UNITY GITIGNORE BELOW
 
 # This .gitignore file should be placed at the root of your Unity project directory

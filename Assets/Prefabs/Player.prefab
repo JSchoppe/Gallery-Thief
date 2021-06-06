@@ -895,7 +895,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4520632550332030878}
-  - component: {fileID: 6846848408358797174}
   - component: {fileID: 6726493415494713429}
   m_Layer: 2
   m_Name: Mesh
@@ -918,46 +917,6 @@ Transform:
   m_Father: {fileID: 7034251574549214624}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &6846848408358797174
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5371008286500444113}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
-  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!33 &6726493415494713429
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1210,8 +1169,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67f94462d518d84f8eda7cdf19a8224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTargetDistance: 20
-  cameraSmoothing: 10
+  ceilingPairs: []
+  fadeSpeed: 1
+  pitchRange:
+    min: 45
+    max: 80
+  zoomRange:
+    min: 4
+    max: 12
 --- !u!1 &7034251573941687924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,19 +1327,10 @@ MonoBehaviour:
   walkingSpeed: 300
   crouchingSpeed: 2.5
   playerTurnSpeed: 200
-  audioSource: {fileID: 0}
-  playerFootsteps:
-  - {fileID: 8300000, guid: bcebf333b8683fa47a73362f7bb555aa, type: 3}
-  - {fileID: 8300000, guid: 5a86c329207fbea4d8387689de12c880, type: 3}
-  - {fileID: 8300000, guid: c629ca9ce6842c84abd0c78aee489ecb, type: 3}
-  - {fileID: 8300000, guid: 518b1788d519de2479a541b9227ea233, type: 3}
-  - {fileID: 8300000, guid: 6c3651c465a987347abaf2dd444b6a96, type: 3}
-  - {fileID: 8300000, guid: f69c2debedb2bab42a3847ce5cb8d7ff, type: 3}
-  - {fileID: 8300000, guid: 6ad5c48fe884709478f1a2aa80cac058, type: 3}
   mesh: {fileID: 4520632550332030878}
   playerCollider: {fileID: 7034251574549214627}
   rb: {fileID: 7034251574549214631}
-  camera: {fileID: 0}
+  cameraTransform: {fileID: 0}
   startingKeys: 
 --- !u!54 &7034251574549214631
 Rigidbody:

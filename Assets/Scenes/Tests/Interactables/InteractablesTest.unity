@@ -1968,6 +1968,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0e9b9d55fbef043a718f9614408a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionVisibleTransform: {fileID: 0}
+  promptLocation: {fileID: 0}
+  exitHidingKey: 101
+  enterExitHideSpeed: 1
+  exitDistance: 1
 --- !u!4 &888277631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7609554805765556884, guid: d4c65de4981f21e4881f9a80fdb3dc4c,
@@ -2080,6 +2085,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d087bb935a5a8fd4481792471efad9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionVisibleTransform: {fileID: 0}
+  stealTime: 5
+  interactKey: 101
+  audioSource: {fileID: 0}
+  artStealing: {fileID: 0}
 --- !u!1 &1096466884
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,8 +2543,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
-  - {fileID: 2100000, guid: 657aede995f2d1d4abcad1b018fdf645, type: 2}
+  - {fileID: 2100000, guid: eab6ef5d3f2e41f419bcd63007a1b286, type: 2}
+  - {fileID: 2100000, guid: eab6ef5d3f2e41f419bcd63007a1b286, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2590,10 +2600,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkingSpeed: 4
   crouchingSpeed: 2.5
-  crawlingSpeed: 1
   playerTurnSpeed: 500
   mesh: {fileID: 4520632548863758187}
   playerCollider: {fileID: 7034251574657475926}
+  rb: {fileID: 0}
+  cameraTransform: {fileID: 0}
   startingKeys: 
 --- !u!54 &7034251574657475922
 Rigidbody:
@@ -2817,8 +2828,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67f94462d518d84f8eda7cdf19a8224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTargetDistance: 20
-  cameraSmoothing: 10
+  ceilingPairs: []
+  fadeSpeed: 1
+  pitchRange:
+    min: 45
+    max: 80
+  zoomRange:
+    min: 4
+    max: 12
 --- !u!135 &7072286464881693316
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2945,18 +2962,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ef6186d67010e48871be3462f30360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  guardFootsteps: []
   navAgent: {fileID: 8783826897831688639}
+  whistleSource: {fileID: 0}
   initialBehavior: 0
   illegalBehaviors: 
   patrolRoute:
   - {fileID: 400454913}
   - {fileID: 888277631}
   pathTolerance: 1
+  pivotSpeed: 2
   viewHeight: 3
   fieldOfView: 30
   viewDistance: 10
-  renderDebug: 1
-  debugRenderer: {fileID: 8783826896633215106}
+  personalSpaceRadius: 1
+  anim: {fileID: 0}
+  stateText: {fileID: 0}
 --- !u!114 &8783826897831688578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2969,8 +2991,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff274203cb057ae4197f547605c1cf26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionVisibleTransform: {fileID: 0}
   stealAngle: 30
   stealDistance: 4
+  audioSource: {fileID: 0}
+  keySteal: {fileID: 0}
 --- !u!4 &8783826897831688636
 Transform:
   m_ObjectHideFlags: 0

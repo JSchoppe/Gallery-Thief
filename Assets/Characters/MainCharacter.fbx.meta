@@ -15,7 +15,7 @@ ModelImporter:
       name: aiStandardSurface4
     second: {fileID: 2100000, guid: 57440219dd980e7468a71734a2c84d1f, type: 2}
   materials:
-    materialImportMode: 1
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
