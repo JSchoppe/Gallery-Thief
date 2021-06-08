@@ -24,7 +24,7 @@ public class MenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SimplifiedGreybox");
+        SceneManager.LoadScene("Gallery1");
     }
 
     //shows the main menu and hides other menus, stops credits scrolling
