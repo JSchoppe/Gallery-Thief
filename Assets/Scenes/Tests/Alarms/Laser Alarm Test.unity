@@ -336,6 +336,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!82 &283266105 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: -5727577931558593231, guid: a6e939f38852789469c6711a185525d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5359113830379025274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &360316160
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +1001,11 @@ PrefabInstance:
       propertyPath: alarmEnabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5359113831755998404, guid: a6e939f38852789469c6711a185525d5,
+        type: 3}
+      propertyPath: alarmSource
+      value: 
+      objectReference: {fileID: 283266105}
     - target: {fileID: 5359113831755998406, guid: a6e939f38852789469c6711a185525d5,
         type: 3}
       propertyPath: m_Name
